@@ -25,3 +25,23 @@
     （1）只有`p1`、`p2`、`p3`的状态都变成`fulfilled`，`p`的状态才会变成`fulfilled`，此时`p1`、`p2`、`p3`的返回值组成一个数组，传递给`p`的回调函数。
 
     （2）只要`p1`、`p2`、`p3`之中有一个被`rejected`，`p`的状态就变成`rejected`，此时第一个被`reject`的实例的返回值，会传递给`p`的回调函数。
+
+- Promise.race()
+
+    `Promise.race()`方法同样是将多个 Promise 实例，包装成一个新的 Promise 实例。
+
+    ```jsx
+    const p = Promise.all([p1, p2, p3]);
+    ```
+
+    只要`p1`、`p2`、`p3`之中有一个实例率先改变状态，`p`的状态就跟着改变。那个率先改变的 Promise 实例的返回值，就传递给p的回调函数。
+
+- Promise.allSettled()
+
+    `Promise.allSettled()`方法接受一组 Promise 实例作为参数，包装成一个新的 Promise 实例。只有等到所有这些参数实例都返回结果，不管是`fulfilled`还是`rejected`，包装实例才会结束。
+
+    与`Promise.all()`的区别：不关心异步操作结果，只关心操作是否结束 的情况下使用`Pormise.allSettled()`
+
+- Promise.any()
+
+    该方法接受一组 Promise 实例作为参数，包装成一个新的 Promise 实例返回。只要参数实例有一个变成`fulfilled`状态，包装实例就会变成`fulfilled`状态；如果所有参数实例都变成`rejected`状态，包装实例就会变成`rejected`状态。
