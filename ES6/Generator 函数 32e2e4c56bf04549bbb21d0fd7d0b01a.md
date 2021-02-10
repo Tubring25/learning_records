@@ -116,3 +116,78 @@ try {
 `throw`方法可以接受一个参数，该参数会被`catch`语句接收，建议抛出`Error`对象的实例。
 
 ## Generator.prototype.return()
+
+返回给定的值，并且终结遍历 Generator 函数。
+
+如果`return()`方法调用时，不提供参数，则返回值的`value`属性为`undefined`。
+
+如果 Generator 函数内部有`try...finally`代码块，且正在执行`try`代码块，那么`return()`方法会导致立刻进入`finally`代码块，执行完以后，整个函数才会结束。
+
+```jsx
+function* numbers () {
+  yield 1;
+  try {
+    yield 2;
+    yield 3;
+  } finally {
+    yield 4;
+    yield 5;
+  }
+  yield 6;
+}
+var g = numbers();
+g.next() // { value: 1, done: false }
+g.next() // { value: 2, done: false }
+g.return(7) // { value: 4, done: false }
+g.next() // { value: 5, done: false }
+g.next() // { value: 7, done: true }
+```
+
+### next()、throw()、return() 的共同点
+
+`next()`是将`yield`表达式替换成一个值。
+
+`throw()`是将`yield`表达式替换成一个`throw`语句。
+
+`return()`是将`yield`表达式替换成一个`return`语句。
+
+### yield* 表达式
+
+如果在一个Generator函数内部调用另一个Generator函数，需要在函数内部手动遍历。
+
+ES6 提供了`yield*`表达式，作为解决办法，用来在一个 Generator 函数里面执行另一个 Generator 函数。
+
+```jsx
+function* bar() {
+  yield 'x';
+  yield* foo();
+  yield 'y';
+}
+
+// 等同于
+function* bar() {
+  yield 'x';
+  yield 'a';
+  yield 'b';
+  yield 'y';
+}
+
+// 等同于
+function* bar() {
+  yield 'x';
+  for (let v of foo()) {
+    yield v;
+  }
+  yield 'y';
+}
+
+for (let v of bar()){
+  console.log(v);
+}
+// "x"
+// "a"
+// "b"
+// "y"
+```
+
+任何数据结构只要有 Iterator 接口，就可以被`yield*`遍历。
