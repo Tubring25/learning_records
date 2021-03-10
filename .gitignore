@@ -1,0 +1,10 @@
+.DS_Store
+node_modules
+*.log
+
+.idea/
+package-lock.json
+
+.vscode
+
+part-time-job/node-steam/node_modules
