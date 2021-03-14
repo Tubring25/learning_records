@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
+const userCto = require('../controller/userCto')
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+router.post('/register', async (req, res, next) => {
+  res.json(await userCto.register(req.body))
+})
 
 module.exports = router;

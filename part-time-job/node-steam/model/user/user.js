@@ -10,7 +10,7 @@ class userModel extends baseModel {
 				autoIncrement: true
 			},
 			username: Sequelize.STRING(20),
-			passwd: {
+			password: {
 				type: Sequelize.STRING,
 				max: 20,
 				min: 6
