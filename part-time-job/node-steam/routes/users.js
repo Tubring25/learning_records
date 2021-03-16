@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-const userCto = require('../controller/userCto')
+const userCto = require('../controller/user/userCto')
 
 /* GET users listing. */
 router.post('/register', async (req, res, next) => {
