@@ -1,5 +1,5 @@
 
-const UserToken = 'non_public_admin_usertoken'
+const UserToken = 'tttt'
 
 export function getToken() {
   return sessionStorage.getItem(UserToken)
@@ -19,6 +19,6 @@ export function setInfo(name, data) {
 export function getInfo(name) {
   return sessionStorage.getItem(name)
 }
-export function removeInfo(name, data) {
+export function removeInfo(name) {
   return sessionStorage.removeItem(name)
 }

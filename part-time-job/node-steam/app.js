@@ -6,8 +6,8 @@ var logger = require('morgan');
 const cors = require('cors')
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-let adminRouter = require('./routes/admin')
+var loginRouter = require('./routes/common/login');
+var adminRouter = require('./routes/admin/admin')
 
 var app = express();
 app.use(cors());
@@ -23,7 +23,24 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/login', loginRouter)
+
+app.all('*', (req, res, next) => {
+  if (req.headers['x-token']) {
+    let token = req.headers['x-token']
+    if(Utils.verifyToken(token).data) {
+      next();
+    } else {
+      let uncodeToken = Utils.verifyToken(token)
+      if (uncodeToken=='token已失效') {
+        res.json({code: 3, data: 'token已失效'});
+      }
+      res.json({code: 0, data: uncodeToken })
+    }
+  } else {
+    res.json({code: 3, data: '缺少token'});
+  }
+})
 app.use('/admin', adminRouter)
 
 // catch 404 and forward to error handler

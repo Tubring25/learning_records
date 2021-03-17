@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
-const GameTypeService = require('../controller/admin/gameTypeCto');
+const GameTypeService = require('../../controller/admin/gameTypeCto');
 
 router.get('/getType', async (req, res, next) => {
   res.json(await GameTypeService.getGameTypeList())
