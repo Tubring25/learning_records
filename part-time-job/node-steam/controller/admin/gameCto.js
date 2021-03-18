@@ -21,3 +21,5 @@ class gameCto {
     }
   }
 }
+
+module.exports = new gameCto()
