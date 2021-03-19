@@ -23,6 +23,7 @@
     "nprogress": "0.2.0",
     "path-to-regexp": "2.4.0",
     "postcss": "^7.0.35",
+    "qs": "^6.10.0",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
     "vue": "2.6.10",
     "vue-router": "3.0.6",

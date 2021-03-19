@@ -32,14 +32,20 @@ export const constantRoutes = [
     path: '/goods',
     component: Layout,
     redirect: '/goods/goodsList',
-    name: '商品管理',
-    meta: { title: 'Goods'},
+    name: 'goods',
+    meta: { title: '商品管理'},
     children: [
       {
         path: 'goodsList',
         name: 'GoodsList',
         component: () => import('@/views/goods/goodsList'),
         meta: { title: '商品列表' }
+      },
+      {
+        path: 'goodsType',
+        name: 'GoodsType',
+        component: () => import('@/views/goods/goodsType'),
+        meta: { title: '商品分类' }
       },
       {
         path: 'addGoods',

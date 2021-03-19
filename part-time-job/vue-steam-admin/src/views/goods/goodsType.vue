@@ -14,7 +14,7 @@ export default {
     }
   },
   created() {
-    // this.getGoodsType_()
+    this.getGoodsType_()
   },
   methods: {
     getGoodsType_() {
