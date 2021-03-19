@@ -9,7 +9,7 @@ class gameTypeService {
   // 获取
   async getGameTypeList () {
     try {
-     let res = await this.instance.findAll()
+      let res = await this.instance.findAll()
       return {code:1, data: res}
     }catch(err) {return {code: 0, msg: JSON.stringify(err)}}
   }

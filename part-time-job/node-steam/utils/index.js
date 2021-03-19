@@ -8,10 +8,12 @@ const Utils = {
     return jwt.sign({ data: data }, serect, { expiresIn: '2d' });
   },
   verifyToken(token) {
+    console.log('token11111111',token);
     try {
       return jwt.verify(token, serect)
     }
-    catch {
+    catch (err){
+      console.log('error123123',err);
       return 'token已失效'
     }
   },
