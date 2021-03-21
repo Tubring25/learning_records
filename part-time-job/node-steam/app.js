@@ -3,16 +3,19 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors')
+const Utils = require('./utils/index')
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-let adminRouter = require('./routes/admin')
+var loginRouter = require('./routes/common/login');
+var adminRouter = require('./routes/admin/admin')
 
 var app = express();
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
+// app.set('view engine', 'jade');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -20,9 +23,39 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+app.use((req, res, next) => {
+  console.log(req.method, req.url);
+  if(req.originalUrl.substring(1,6) == 'admin' && req.method != 'OPTIONS') {
+    console.log(req.headers['x-token'])
+    next();
+    return
+    
+    if (req.headers['x-token']) {
+      let token = req.headers['X-Token']
+      if(Utils.verifyToken(token).data) {
+        next();
+
+      } else {
+        let uncodeToken = Utils.verifyToken(token)
+        if (uncodeToken=='token已失效') {
+          res.json({code: 3, data: 'token已失效'});
+        }
+        res.json({code: 0, data: uncodeToken })
+      }
+    } else {
+      res.json({code: 3, data: '缺少token'})
+    }
+  } else {
+    next()
+  }
+  
+})
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/login', loginRouter)
 app.use('/admin', adminRouter)
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
