@@ -7,7 +7,7 @@ class gameTypeService {
     this.instance = gameTypeModule
   }
   // 获取
-  async getGameTypeList () {
+  async getGameTypeList (data) {
     try {
       let res = await this.instance.findAll()
       return {code:1, data: res}

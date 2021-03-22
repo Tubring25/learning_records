@@ -1,20 +1,40 @@
 <template>
-  <div class="container mx-auto w-11/12 bg-gray-400 my-8 py-6">
-    <el-table :data="goodsTypeList" style="width: 100%">
-      <!-- <el-table-column prop="date" label="日期" width="180"></el-table-column> -->
+  <div class="container mx-auto w-11/12 my-8 py-6">
+    <router-link to="/goods/addGoods"><el-button type="primary">添加商品</el-button></router-link>
+    <el-table :data="gameList" style="width: 100%">
+      <el-table-column prop="name" label="名称" width="200" fixed></el-table-column>
+      <el-table-column prop="" label="封面" width="180"></el-table-column>
+      <el-table-column prop="game_type" label="类别" width="120"></el-table-column>
+      <el-table-column prop="price" label="价格" width="80"></el-table-column>
+      <el-table-column prop="is_sale" label="是否打折" width="80"></el-table-column>
+      <el-table-column prop="sale_price" label="折后价" width="80"></el-table-column>
+      <el-table-column prop="developer" label="开发商" width="180"></el-table-column>
+      <el-table-column prop="publisher" label="发行商" width="180"></el-table-column>
+      <el-table-column prop="release_date" label="发行日期" width="180"></el-table-column>
+      <el-table-column prop="is_onshelf" label="是否上架" width="80"></el-table-column>
+      <el-table-column label="操作" width="180" fixed="right">
+        <template slot-scope="{row}">
+          <el-button type="primary" @click="handle(0,row.id)">编辑</el-button>
+          <el-button type="danger" @click="handle(1,row.id)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
 <script>
 import { getGoodsType, addGoodsType, editGoodsType, deleteGoodsType } from '@/api/goodsType'
+import { getGames, deleteItem } from '@/api/goods'
 export default {
   data() {
     return {
+
       goodsTypeList: [],
+      gameList: []
     }
   },
   created() {
     // this.getGoodsType_()
+    this.getGameList_()
   },
   methods: {
     getGoodsType_() {
@@ -23,6 +43,25 @@ export default {
           this.goodsTypeList = res.data
         }
       })
+    },
+    getGameList_() {
+      getGames().then(res=>{
+        if(res.code) {
+          this.gameList = res.data
+        }
+      })
+    },
+    handle(type, id) {
+      if(type) {
+        deleteItem({id: id}).then(res=>{
+          if(res.code) {
+            this.$message.success('删除成功')
+            this.getGameList_()
+          }
+        })
+      } else {
+        this.$router.push({path:'/goods/addGoods', query: {id: id}})
+      }
     }
   },
 }

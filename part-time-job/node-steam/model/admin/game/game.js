@@ -16,11 +16,10 @@ class game extends baseModule {
       release_date: Sequelize.DATE, // 发行日期
       developer: Sequelize.STRING, // 开发商
       publisher: Sequelize.STRING, // 发行商
-      game_type: Sequelize.STRING, // 游戏类型
-      platform: Sequelize.STRING, // 运行平台
-      price: Sequelize.DECIMAL(10,2), // 发行价格
+      game_type: Sequelize.STRING, // 游戏类型toString
+      price: { type: Sequelize.DECIMAL(10,2), defaultValue: '0.00' }, // 发行价格
       is_sale: { type: Sequelize.BOOLEAN, defaultValue: false}, // 是否打折
-      sale_price: Sequelize.DECIMAL(10,2), // 打折价
+      sale_price: { type: Sequelize.DECIMAL(10,2), defaultValue: '0.00' }, // 打折价
       is_onshelf: { type: Sequelize.BOOLEAN, defaultValue: false }, // 是否上架
       is_delete: { type: Sequelize.BOOLEAN, defaultValue: false}, // 删除
       createdAt: { // 创建时间

@@ -51,7 +51,7 @@ export const constantRoutes = [
         path: 'addGoods',
         name: 'AddGoods',
         component: () => import('@/views/goods/addGoods'),
-        meta: { title: 'AddGoods' },
+        meta: { title: '添加商品' },
         hidden: true
       }
     ]
