@@ -6,7 +6,6 @@ import qs from 'qs'
 axios.defaults.baseURL = "http://localhost:3000";
 
 axios.interceptors.request.use((config) => {
-  console.log('axios',config);
   config.headers["Content-Type"] = "application/x-www-form-urlencoded"
   if (config.header == "json") {
     config.headers["Content-Type"] = "application/json";
@@ -25,7 +24,6 @@ axios.interceptors.request.use((config) => {
 // const router = useRouter()
 axios.interceptors.response.use(
   (response) => {
-    console.log('return',response);
     const res = response.data;
     if(res.code == 403) {
       return
@@ -38,7 +36,6 @@ axios.interceptors.response.use(
     }
   },
   (err) => {
-    console.log("err", err);
     return Promise.reject(err);
   }
 );

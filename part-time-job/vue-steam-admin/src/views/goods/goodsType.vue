@@ -14,7 +14,7 @@
 
     <el-dialog :title="dialogStatus==0?'添加':'编辑'" :visible.sync="dialogVisible">
       <el-form :model="dialogFrom">
-        <el-form-item label="类型名称" :label-width="formLabelWidth">
+        <el-form-item label="类型名称">
           <el-input v-model="dialogFrom.name" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>

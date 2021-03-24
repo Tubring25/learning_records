@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto w-11/12 bg-gray-400 my-8 py-6">
+  <div class="container mx-auto w-11/12 my-8 py-6">
     <el-form :model="goodsForm" label-width="80px">
       <el-form-item label="商品名称">
         <el-input class="w-2/3" v-model="goodsForm.name" maxlength="50"></el-input>
@@ -14,10 +14,10 @@
         <el-date-picker v-model="goodsForm.release_date" type="date" placeholder="选择日期"></el-date-picker>
       </el-form-item>
       <el-form-item label="开发商">
-        <el-input class="w-2/3" v-model="goodsForm.developer" type="textarea" maxlength="500"></el-input> 
+        <el-input class="w-2/3" v-model="goodsForm.developer" maxlength="500"></el-input> 
       </el-form-item>
       <el-form-item label="发行商">
-        <el-input class="w-2/3" v-model="goodsForm.publisher" type="textarea" maxlength="500"></el-input>
+        <el-input class="w-2/3" v-model="goodsForm.publisher" maxlength="500"></el-input>
       </el-form-item>
       <el-form-item label="游戏类型">
         <el-select v-model="goodsForm.game_type" placeholder="请选择">
