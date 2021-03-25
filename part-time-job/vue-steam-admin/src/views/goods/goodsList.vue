@@ -80,7 +80,7 @@ export default {
           })
           break;
         case 2:
-          this.$router.push({path:'/goods/goodsDetail', })
+          this.$router.push({path:'/goods/goodsDetail', query: {id: id}})
         default:
           break;
       }
