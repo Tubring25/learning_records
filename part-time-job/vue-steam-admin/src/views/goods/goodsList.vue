@@ -26,7 +26,7 @@
   </div>
 </template>
 <script>
-import { getGoodsType, addGoodsType, editGoodsType, deleteGoodsType } from '@/api/goodsType'
+import { getGoodsType } from '@/api/goodsType'
 import { getGames, deleteItem } from '@/api/goods'
 export default {
   data() {
@@ -79,7 +79,7 @@ export default {
           })
           break;
         case 2:
-          this.$router.push({path:'/goods/addGoods', query: {id: id, detail: true}})
+          this.$router.push({path:'/goods/goodsDetail', query: {id: id}})
         default:
           break;
       }
