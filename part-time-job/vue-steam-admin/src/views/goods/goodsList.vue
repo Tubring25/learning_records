@@ -71,6 +71,7 @@ export default {
           this.$router.push({path:'/goods/addGoods', query: {id: id}})
           break;
         case 1:
+          console.log(1231231)
           deleteItem({id: id}).then(res=>{
             if(res.code) {
               this.$message.success('删除成功')
