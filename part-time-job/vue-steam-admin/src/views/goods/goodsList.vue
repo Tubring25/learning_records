@@ -56,7 +56,7 @@ export default {
               for (let j in this.goodsTypeList) {
                 this.goodsTypeList[j].id
                 if(res.data[i].game_type == this.goodsTypeList[j].id) {
-                  res.data[i].game_type_name = this.goodsTypeList.[j].name
+                  res.data[i].game_type_name = this.goodsTypeList[j].name
                 }
               }
             }
@@ -70,8 +70,7 @@ export default {
         case 0:
           this.$router.push({path:'/goods/addGoods', query: {id: id}})
           break;
-        case 1:
-          console.log(1231231)
+        case 1: 
           deleteItem({id: id}).then(res=>{
             if(res.code) {
               this.$message.success('删除成功')

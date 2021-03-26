@@ -35,3 +35,25 @@ export function editGame(data) {
     data: data
   })
 }
+
+export function getGameSR (data) {
+  return request({
+    url: '/admin/game/getSystemR',
+    method: 'post',
+    data: data
+  })
+}
+export function editGameSR (data){
+  return request({
+    url: '/admin/game/editSystemR',
+    method: 'post',
+    data: data
+  })
+}
+export function createGameSR (data) {
+  return request({
+    url: '/admin/game/createSystemR',
+    method: 'post',
+    data: data
+  })
+} 

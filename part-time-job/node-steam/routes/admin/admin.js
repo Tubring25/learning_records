@@ -3,6 +3,7 @@ var router = express.Router();
 
 const GameTypeService = require('../../controller/admin/gameTypeCto');
 const GameService = require('../../controller/admin/gameCto');
+const systemRequirement = require('../../controller/admin/systemRequireCto')
 
 router.get('/getType', async (req, res, next) => {
   res.json(await GameTypeService.getGameTypeList())
@@ -31,6 +32,15 @@ router.post('/game/deleteGameById', async(req,res,next) => {
 })
 router.post('/game/editGame', async(req,res, next) => {
   res.json(await GameService.edit(req.body))
+})
+router.post('/game/getSystemR', async(req, res, next) => {
+  res.json(await systemRequirement.getSystemR(req.body))
+})
+router.post('/game/editSystemR', async(req, res, next) => {
+  res.json(await systemRequirement.editSystemR(req.body))
+})
+router.post('/game/createSystemR', async(req, res, next) => {
+  res.json(await systemRequirement.createSystemR(req.body))
 })
 
 module.exports = router;

@@ -1,4 +1,5 @@
 const gameModule = require('../../model/admin/game/game');
+const systemRequirementModule = require('../../model/admin/systemRequirement/systemRequirement')
 const Sequelize = require('sequelize')
 const { Op } = require('sequelize')
 
@@ -13,8 +14,8 @@ class gameCto {
       if (hasOne.length > 0) {
         return { code: 0, msg: '不可重复添加' }
       }
-      this.instance.create({ name: name, desc: desc, img_list: img_list, release_date: release_date, developer: developer, publisher: publisher, game_type: game_type, price: price, is_onshelf: is_onshelf })
-      return { code: 1, data: '添加成功' }
+      let res = await this.instance.create({ name: name, desc: desc, img_list: img_list, release_date: release_date, developer: developer, publisher: publisher, game_type: game_type, price: price, is_onshelf: is_onshelf })
+      return { code: 1, data: '创建成功', goodId: res.id }
     }
     catch (err) {
       return { code: 0, msg: JSON.stringify(err) }
@@ -46,6 +47,11 @@ class gameCto {
     }
     try {
       this.instance.deleteItem({where: {id: id}})
+      let hasSR = await systemRequirementModule.findAll({where: {goods_id:id}})
+      if(hasSR.length>0) {
+        let hasSRIds = hasSR.map(a=>a.id)
+        await systemRequirementModule.deleteItem({id: hasSRIds})
+      }
       return {code: 1, data: '删除成功'}
     } catch (err) { return { code: 0, msg: JSON.stringify(err) } }
   }

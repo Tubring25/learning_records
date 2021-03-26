@@ -1,5 +1,6 @@
 <template>
   <div class="container mx-auto w-11/12 my-8 py-6">
+    <h2 class=" m-8 text-2xl font-bold text-indigo-900">基础信息</h2>
     <el-form :model="goodsForm" label-width="80px">
       <el-form-item label="商品名称">
         <el-input class="w-2/3" v-model="goodsForm.name" maxlength="50"></el-input>
@@ -28,7 +29,43 @@
         <el-input class="w-2/3" v-model="goodsForm.price" type="number" min="0"></el-input>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">{{status == 0 ? '立即创建' : '编辑'}}</el-button>
+        <el-button type="warning" @click="onGameSubmit">保存</el-button>
+        <el-button>取消</el-button>
+      </el-form-item>
+    </el-form>
+    <h2 class=" m-8 text-2xl font-bold text-indigo-900">系统要求</h2>
+    <el-form :model="systemRequirementForm" label-width="80px">
+      <el-form-item lable="配置类型">
+        <el-select v-model="systemRequirementForm.req_type" placeholder="请选择">
+          <el-option label="最低配置" value="0"></el-option>
+          <el-option label="推荐配置" value="1"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="操作系统">
+        <el-input class="w-1/3" v-model="systemRequirementForm.handle_system" type="text" min="0"></el-input>
+      </el-form-item>
+      <el-form-item label="处理器">
+        <el-input class="w-1/3" v-model="systemRequirementForm.cpu" type="text" min="0"></el-input>
+      </el-form-item>’
+      <el-form-item label="内存">
+        <el-input class="w-1/3" v-model="systemRequirementForm.ram" type="number" min="0"></el-input>
+        <el-select class="px-8" v-model="systemRequirementForm.ram_unit" placeholder="请选择">
+          <el-option label="GB" value="GB"></el-option>
+          <el-option label="MB" value="MB"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="显卡">
+        <el-input class="w-1/3" v-model="systemRequirementForm.gpu" type="text" min="0"></el-input>
+      </el-form-item>
+      <el-form-item label="存储空间">
+        <el-input class="w-1/3" v-model="systemRequirementForm.storage_space" type="number" min="0"></el-input>
+        <el-select class="px-8" v-model="systemRequirementForm.storage_space_unit" placeholder="请选择">
+          <el-option label="GB" value="GB"></el-option>
+          <el-option label="MB" value="MB"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" @click="onSRSubmit">{{sys_status == 0 ? '立即创建' : '编辑'}}</el-button>
         <el-button>取消</el-button>
       </el-form-item>
     </el-form>
@@ -37,7 +74,7 @@
 
 <script>
 import { getGoodsType } from "@/api/goodsType";
-import { addGame, getGameById,editGame } from "@/api/goods"
+import { addGame, getGameById, editGame, editGameSR, createGameSR } from "@/api/goods"
 
 export default {
   name: "AddGoods",
@@ -55,6 +92,17 @@ export default {
       },
       goodsTypeList: [],
       status: 0, // 0:创建， 1:编辑
+      sys_status: 0, // 系统需求状态  参数同上
+      systemRequirementForm: {
+        req_type: null,
+        handle_system: '',
+        cpu: '',
+        ram: '',
+        ram_unit: '',
+        gpu: '',
+        storage_space: '',
+        storage_space_unit: '',
+      }
     };
   },
   created() {
@@ -72,10 +120,10 @@ export default {
         }
       });
     },
-    onSubmit() {
+    onGameSubmit() {
       let keys = Object.keys(this.goodsForm)
       for( let key of keys ) {
-        if(this.goodsForm[key].toString().trim() == '') {
+      if(this.goodsForm[key].toString().trim() ==  '') {
           this.$message.warning('请填写完整')
           return 
         }
@@ -94,6 +142,16 @@ export default {
             this.$router.go(-1)
           }
         })
+      }
+    },
+    onSRSubmit (){
+      let keys = Object.keys(this.goodsForm)
+      for( let key of keys ) {
+        if(typeof(this.goodsForm[key]) == 'number') continue
+        if(this.goodsForm[key].toString().trim() ==  '') {
+          this.$message.warning('请填写完整')
+          return 
+        }
       }
     },
     getItem(query) {
