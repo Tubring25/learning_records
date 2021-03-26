@@ -40,3 +40,6 @@
     </section>
   </div>
 </template>
+<script>
+test
+</script>
