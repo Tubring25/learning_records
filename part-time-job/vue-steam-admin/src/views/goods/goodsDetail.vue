@@ -4,14 +4,15 @@
       <div class="container px-5 py-24 mx-auto">
         <div class="lg:w-4/5 mx-auto flex flex-wrap">
           <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
-            <h2 class="text-sm title-font text-gray-500 tracking-widest">BRAND NAME</h2>
-            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">Animated Night Hill Illustrations</h1>
-            <div class="flex mb-4">
-              <a class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1">Description</a>
-              <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Reviews</a>
-              <a class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1">Details</a>
-            </div>
-            <p class="leading-relaxed mb-4">Fam locavore kickstarter distillery. Mixtape chillwave tumeric sriracha taximy chia microdosing tilde DIY. XOXO fam inxigo juiceramps cornhole raw denim forage brooklyn. Everyday carry +1 seitan poutine tumeric. Gastropub blue bottle austin listicle pour-over, neutra jean.</p>
+            <h2 class="text-sm title-font text-gray-500 tracking-widest">GAME NAME</h2>
+            <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">{{goodsForm.name}}</h1>
+            <el-tabs v-model="activeName">
+              <el-tab-pane label="基础信息" name="first">
+                <p class="leading-relaxed mb-4">{{goodsForm.desc}}</p>
+              </el-tab-pane>
+              <el-tab-pane label="系统需求" name="second">系统需求</el-tab-pane>
+            </el-tabs>
+            
             <div class="flex border-t border-gray-200 py-2">
               <span class="text-gray-500">Color</span>
               <span class="ml-auto text-gray-900">Blue</span>
@@ -41,5 +42,40 @@
   </div>
 </template>
 <script>
-test
+import { getGoodsType } from "@/api/goodsType";
+import { getGameById} from "@/api/goods"
+export default {
+  name: 'GoodsDetail',
+  data(){
+    return {
+      activeName: 'first',
+      goodsForm: {},
+      goodsTypeList: [],
+    }
+  },
+  created() {
+    this.getGoodsType_();
+    if(this.$route.query.id) {
+      this.getItem({id: this.$route.query.id})
+    } else {
+      this.$router.go(-1)
+    }
+  },
+  methods: {
+    getGoodsType_() {
+      getGoodsType().then((res) => {
+        if (res.code) {
+          this.goodsTypeList = res.data;
+        }
+      });
+    },
+    getItem(query) {
+      getGameById(query).then(res=>{
+        if(res.code) {
+          this.goodsForm = res.data[0]
+        }
+      })
+    }
+  }
+}
 </script>
