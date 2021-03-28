@@ -9,33 +9,80 @@
             <el-tabs v-model="activeName">
               <el-tab-pane label="基础信息" name="first">
                 <p class="leading-relaxed mb-4">{{goodsForm.desc}}</p>
+                <div class="flex border-t border-gray-200 py-2">
+                  <span class="text-gray-500">开发商</span>
+                  <span class="ml-auto text-gray-900">{{goodsForm.developer}}</span>
+                </div>
+                <div class="flex border-t border-gray-200 py-2">
+                  <span class="text-gray-500">发行商</span>
+                  <span class="ml-auto text-gray-900">{{goodsForm.publisher}}</span>
+                </div>
+                <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+                  <span class="text-gray-500">发行日期</span>
+                  <span class="ml-auto text-gray-900">{{goodsForm.release_date}}</span>
+                </div>
+                <div class="flex">
+                  <span class="title-font font-medium text-2xl text-gray-900"
+                    :class="goodsForm.is_sale? 'line-through text-opacity-50': ''">${{goodsForm.price}}</span>
+                  <span v-if="goodsForm.is_sale"
+                    class="title-font font-medium px-6 align-bottom text-xl text-red-500">${{goodsForm.sale_price}}</span>
+                  <button
+                    class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">编辑</button>
+                </div>
               </el-tab-pane>
-              <el-tab-pane label="系统需求" name="second">系统需求</el-tab-pane>
+              <el-tab-pane label="系统需求" name="second">
+                <el-tabs type="border-card">
+                  <el-tab-pane label="推荐配置">
+                    <div class="flex border-gray-200 py-2">
+                      <span class="text-gray-500">操作系统</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                    </div>
+                    <div class="flex border-t border-gray-200 py-2">
+                      <span class="text-gray-500">处理器</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                    </div>
+                    <div class="flex border-t border-gray-200 py-2">
+                      <span class="text-gray-500">内存</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                    </div>
+                    <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+                      <span class="text-gray-500">显卡</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                    </div>
+                    <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+                      <span class="text-gray-500">存储空间</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                    </div>
+                  </el-tab-pane>
+                  <el-tab-pane label="最低配置">
+                    <div class="flex border-gray-200 py-2">
+                      <span class="text-gray-500">操作系统</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                    </div>
+                    <div class="flex border-t border-gray-200 py-2">
+                      <span class="text-gray-500">处理器</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                    </div>
+                    <div class="flex border-t border-gray-200 py-2">
+                      <span class="text-gray-500">内存</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                    </div>
+                    <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+                      <span class="text-gray-500">显卡</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                    </div>
+                    <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+                      <span class="text-gray-500">存储空间</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                    </div>
+                  </el-tab-pane>
+                </el-tabs>
+
+              </el-tab-pane>
             </el-tabs>
-            
-            <div class="flex border-t border-gray-200 py-2">
-              <span class="text-gray-500">Color</span>
-              <span class="ml-auto text-gray-900">Blue</span>
-            </div>
-            <div class="flex border-t border-gray-200 py-2">
-              <span class="text-gray-500">Size</span>
-              <span class="ml-auto text-gray-900">Medium</span>
-            </div>
-            <div class="flex border-t border-b mb-6 border-gray-200 py-2">
-              <span class="text-gray-500">Quantity</span>
-              <span class="ml-auto text-gray-900">4</span>
-            </div>
-            <div class="flex">
-              <span class="title-font font-medium text-2xl text-gray-900">$58.00</span>
-              <button class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">Button</button>
-              <button class="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
-                <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
-                  <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"></path>
-                </svg>
-              </button>
-            </div>
           </div>
-          <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="https://dummyimage.com/400x400">
+          <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
+            src="https://dummyimage.com/400x400">
         </div>
       </div>
     </section>
@@ -43,22 +90,24 @@
 </template>
 <script>
 import { getGoodsType } from "@/api/goodsType";
-import { getGameById} from "@/api/goods"
+import { getGameById, getGameSR } from "@/api/goods";
 export default {
-  name: 'GoodsDetail',
-  data(){
+  name: "GoodsDetail",
+  data() {
     return {
-      activeName: 'first',
+      activeName: "first",
       goodsForm: {},
       goodsTypeList: [],
-    }
+      srList: [],
+    };
   },
   created() {
     this.getGoodsType_();
-    if(this.$route.query.id) {
-      this.getItem({id: this.$route.query.id})
+    if (this.$route.query.id) {
+      this.getItem({ id: this.$route.query.id });
+      this.getGameSR_({goods_id: this.$route.query.id})
     } else {
-      this.$router.go(-1)
+      this.$router.go(-1);
     }
   },
   methods: {
@@ -70,12 +119,22 @@ export default {
       });
     },
     getItem(query) {
-      getGameById(query).then(res=>{
+      getGameById(query).then((res) => {
+        if (res.code) {
+          this.goodsForm = res.data[0];
+        }
+      });
+    },
+    getGameSR_ (data) {
+      getGameSR(data).then(res=>{
         if(res.code) {
-          this.goodsForm = res.data[0]
+          res.data.sort((a, b) => {
+            return a.req_type - b.req_type
+          })
+          this.srList= res.data
         }
       })
     }
-  }
-}
+  },
+};
 </script>

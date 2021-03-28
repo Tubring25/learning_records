@@ -5,10 +5,10 @@ class systemRCto {
     this.instance = systemRequirementModule
   }
   async getSystemR (body) {
-    const {goodsId} = body
+    const {goods_id} = body
     try {
-      let res = await this.instance.finaAll({where: {goodsId: goodsId}})
-      return {code: 1, data: res.data}
+      let res = await this.instance.findAll({where: {goods_id: goods_id}})
+      return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
   async editSystemR(body) {
