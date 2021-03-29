@@ -1,13 +1,13 @@
-const systemRequirementModule = require('../../model/admin/systemRequirement/systemRequirement')
+const SystemRequirement = require('../../model').SystemRequirement
 
 class systemRCto {
   constructor() {
-    this.instance = systemRequirementModule
+    this.instance = SystemRequirement
   }
   async getSystemR (body) {
-    const {goods_id} = body
+    const {game_id} = body
     try {
-      let res = await this.instance.findAll({where: {goods_id: goods_id}})
+      let res = await this.instance.findAll({where: {game_id: game_id}})
       return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
@@ -29,13 +29,13 @@ class systemRCto {
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
   async createSystemR(body) {
-    const { req_type, handle_system, cpu, ram, ram_unit, gpu, storage_space, storage_space_unit, goods_id } = body
+    const { req_type, handle_system, cpu, ram, ram_unit, gpu, storage_space, storage_space_unit, game_id } = body
     try {
-      let hasOne = await this.instance.findAll({where: {goods_id: goods_id, req_type: req_type}})
+      let hasOne = await this.instance.findAll({where: {game_id: game_id, req_type: req_type}})
       if(hasOne.length>0) {
         return {code: 0, msg: '不可重复添加'}
       }
-      await this.instance.create({req_type: req_type, handle_system: handle_system, cpu: cpu, ram: ram, ram_unit: ram_unit, gpu: gpu, storage_space: storage_space, storage_space_unit: storage_space_unit, goods_id: goods_id})
+      await this.instance.create({req_type: req_type, handle_system: handle_system, cpu: cpu, ram: ram, ram_unit: ram_unit, gpu: gpu, storage_space: storage_space, storage_space_unit: storage_space_unit, game_id: game_id})
       return {code: 1, data: 'success'}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }

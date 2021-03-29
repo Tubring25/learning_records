@@ -1,4 +1,4 @@
-const gameTypeModule = require('../../model/admin/goodsType/gameType');
+const gameTypeModule = require('../../model').GameType;
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 

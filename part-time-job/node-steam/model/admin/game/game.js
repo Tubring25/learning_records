@@ -1,46 +1,30 @@
-const Sequelize = require('sequelize');
-const baseModule = require('../../baseModel');
-const moment = require('moment');
-
-class game extends baseModule {
-  constructor() {
-    super('st_game', {
-      id: {
-        type: Sequelize.INTEGER(50),
-				primaryKey: true,
-				autoIncrement: true
-      },
-      name: Sequelize.STRING, // 游戏名称
-      desc: Sequelize.STRING, // 描述
-      img_list: Sequelize.TEXT, // 图片列表
-      release_date: Sequelize.DATE, // 发行日期
-      developer: Sequelize.STRING, // 开发商
-      publisher: Sequelize.STRING, // 发行商
-      game_type: Sequelize.STRING, // 游戏类型toString
-      price: { type: Sequelize.DECIMAL(10,2), defaultValue: '0.00' }, // 发行价格
-      is_sale: { type: Sequelize.BOOLEAN, defaultValue: false}, // 是否打折
-      sale_price: { type: Sequelize.DECIMAL(10,2), defaultValue: '0.00' }, // 打折价
-      is_onshelf: { type: Sequelize.BOOLEAN, defaultValue: false }, // 是否上架
-      is_delete: { type: Sequelize.BOOLEAN, defaultValue: false}, // 删除
-      createdAt: { // 创建时间
-        type: Sequelize.DATE,
-        get() {
-          return moment(this.getDataValue('createdAt')).format('YYYY-MM-DD HH:mm:ss');
-        }
-      },
-      updatedAt: { // 更新时间
-        type: Sequelize.DATE,
-        get() {
-          return moment(this.getDataValue('updatedAt')).format('YYYY-MM-DD HH:mm:ss');
-        }
-      }
+module.exports = function (sequelize, DataTypes) {
+	return sequelize.define('Game', {
+		id: {
+      type: DataTypes.INTEGER(50),
+      primaryKey: true,
+      autoIncrement: true
     },
-    {
-      freezeTableName: true, // 禁止修改表名
-    })
-    this.model = super.getModel()
-    this.model.sync()
-  }
+    name: DataTypes.STRING, // 游戏名称
+    desc: DataTypes.STRING, // 描述
+    img_list: DataTypes.TEXT, // 图片列表
+    release_date: DataTypes.DATE, // 发行日期
+    developer: DataTypes.STRING, // 开发商
+    publisher: DataTypes.STRING, // 发行商
+    game_type: DataTypes.STRING, // 游戏类型toString
+    price: { type: DataTypes.DECIMAL(10,2), defaultValue: '0.00' }, // 发行价格
+    is_sale: { type: DataTypes.BOOLEAN, defaultValue: false}, // 是否打折
+    sale_price: { type: DataTypes.DECIMAL(10,2), defaultValue: '0.00' }, // 打折价
+    is_onshelf: { type: DataTypes.BOOLEAN, defaultValue: false }, // 是否上架
+    is_delete: { type: DataTypes.BOOLEAN, defaultValue: false}, // 删除
+	},
+	{
+		freezeTableName: true,
+		underscored: true,
+		timestamps: true,
+		tableName: 'st_game',
+		comment: '游戏信息',
+		charset: 'utf8',
+		collate: 'utf8_general_ci',
+	});
 }
-
-module.exports = new game()

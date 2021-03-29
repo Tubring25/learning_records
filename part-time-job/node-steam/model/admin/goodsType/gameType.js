@@ -1,35 +1,20 @@
-const Sequelize = require('sequelize');
-const baseModule = require('../../baseModel');
 const moment = require('moment');
-
-class gameType extends baseModule {
-  constructor() {
-    super('st_game_type', {
-      id: {
-        type: Sequelize.INTEGER(50),
-				primaryKey: true,
-				autoIncrement: true
-      },
-      name: Sequelize.STRING, // 类型名称
-      createdAt: { // 创建时间
-        type: Sequelize.DATE,
-        get() {
-          return moment(this.getDataValue('createdAt')).format('YYYY-MM-DD HH:mm:ss');
-        }
-      },
-      updatedAt: { // 更新时间
-        type: Sequelize.DATE,
-        get() {
-          return moment(this.getDataValue('updatedAt')).format('YYYY-MM-DD HH:mm:ss');
-        }
-      }
+module.exports = function (sequelize, DataTypes) {
+	return sequelize.define('GameType', {
+		id: {
+      type: DataTypes.INTEGER(50),
+      primaryKey: true,
+      autoIncrement: true
     },
-    {
-      freezeTableName: true, // 禁止修改表名
-    })
-    this.model = super.getModel()
-    this.model.sync()
-  }
+    name: DataTypes.STRING, // 类型名称
+	},
+	{
+		freezeTableName: true,
+		underscored: true,
+		timestamps: true,
+		tableName: 'st_game_type',
+		comment: '游戏分类信息',
+		charset: 'utf8',
+		collate: 'utf8_general_ci',
+	});
 }
-
-module.exports = new gameType()

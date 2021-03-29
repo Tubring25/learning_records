@@ -1,34 +1,29 @@
-const Sequelize = require('sequelize');
-const baseModel = require('../baseModel');
-
-class userModel extends baseModel {
-	constructor() {
-		super('st_user', {
-			id: {
-				type: Sequelize.INTEGER(50),
-				primaryKey: true,
-				autoIncrement: true
-			},
-			username: Sequelize.STRING(20),
-			password: {
-				type: Sequelize.STRING,
-				max: 20,
-				min: 6
-			},
-			phone: Sequelize.STRING(20),
-			email: Sequelize.STRING(30),
-      description: Sequelize.STRING(100),
-			create_time: Sequelize.DATE,
-			avatar: Sequelize.STRING
+module.exports = function (sequelize, DataTypes) {
+	return sequelize.define('User', {
+		id: {
+			type: DataTypes.INTEGER(50),
+			primaryKey: true,
+			autoIncrement: true
 		},
-		{
-			timestamps: false, // 禁止默认添加时间戳
-			freezeTableName: true, // 禁止修改表名
-		})
-
-		this.model = super.getModel()
-		this.model.sync()
-	}
+		username: DataTypes.STRING(20),
+		password: {
+			type: DataTypes.STRING,
+			max: 20,
+			min: 6
+		},
+		phone: DataTypes.STRING(20),
+		email: DataTypes.STRING(30),
+		description: DataTypes.STRING(100),
+		create_time: DataTypes.DATE,
+		avatar: DataTypes.STRING
+	},
+	{
+		freezeTableName: true,
+		underscored: true,
+		timestamps: true,
+		tableName: 'st_user',
+		comment: '用户登录信息',
+		charset: 'utf8',
+		collate: 'utf8_general_ci',
+	});
 }
-
-module.exports = new userModel()

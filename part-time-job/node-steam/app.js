@@ -25,9 +25,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 app.use((req, res, next) => {
-  console.log(req.method, req.url);
   if(req.originalUrl.substring(1,6) == 'admin' && req.method != 'OPTIONS') {
-    console.log(req.headers['x-token'])
     next();
     return
     

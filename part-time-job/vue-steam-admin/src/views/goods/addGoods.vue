@@ -94,7 +94,7 @@ export default {
       status: 0, // 0:创建， 1:编辑
       sys_status: 0, // 系统需求状态  参数同上
       systemRequirementForm: {
-        goods_id: '',
+        game_id: '',
         req_type: '',
         handle_system: '',
         cpu: '',
@@ -121,6 +121,14 @@ export default {
         }
       });
     },
+    getItem(query) {
+      getGameById(query).then(res=>{
+        if(res.code) {
+          this.goodsForm = res.data[0]
+          this.systemRequirementForm.game_id = res.data[0].id
+        }
+      })
+    },
     onGameSubmit() {
       let keys = Object.keys(this.goodsForm)
       for( let key of keys ) {
@@ -132,7 +140,7 @@ export default {
       if(this.status == 0) {
         addGame(this.goodsForm).then(res=>{
           if(res.code) {
-            this.systemRequirementForm.goods_id = res.goodId
+            this.systemRequirementForm.game_id = res.goodId
             this.$message.success('添加成功')
             this.status = 1
           }
@@ -147,7 +155,7 @@ export default {
       }
     },
     onSRSubmit (){
-      if(!this.systemRequirementForm.goods_id) {
+      if(!this.systemRequirementForm.game_id) {
         this.$message.warning('请先创建商品')
         return
       }
@@ -166,13 +174,7 @@ export default {
         }
       })
     },
-    getItem(query) {
-      getGameById(query).then(res=>{
-        if(res.code) {
-          this.goodsForm = res.data[0]
-        }
-      })
-    }
+    
   }
 };
 </script>

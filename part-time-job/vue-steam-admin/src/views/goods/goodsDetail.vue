@@ -98,14 +98,12 @@ export default {
       activeName: "first",
       goodsForm: {},
       goodsTypeList: [],
-      srList: [],
     };
   },
   created() {
     this.getGoodsType_();
     if (this.$route.query.id) {
       this.getItem({ id: this.$route.query.id });
-      this.getGameSR_({goods_id: this.$route.query.id})
     } else {
       this.$router.go(-1);
     }
@@ -121,20 +119,10 @@ export default {
     getItem(query) {
       getGameById(query).then((res) => {
         if (res.code) {
-          this.goodsForm = res.data[0];
+          this.goodsForm = res.data;
         }
       });
     },
-    getGameSR_ (data) {
-      getGameSR(data).then(res=>{
-        if(res.code) {
-          res.data.sort((a, b) => {
-            return a.req_type - b.req_type
-          })
-          this.srList= res.data
-        }
-      })
-    }
   },
 };
 </script>

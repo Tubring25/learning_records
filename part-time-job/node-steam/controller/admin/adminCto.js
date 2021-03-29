@@ -1,4 +1,4 @@
-const adminModule = require('../../model/admin/admin/admin');
+const adminModule = require('../../model/index').Admin;
 const { createToken, verifyToken } = require('../../utils/index')
 
 class adminCto {
