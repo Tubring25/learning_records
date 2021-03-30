@@ -35,45 +35,45 @@
                   <el-tab-pane label="推荐配置">
                     <div class="flex border-gray-200 py-2">
                       <span class="text-gray-500">操作系统</span>
-                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.SystemRequirements[1].handle_system}}</span>
                     </div>
                     <div class="flex border-t border-gray-200 py-2">
                       <span class="text-gray-500">处理器</span>
-                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.SystemRequirements[1].cpu}}</span>
                     </div>
                     <div class="flex border-t border-gray-200 py-2">
                       <span class="text-gray-500">内存</span>
-                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.SystemRequirements[1].ram}}{{goodsForm.SystemRequirements[1].ram_unit}}</span>
                     </div>
-                    <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+                    <div class="flex border-t border-b border-gray-200 py-2">
                       <span class="text-gray-500">显卡</span>
-                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.SystemRequirements[1].gpu}}</span>
                     </div>
                     <div class="flex border-t border-b mb-6 border-gray-200 py-2">
                       <span class="text-gray-500">存储空间</span>
-                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.SystemRequirements[1].storage_space}}{{goodsForm.SystemRequirements[1].storage_space_unit}}</span>
                     </div>
                   </el-tab-pane>
                   <el-tab-pane label="最低配置">
                     <div class="flex border-gray-200 py-2">
                       <span class="text-gray-500">操作系统</span>
-                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.SystemRequirements[0].handle_system}}</span>
                     </div>
                     <div class="flex border-t border-gray-200 py-2">
                       <span class="text-gray-500">处理器</span>
-                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.SystemRequirements[0].cpu}}</span>
                     </div>
                     <div class="flex border-t border-gray-200 py-2">
                       <span class="text-gray-500">内存</span>
-                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.SystemRequirements[0].ram}}{{goodsForm.SystemRequirements[0].ram_unit}}</span>
                     </div>
-                    <div class="flex border-t border-b mb-6 border-gray-200 py-2">
+                    <div class="flex border-t border-b border-gray-200 py-2">
                       <span class="text-gray-500">显卡</span>
-                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.SystemRequirements[0].gpu}}</span>
                     </div>
                     <div class="flex border-t border-b mb-6 border-gray-200 py-2">
                       <span class="text-gray-500">存储空间</span>
-                      <span class="ml-auto text-gray-900">{{goodsForm.sale_price}}</span>
+                      <span class="ml-auto text-gray-900">{{goodsForm.SystemRequirements[0].storage_space}}{{goodsForm.SystemRequirements[0].storage_space_unit}}</span>
                     </div>
                   </el-tab-pane>
                 </el-tabs>

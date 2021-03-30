@@ -6,10 +6,13 @@ var Admin = sequelize.import('./admin/admin/admin.js');
 var GameType = sequelize.import('./admin/goodsType/gameType.js');
 var Game = sequelize.import('./admin/game/game.js');
 var SystemRequirement = sequelize.import('./admin/systemRequirement/systemRequirement.js')
+var GameImg = sequelize.import('./admin/game/imgList.js')
 
 // 建立模型之间的关系
 Game.hasMany(SystemRequirement)
 SystemRequirement.belongsTo(Game)
+Game.hasMany(GameImg)
+GameImg.belongsTo(Game)
 
 // 同步模型到数据库中
 sequelize.sync();
@@ -19,3 +22,4 @@ exports.Admin = Admin;
 exports.GameType = GameType;
 exports.Game = Game;
 exports.SystemRequirement = SystemRequirement;
+exports.GameImg = GameImg

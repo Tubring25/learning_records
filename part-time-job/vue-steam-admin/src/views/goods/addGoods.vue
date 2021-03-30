@@ -9,7 +9,10 @@
         <el-input class="w-2/3" v-model="goodsForm.desc" type="textarea" maxlength="500"></el-input>
       </el-form-item>
       <el-form-item label="商品图片">
-        <el-input class="w-2/3" v-model="goodsForm.img_list" type="textarea" maxlength="500"></el-input>
+        <el-upload class="upload-demo" action="http://localhost:3000/admin/game/upload" :on-success="getImgPath" :file-list="fileList" list-type="picture" :limit="4" style="width:400px">
+          <el-button size="small" type="primary">点击上传</el-button>
+          <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过4M</div>
+        </el-upload>
       </el-form-item>
       <el-form-item label="发行日期">
         <el-date-picker v-model="goodsForm.release_date" type="date" placeholder="选择日期"></el-date-picker>
@@ -83,7 +86,7 @@ export default {
       goodsForm: {
         name: "",
         desc: "",
-        img_list: '',
+        img_list: [],
         release_date: "",
         developer: "", // 开发商
         publisher: "", // 发行商
@@ -91,6 +94,7 @@ export default {
         price: 0, // 发行价格
       },
       goodsTypeList: [],
+      fileList: [],
       status: 0, // 0:创建， 1:编辑
       sys_status: 0, // 系统需求状态  参数同上
       systemRequirementForm: {
@@ -129,6 +133,9 @@ export default {
         }
       })
     },
+    getImgPath(res) {
+      this.goodsForm.img_list.push(res.path)
+    },
     onGameSubmit() {
       let keys = Object.keys(this.goodsForm)
       for( let key of keys ) {
@@ -138,6 +145,7 @@ export default {
         }
       }
       if(this.status == 0) {
+        this.goodsForm.img_list = this.goodsForm.img_list.toString()
         addGame(this.goodsForm).then(res=>{
           if(res.code) {
             this.systemRequirementForm.game_id = res.goodId

@@ -42,5 +42,8 @@ router.post('/game/editSystemR', async(req, res, next) => {
 router.post('/game/createSystemR', async(req, res, next) => {
   res.json(await systemRequirement.createSystemR(req.body))
 })
+router.post('/game/upload', async(req,res,next) => {
+  res.json(await GameService.uploadSingleImg(req))
+})
 
 module.exports = router;
