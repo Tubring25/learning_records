@@ -1,4 +1,5 @@
 const SystemRequirement = require('../../model').SystemRequirement
+const GameModule =require('../../model').Game
 
 class systemRCto {
   constructor() {
@@ -35,9 +36,13 @@ class systemRCto {
       if(hasOne.length>0) {
         return {code: 0, msg: '不可重复添加'}
       }
-      await this.instance.create({req_type: req_type, handle_system: handle_system, cpu: cpu, ram: ram, ram_unit: ram_unit, gpu: gpu, storage_space: storage_space, storage_space_unit: storage_space_unit, game_id: game_id})
+      await this.instance.create({req_type: req_type, handle_system: handle_system, cpu: cpu, ram: ram, ram_unit: ram_unit, gpu: gpu, storage_space: storage_space, storage_space_unit: storage_space_unit, game_id: game_id,
+        include: [{model: GameModule, as: 'Game'}]  
+      })
       return {code: 1, data: 'success'}
-    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+    }catch(err) { 
+      console.log(err)
+      return {code: 0, msg: JSON.stringify(err)} }
   }
   
 }

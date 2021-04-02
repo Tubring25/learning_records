@@ -18,7 +18,7 @@ class gameCto {
         return { code: 0, msg: '不可重复添加' }
       }
       let res = await this.instance.create({ name: name, desc: desc, release_date: release_date, developer: developer, publisher: publisher, game_type: game_type, price: price, is_onshelf: is_onshelf })
-      let pushList = img_list.split(',').map(a=>{return {path: a, goods_id: res.id}})
+      let pushList = img_list.split(',').map(a=>{return {path: a, game_id: res.id, include: [{model: gameModule, as: 'Game'}]}})
       await GameImg.bulkCreate(pushList)
       return { code: 1, data: '创建成功', goodId: res.id }
     }
@@ -66,14 +66,19 @@ class gameCto {
       return { code: 0, msg: '缺少id' }
     }
     try {
-      this.instance.deleteItem({ where: { id: id } })
+      this.instance.destroy({ where: { id: id } })
+      console.log(id)
       let hasSR = await systemRequirementModule.findAll({ where: { goods_id: id } })
+      
       if (hasSR.length > 0) {
         let hasSRIds = hasSR.map(a => a.id)
-        await systemRequirementModule.deleteItem({ id: hasSRIds })
+        console.log(hasSRIds)
+        await systemRequirementModule.destroy({ id: hasSRIds })
       }
       return { code: 1, data: '删除成功' }
-    } catch (err) { return { code: 0, msg: JSON.stringify(err) } }
+    } catch (err) { 
+      // console.log(err)
+      return { code: 0, msg: JSON.stringify(err) } }
   }
   async edit(body) {
     const { id, name, desc, release_date, developer, publisher, game_type, price, is_onshelf } = body
