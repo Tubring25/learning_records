@@ -7,7 +7,6 @@ module.exports = function (sequelize, DataTypes) {
     },
     name: DataTypes.STRING, // 游戏名称
     desc: DataTypes.STRING, // 描述
-    img_list: DataTypes.TEXT, // 图片列表
     release_date: DataTypes.DATE, // 发行日期
     developer: DataTypes.STRING, // 开发商
     publisher: DataTypes.STRING, // 发行商

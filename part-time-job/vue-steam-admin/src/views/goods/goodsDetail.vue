@@ -27,7 +27,7 @@
                   <span v-if="goodsForm.is_sale"
                     class="title-font font-medium px-6 align-bottom text-xl text-red-500">${{goodsForm.sale_price}}</span>
                   <button
-                    class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">编辑</button>
+                    class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" @click="goEdit">编辑</button>
                 </div>
               </el-tab-pane>
               <el-tab-pane label="系统需求" name="second">
@@ -81,16 +81,25 @@
               </el-tab-pane>
             </el-tabs>
           </div>
-          <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded"
-            src="https://dummyimage.com/400x400">
+          <div class="flex flex-wrap w-1/2">
+            <div class="md:p-2 p-1 w-full">
+              <img alt="gallery" class="w-full h-full object-cover object-center block" :src="'http://localhost:3000/'+goodsForm.GameImgs[0].path">
+            </div>
+            <div class="md:p-2 p-1 w-1/2" v-if="goodsForm.GameImgs.length>1">
+              <img alt="gallery" class="w-full object-cover h-full object-center block" :src="'http://localhost:3000/'+goodsForm.GameImgs[1].path">
+            </div>
+            <div class="md:p-2 p-1 w-1/2" v-if="goodsForm.GameImgs.length>2">
+              <img alt="gallery" class="w-full object-cover h-full object-center block" :src="'http://localhost:3000/'+goodsForm.GameImgs[2].path">
+            </div>
+          </div>
         </div>
-      </div>
+      </div> 
     </section>
   </div>
 </template>
 <script>
 import { getGoodsType } from "@/api/goodsType";
-import { getGameById, getGameSR } from "@/api/goods";
+import { getGameById } from "@/api/goods";
 export default {
   name: "GoodsDetail",
   data() {
@@ -123,6 +132,9 @@ export default {
         }
       });
     },
+    goEdit() {
+      this.$router.push({path: '/goods/addGoods', query: {id: this.$route.query.id}})
+    }
   },
 };
 </script>

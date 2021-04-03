@@ -10,16 +10,24 @@ class gameCto {
     this.instance = gameModule
   }
   async create(body) {
-    const { name, desc, img_list, release_date, developer, publisher, game_type, price, is_onshelf } = body
+    const { name, desc, img_list, release_date, developer, publisher, game_type, price, systemRequirement, is_onshelf, is_sale, sale_price } = body
     try {
-      
       let hasOne = await this.instance.findAll({ where: { name: name } })
       if (hasOne.length > 0) {
         return { code: 0, msg: '不可重复添加' }
       }
-      let res = await this.instance.create({ name: name, desc: desc, release_date: release_date, developer: developer, publisher: publisher, game_type: game_type, price: price, is_onshelf: is_onshelf })
-      let pushList = img_list.split(',').map(a=>{return {path: a, game_id: res.id, include: [{model: gameModule, as: 'Game'}]}})
-      await GameImg.bulkCreate(pushList)
+      let res = await this.instance.create({ name: name, desc: desc, release_date: release_date, developer: developer, publisher: publisher, game_type: game_type, price: price,
+        is_onshelf: is_onshelf, is_sale: is_sale, sale_price: sale_price})
+      let ImgList = img_list.split(',').map(a=>{return {path: a, game_id: res.id, include: [{model: gameModule, as: 'Game'}]}})
+      let SysRequirement = JSON.parse(systemRequirement)
+      let srList = SysRequirement.map(a=>{
+        return {req_type: a.req_type, handle_system: a.handle_system, cpu: a.cpu, ram: a.ram, ram_unit: a.ram_unit, 
+          gpu: a.gpu, storage_space: a.storage_space, storage_space_unit: a.storage_space_unit, game_id: res.id,
+          include: [{model: gameModule, as: 'Game'}]  
+        }
+      })
+      await GameImg.bulkCreate(ImgList)
+      await systemRequirementModule.bulkCreate(srList)
       return { code: 1, data: '创建成功', goodId: res.id }
     }
     catch (err) {
@@ -30,9 +38,14 @@ class gameCto {
   // 获取
   async getGameList() {
     try {
-      let res = await this.instance.findAll()
+      let res = await this.instance.findAll({
+        include: [{
+          model: GameImg
+        }]})
       return { code: 1, data: res }
-    } catch (err) { return { code: 0, msg: JSON.stringify(err) } }
+    } catch (err) { 
+      console.log(err)
+      return { code: 0, msg: JSON.stringify(err) } }
   }
   // 获取单独一条
   async getGameById(data) {
@@ -43,11 +56,10 @@ class gameCto {
     try {
       let res = await this.instance.findAll({
         where: { id: id }, 
-        include: [{
-          model: systemRequirementModule,
-          where: { game_id: id },
-          // required: false  //left join
-        }]
+        include: [
+          {model: systemRequirementModule, where: { game_id: id }},
+          {model: GameImg, where: {game_id: id}}
+        ]
       })
       if (res.length > 0) {
         return { code: 1, data: res[0] }
@@ -69,7 +81,6 @@ class gameCto {
       this.instance.destroy({ where: { id: id } })
       console.log(id)
       let hasSR = await systemRequirementModule.findAll({ where: { goods_id: id } })
-      
       if (hasSR.length > 0) {
         let hasSRIds = hasSR.map(a => a.id)
         console.log(hasSRIds)
@@ -81,16 +92,26 @@ class gameCto {
       return { code: 0, msg: JSON.stringify(err) } }
   }
   async edit(body) {
-    const { id, name, desc, release_date, developer, publisher, game_type, price, is_onshelf } = body
+    const { id, name, desc, release_date, developer, publisher, game_type, price, is_onshelf, systemRequirement, is_sale, sale_price } = body
     try {
       let hasOne = await this.instance.findAll({ where: { id: id } })
       if (hasOne.length < 1) {
         return { code: 0, msg: '无此数据' }
       }
-      this.instance.update({ name: name, desc: desc, release_date: release_date, developer: developer, publisher: publisher, game_type: game_type, price: price, is_onshelf: is_onshelf }, { where: { id: id } })
+      this.instance.update({ name: name, desc: desc, release_date: release_date, developer: developer, publisher: publisher, game_type: game_type, price: price, is_onshelf: is_onshelf,
+        is_sale: is_sale, sale_price: sale_price }, { where: { id: id } })
+      let SysRequirement = JSON.parse(systemRequirement)
+      let srList = SysRequirement.map(a=>{
+        return {req_type: a.req_type, handle_system: a.handle_system, cpu: a.cpu, ram: a.ram, ram_unit: a.ram_unit, 
+          gpu: a.gpu, storage_space: a.storage_space, storage_space_unit: a.storage_space_unit
+        }
+      })
+      await systemRequirementModule.update(srList[0],{where:{id: SysRequirement[0].id}})
+      await systemRequirementModule.update(srList[1],{where:{id: SysRequirement[1].id}})
       return { code: 1, data: '修改成功' }
     }
     catch (err) {
+      console.log(err)
       return { code: 0, msg: JSON.stringify(err) }
     }
   }

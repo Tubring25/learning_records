@@ -1,47 +1,39 @@
 <template>
   <div class="dashboard-container">
-    <div class="card-container flex flex-row justify-between w-full">
-      <div class="card-box w-72 h-auto flex flex-row justify-between rounded-2xl border-2 border-gray-200 shadow-lg hover:shadow-xl">
-        <img class="h-20 m-4" src="../../assets/member.png" alt="">
-        <div class="w-3/5 text-center">
-          <p class="text-xl pt-4">注册会员</p>
-          <span class="text-4xl font-bold pt-4 block">{{number}}</span>
+    <section class="text-gray-600 body-font">
+      <div class="container px-5 py-10 mx-auto">
+        <div class="flex flex-wrap -m-4 text-center">
+          <div class="p-4 sm:w-1/4 w-1/2">
+            <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">2.7K</h2>
+            <p class="leading-relaxed">注册会员</p>
+          </div>
+          <div class="p-4 sm:w-1/4 w-1/2">
+            <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">1.8K</h2>
+            <p class="leading-relaxed">新增会员</p>
+          </div>
+          <div class="p-4 sm:w-1/4 w-1/2">
+            <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">35</h2>
+            <p class="leading-relaxed">订单量</p>
+          </div>
+          <div class="p-4 sm:w-1/4 w-1/2">
+            <h2 class="title-font font-medium sm:text-4xl text-3xl text-gray-900">4</h2>
+            <p class="leading-relaxed">营业额</p>
+          </div>
         </div>
       </div>
-      <div class="card-box w-72 h-auto flex flex-row justify-between rounded-2xl border-2 border-gray-200 shadow-lg hover:shadow-xl">
-        <img class="h-20 m-4" src="../../assets/goods.png" alt="">
-        <div class="w-3/5 text-center">
-          <p class="text-xl pt-4">商品数量</p>
-          <span class="text-4xl font-bold pt-4 block">{{number}}</span>
-        </div>
-      </div>
-      <div class="card-box w-72 h-auto flex flex-row justify-between rounded-2xl border-2 border-gray-200 shadow-lg hover:shadow-xl">
-        <img class="h-20 m-4" src="../../assets/order.png" alt="">
-        <div class="w-3/5 text-center">
-          <p class="text-xl pt-4">订单数量</p>
-          <span class="text-4xl font-bold pt-4 block">{{number}}</span>
-        </div>
-      </div>
-      <div class="card-box w-72 h-auto flex flex-row justify-between rounded-2xl border-2 border-gray-200 shadow-lg hover:shadow-xl">
-        <img class="h-20 m-4" src="../../assets/money.png" alt="">
-        <div class="w-3/5 text-center">
-          <p class="text-xl pt-4">今日营业额</p>
-          <span class="text-4xl font-bold pt-4 block">{{number}}</span>
-        </div>
-      </div>
-    </div> 
+    </section>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'Dashboard',
-  data(){
+  name: "Dashboard",
+  data() {
     return {
-      number: 11
-    }
-  }
-}
+      number: 11,
+    };
+  },
+};
 </script>
 
 <style lang="scss" scoped>

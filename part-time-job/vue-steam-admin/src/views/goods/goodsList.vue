@@ -5,7 +5,7 @@
       <el-table-column prop="name" label="名称" width="200" fixed></el-table-column>
       <el-table-column prop="" label="封面" width="180">
         <template slot-scope="{row}">
-           <el-image style="width: 180px; height: 100px" :src="row.img_list" fit="contain"></el-image>
+           <el-image style="width: 180px; height: 100px" :src="'http://localhost:3000/' +row.GameImgs[0].path" fit="contain"></el-image>
         </template>
       </el-table-column>
       <el-table-column prop="game_type_name" label="类别" width="120"></el-table-column>
