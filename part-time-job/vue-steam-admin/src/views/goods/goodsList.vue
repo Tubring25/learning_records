@@ -23,6 +23,11 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination @current-change="handleCurrentChange" :current-page.sync="pageNum"
+      :page-size="10"
+      layout="total, prev, pager, next"
+      :total="count">
+    </el-pagination>
   </div>
 </template>
 <script>
@@ -32,7 +37,10 @@ export default {
   data() {
     return {
       goodsTypeList: [],
-      gameList: []
+      gameList: [],
+      count: 0,
+      pageNum: 1,
+      searchText: '',
     }
   },
   created() {
@@ -48,19 +56,20 @@ export default {
       })
     },
     getGameList_() {
-      getGames().then(res=>{
+      getGames({title: this.searchText, pageNum: this.pageNum, pageSize: 10}).then(res=>{
         if(res.code) {
           setTimeout(() => {
-            for (let i in res.data) {
-              res.data[i].release_date = res.data[i].release_date.substring(0,10)
+            for (let i in res.data.rows) {
+              res.data.rows[i].release_date = res.data.rows[i].release_date.substring(0,10)
               for (let j in this.goodsTypeList) {
                 this.goodsTypeList[j].id
-                if(res.data[i].game_type == this.goodsTypeList[j].id) {
-                  res.data[i].game_type_name = this.goodsTypeList[j].name
+                if(res.data.rows[i].game_type == this.goodsTypeList[j].id) {
+                  res.data.rows[i].game_type_name = this.goodsTypeList[j].name
                 }
               }
             }
-            this.gameList = res.data
+            this.gameList = res.data.rows
+            this.count = res.data.count
           }, 500);
         }
       })
@@ -83,6 +92,10 @@ export default {
         default:
           break;
       }
+    },
+    handleCurrentChange(val) {
+      this.pageNum = val
+      this.getGameList_()
     }
   },
 }

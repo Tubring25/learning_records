@@ -4,6 +4,8 @@ const GameImg = require('../../model').GameImg
 const fs = require('fs');
 const path = require('path');
 const formiable = require('formidable');
+const sequelize = require('sequelize');
+const Op = sequelize.Op
 
 class gameCto {
   constructor() {
@@ -36,9 +38,15 @@ class gameCto {
     }
   }
   // 获取
-  async getGameList() {
+  async getGameList(body) {
     try {
-      let res = await this.instance.findAll({
+      let {pageSize, pageNum, title, type} = body
+      
+      let res = await this.instance.findAndCountAll({
+        limit: Number(pageSize),
+        offset: Number(pageNum - 1) * Number(pageSize),
+        where: {name: {[Op.like]: `%${title}%`}},
+        distinct: true,
         include: [{
           model: GameImg
         }]})

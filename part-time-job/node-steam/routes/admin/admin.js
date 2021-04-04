@@ -4,6 +4,8 @@ var router = express.Router();
 const GameTypeService = require('../../controller/admin/gameTypeCto');
 const GameService = require('../../controller/admin/gameCto');
 const systemRequirement = require('../../controller/admin/systemRequireCto')
+const RecommendService = require('../../controller/admin/recommendCto');
+const recommendCto = require('../../controller/admin/recommendCto');
 
 router.get('/getType', async (req, res, next) => {
   res.json(await GameTypeService.getGameTypeList())
@@ -22,7 +24,7 @@ router.post('/game/add', async(req, res, next) => {
   res.json(await GameService.create(req.body))
 })
 router.post('/game/getList', async(req, res, next) => {
-  res.json(await GameService.getGameList())
+  res.json(await GameService.getGameList(req.body))
 })
 router.post('/game/getGameById', async(req, res, next) => {
   res.json(await GameService.getGameById(req.body))
@@ -44,6 +46,24 @@ router.post('/game/createSystemR', async(req, res, next) => {
 })
 router.post('/game/upload', async(req,res,next) => {
   res.json(await GameService.uploadSingleImg(req))
+})
+router.post('/recommend/add', async(req,res,next) => {
+  res.json(await RecommendService.addRecommendList(req.body)) 
+})
+router.post('/recommend/delete', async(req, res, next) => {
+  res.json(await RecommendService.deleteRecommond(req.body))
+})
+router.post('/specsale/add', async(req,res, next) => {
+  res.json(await RecommendService.addSpecSaleList(req.body))
+})
+router.post('/specsale/delete', async(req, res,next) => {
+  res.json(await RecommendService.deleteSpecSale(req.body))
+})
+router.post('/recommend/get', async(req,res,next) => {
+  res.json(await RecommendService.getRecommendList(req.body)) 
+})
+router.post('/specsale/get', async(req, res,next) => {
+  res.json(await RecommendService.getSpecSaleList(req.body))
 })
 
 module.exports = router;

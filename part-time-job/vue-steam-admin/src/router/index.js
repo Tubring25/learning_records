@@ -60,6 +60,12 @@ export const constantRoutes = [
         component: () => import('@/views/goods/goodsDetail'),
         meta: { title: '商品详情' },
         hidden: true
+      },
+      {
+        path: 'recommend',
+        name: 'Recommend',
+        component: () => import('@/views/goods/recommend'),
+        meta: {title: '首页推荐'},
       }
     ]
   },

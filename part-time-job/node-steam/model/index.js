@@ -7,6 +7,8 @@ var GameType = sequelize.import('./admin/goodsType/gameType.js');
 var Game = sequelize.import('./admin/game/game.js');
 var SystemRequirement = sequelize.import('./admin/systemRequirement/systemRequirement.js')
 var GameImg = sequelize.import('./admin/game/imgList.js')
+var SpecialSale = sequelize.import('./admin/recommend/specialSale.js')
+var Recommend = sequelize.import('./admin/recommend/recommend.js')
 
 // 建立模型之间的关系
 Game.hasMany(SystemRequirement)
@@ -23,3 +25,5 @@ exports.GameType = GameType;
 exports.Game = Game;
 exports.SystemRequirement = SystemRequirement;
 exports.GameImg = GameImg
+exports.SpecialSale = SpecialSale
+exports.Recommend = Recommend
