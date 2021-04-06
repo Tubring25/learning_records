@@ -37,24 +37,50 @@ class gameCto {
       return { code: 0, msg: JSON.stringify(err) }
     }
   }
-  // 获取
+  // 后台获取游戏列表
   async getGameList(body) {
     try {
       let {pageSize, pageNum, title, type} = body
       
-      let res = await this.instance.findAndCountAll({
-        limit: Number(pageSize),
-        offset: Number(pageNum - 1) * Number(pageSize),
-        where: {name: {[Op.like]: `%${title}%`}},
-        distinct: true,
-        include: [{
-          model: GameImg
-        }]})
-      return { code: 1, data: res }
+      if(body.is_sale) {
+        let res = await this.instance.findAndCountAll({
+          limit: Number(pageSize),
+          offset: Number(pageNum - 1) * Number(pageSize),
+          where: {name: {[Op.like]: `%${title}%`}, is_sale: 1, is_onshelf: 1},
+          distinct: true,
+          include: [{
+            model: GameImg
+          }]})
+        return { code: 1, data: res }
+      } else if(body.is_onshelf) {
+        let res = await this.instance.findAndCountAll({
+          limit: Number(pageSize),
+          offset: Number(pageNum - 1) * Number(pageSize),
+          where: {name: {[Op.like]: `%${title}%`}, is_onshelf: 1},
+          distinct: true,
+          include: [{
+            model: GameImg
+          }]})
+        return { code: 1, data: res }
+      } else {
+        let res = await this.instance.findAndCountAll({
+          limit: Number(pageSize),
+          offset: Number(pageNum - 1) * Number(pageSize),
+          where: {name: {[Op.like]: `%${title}%`}},
+          distinct: true,
+          include: [{
+            model: GameImg
+          }]})
+        return { code: 1, data: res }
+      }
     } catch (err) { 
       console.log(err)
       return { code: 0, msg: JSON.stringify(err) } }
   }
+  // 获取上架 || 打折商品
+  // async getShelfSaleGameList(body) {
+  //   if(is_sale)
+  // }
   // 获取单独一条
   async getGameById(data) {
     const { id } = data

@@ -18,10 +18,10 @@
         </div>
       </div>
     </section>
-    <el-dialog title="请选择" :visible.sync="dialogVisible" width="30%">
+    <el-dialog title="请选择" :visible.sync="dialogVisible" width="30%" :close-on-click-modal="false">
       <div class="content">
         <el-input v-model="searchText" placeholder="商品名称" type="text" class=" w-2/3" />
-        <el-button type="primary" class=" ml-4" @click="searchGoods">搜索</el-button>
+        <el-button type="primary" class=" ml-4" @click="searchGoods(0)">搜索</el-button>
         <div class="flex flex-wrap w-full">
           <div class="p-2 w-full">
             <el-checkbox-group v-model="checkList">
@@ -55,14 +55,19 @@ export default {
     };
   },
   methods: {
-    searchGoods () {
+    searchGoods (type) {
       if(this.searchText.trim() == '') {
         this.$message.warning('请输入关键词')
         return
       }
-      getGames({pageNum:1, pageSize: 500, title: this.searchText}).then(res=>{
+      let searchCon
+      type == 0 ? searchCon = {pageNum:1, pageSize: 500, title: this.searchText, is_onshelf: 1} : searchCon =  {pageNum:1, pageSize: 500, title: this.searchText, is_onshelf: 1, is_sale: 1}
+      getGames(searchCon).then(res=>{
         if(res.code) {
           this.searchList = res.data.rows
+          if(res.data.count==0){
+            this.$message.info('查询结果为空')
+          }
         }
       })
     },

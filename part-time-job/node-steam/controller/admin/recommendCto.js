@@ -1,6 +1,7 @@
 const RecommendModule = require('../../model').Recommend
 const SpecSaleModule = require('../../model').SpecialSale
 const gameModule = require('../../model').Game
+const GameImg = require('../../model').GameImg
 
 class RecommendCto {
   constructor() {}
@@ -9,11 +10,18 @@ class RecommendCto {
     try {
       let arr = []
       for (let i in ids) {
-        let res = await gameModule.findOne({where:{id:Number(i)}})
+        let res = await gameModule.findOne({
+          where:{id:ids[i]},
+          include: [{ model: GameImg}]
+        })
         console.log(res)
         arr.push(res)
       }
-      return {code:1, data: arr}
+      let insertArr = arr.map(a=>{
+        return {game_id: a.id, game_img_list: a.GameImgs.join(','), game_name: a.name, game_price: a.price}
+      })
+      // await RecommendModule.bulkCreate(insertArr)
+      return {code:1, data: insertArr}
     }catch(err) { 
       console.log(err)
       return {code: 0, msg: JSON.stringify(err)} }

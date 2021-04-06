@@ -5,6 +5,7 @@ module.exports = function (sequelize, DataTypes) {
 			primaryKey: true,
 			autoIncrement: true
 		},
+		game_name: DataTypes.STRING,
 		game_id: DataTypes.INTEGER,
     game_img_list: DataTypes.TEXT,
     game_price: DataTypes.DECIMAL(10,2)
