@@ -14,14 +14,14 @@ class RecommendCto {
           where:{id:ids[i]},
           include: [{ model: GameImg}]
         })
-        console.log(res)
         arr.push(res)
       }
       let insertArr = arr.map(a=>{
-        return {game_id: a.id, game_img_list: a.GameImgs.join(','), game_name: a.name, game_price: a.price}
+        let imgPath = a.GameImgs.map(b=>b.path).toString()
+        return {game_id: a.id, game_img_list: imgPath, game_name: a.name, game_price: a.price}
       })
-      // await RecommendModule.bulkCreate(insertArr)
-      return {code:1, data: insertArr}
+      await RecommendModule.bulkCreate(insertArr)
+      return {code:1, data: 'success'}
     }catch(err) { 
       console.log(err)
       return {code: 0, msg: JSON.stringify(err)} }
