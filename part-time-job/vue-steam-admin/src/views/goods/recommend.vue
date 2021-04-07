@@ -10,14 +10,12 @@
           <div class="flex flex-wrap -m-4">
             <div class="lg:w-1/4 md:w-1/2 p-4 w-full item" v-for="item in recommendList" :key="item.id">
               <i class="el-icon-close icon" @click="deleteClick(item.id, 0)"></i>
-              <a class="block relative h-48 rounded overflow-hidden">
-                <img alt="ecommerce" class="object-cover object-center w-full h-full block"
+              <a class="block relative h-52 rounded overflow-hidden">
+                <img alt="ecommerce" class="object-cover object-center w-full h-3/5 block"
                   :src="'http://localhost:3000/'+item.img">
-              </a>
-              <div class="mt-4">
-                <h2 class="text-gray-900 title-font text-lg font-medium">{{item.game_name}}</h2>
+                <h2 class="text-gray-900 title-font text-lg font-medium mt-4 truncate ">{{item.game_name}}</h2>
                 <p class="mt-1">{{item.game_price}}</p>
-              </div>
+              </a>
             </div>
 
           </div>
@@ -36,15 +34,12 @@
             <div class="lg:w-1/4 md:w-1/2 p-4 w-full item" v-for="item in specSaleList" :key="item.id">
               <i class="el-icon-close icon" @click="deleteClick(item.id, 1)"></i>
               <a class="block relative h-48 rounded overflow-hidden">
-                <img alt="ecommerce" class="object-cover object-center w-full h-full block"
+                <img alt="ecommerce" class="object-cover object-center w-full h-3/5 block"
                   :src="'http://localhost:3000/'+item.img">
+                <h2 class="text-gray-900 title-font text-lg font-medium mt-4 truncate ">{{item.game_name}}</h2>
+                <p class="mt-1"><span class="line-through">{{item.game_price}}</span><span class=" ml-4 text-red-500 font-bold">{{item.game_sale_price}}</span></p>
               </a>
-              <div class="mt-4">
-                <h2 class="text-gray-900 title-font text-lg font-medium">{{item.game_name}}</h2>
-                <p class="mt-1">{{item.game_price}}</p>
-              </div>
             </div>
-
           </div>
         </div>
       </section>
@@ -53,7 +48,7 @@
     <el-dialog title="请选择" :visible.sync="dialogVisible" width="30%" :close-on-click-modal="false">
       <div class="content">
         <el-input v-model="searchText" placeholder="商品名称" type="text" class=" w-2/3" />
-        <el-button type="primary" class=" ml-4" @click="searchGood">搜索</el-button>
+        <el-button type="primary" class=" ml-4" @click="searchGoods">搜索</el-button>
         <div class="flex flex-wrap w-full">
           <div class="p-2 w-full">
             <el-checkbox-group v-model="checkList">
@@ -73,7 +68,7 @@
 </template>
 
 <script>
-import { recommenAdd, recommenDel, specSaleAdd, specSaleDel, getRecommendList, getSpecSale,} from "@/api/recommend";
+import { recommenAdd, recommenDel, specSaleAdd, specSaleDel, getRecommendList, getSpecSaleList,} from "@/api/recommend";
 import { getGames } from '@/api/goods'
 export default {
   data() {
@@ -89,6 +84,7 @@ export default {
   },
   mounted() {
     this.getRecommendList_()
+    this.getSpecSaleList_()
   },
   methods: {
     getRecommendList_() {
@@ -97,6 +93,14 @@ export default {
           res.data.rows[i].img =  res.data.rows[i].game_img_list.split(',')[0]
         }
         this.recommendList = res.data.rows
+      })
+    },
+    getSpecSaleList_() {
+      getSpecSaleList().then(res=>{
+        for (let i in res.data.rows) {
+          res.data.rows[i].img =  res.data.rows[i].game_img.split(',')[0]
+        }
+        this.specSaleList = res.data.rows
       })
     },
     searchGoods () {
@@ -126,7 +130,14 @@ export default {
           }
         })
       } else {
-
+        specSaleAdd({ids: this.checkList.toString()}).then(res=>{
+          if(res.code) {
+            this.checkList = []
+            this.searchList = []
+            this.dialogVisible = false
+            this.getSpecSaleList_()
+          }
+        })
       }
     },
     deleteClick(id, type){
@@ -140,6 +151,13 @@ export default {
             if(res.code) {
               this.$notify({ title: '成功', message: '删除成功', type: 'success'});
               this.getRecommendList_()
+            }
+          })
+        } else {
+          specSaleDel({id:id}).then(res=>{
+            if(res.code) {
+              this.$notify({ title: '成功', message: '删除成功', type: 'success'});
+              this.getSpecSaleList_()
             }
           })
         }

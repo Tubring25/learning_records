@@ -7,6 +7,7 @@ module.exports = function (sequelize, DataTypes) {
 		},
 		game_id: DataTypes.INTEGER,
     game_img: DataTypes.TEXT,
+		game_name: DataTypes.STRING,
     game_price: DataTypes.DECIMAL(10,2),
     game_sale_price: DataTypes.DECIMAL(10,2)
 	},

@@ -27,11 +27,25 @@ class RecommendCto {
       return {code: 0, msg: JSON.stringify(err)} }
   }
   async addSpecSaleList(body) {
-    const { game_id, game_img, game_name, game_price, game_sale_parice } = body
+    const ids = body.ids.split(',')
     try {
-      await SpecSaleModule.create({game_id: game_id, game_img:game_img, game_name: game_name, game_price: game_price, game_sale_parice: game_sale_parice})
+      let arr = []
+      for (let i in ids) {
+        let res = await gameModule.findOne({
+          where:{id:ids[i], is_sale: 1},
+          include: [{ model: GameImg}]
+        })
+        arr.push(res)
+      }
+      let insertArr = arr.map(a=>{
+        let imgPath = a.GameImgs.map(b=>b.path).toString()
+        return {game_id: a.id, game_img: imgPath, game_name: a.name, game_price: a.price, game_sale_price: a.sale_price}
+      })
+      await SpecSaleModule.bulkCreate(insertArr)
       return {code:1, data: 'success'}
-    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+    }catch(err) { 
+      console.log(err)
+      return {code: 0, msg: JSON.stringify(err)} }
   }
   async deleteRecommond(body) {
     const {id} = body

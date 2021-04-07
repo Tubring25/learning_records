@@ -35,7 +35,7 @@ export function getRecommendList(data) {
     data: data
   })
 }
-export function getSpecSale(data) {
+export function getSpecSaleList(data) {
   return request({
     url: '/admin/specsale/get',
     method: 'post',
