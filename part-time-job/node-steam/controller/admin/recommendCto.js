@@ -50,13 +50,13 @@ class RecommendCto {
   async getRecommendList() {
     try {
       let res = await RecommendModule.findAndCountAll()
-      return res
+      return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
   async getSpecSaleList() {
     try {
       let res = await SpecSaleModule.findAndCountAll()
-      return res
+      return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
 }
