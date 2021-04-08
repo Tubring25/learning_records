@@ -5,7 +5,6 @@ const GameTypeService = require('../../controller/admin/gameTypeCto');
 const GameService = require('../../controller/admin/gameCto');
 const systemRequirement = require('../../controller/admin/systemRequireCto')
 const RecommendService = require('../../controller/admin/recommendCto');
-const recommendCto = require('../../controller/admin/recommendCto');
 
 router.get('/getType', async (req, res, next) => {
   res.json(await GameTypeService.getGameTypeList())

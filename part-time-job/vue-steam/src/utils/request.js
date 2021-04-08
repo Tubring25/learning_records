@@ -2,7 +2,6 @@ import axios from "axios";
 import { ElMessage } from 'element-plus'
 import { getToken } from "@/utils/auth";
 import qs from 'qs'
-import router from '../router/index'
 
 axios.defaults.baseURL = "http://localhost:3000";
 

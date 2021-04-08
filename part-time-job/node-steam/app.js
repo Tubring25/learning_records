@@ -9,6 +9,7 @@ const Utils = require('./utils/index')
 var indexRouter = require('./routes/index');
 var loginRouter = require('./routes/common/login');
 var adminRouter = require('./routes/admin/admin')
+var userRouter = require('./routes/user/user')
 
 var app = express();
 app.use(cors());
@@ -52,6 +53,7 @@ app.use((req, res, next) => {
 app.use('/', indexRouter);
 app.use('/login', loginRouter)
 app.use('/admin', adminRouter)
+app.use('/user', userRouter)
 
 
 
