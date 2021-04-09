@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar-container h-16 w-full bg-blue-800">
+  <div class="nav-bar-container h-16 w-full bg-gray-800">
     <img class="h-12 absolute inset-y-2 left-32" src="../assets/logo_steam.svg" alt="">
     <div class="login-box w-40 h-16 leading-none absolute right-32">
       <p v-if="hasLogin" class="text-center h-full text-gray-50">
