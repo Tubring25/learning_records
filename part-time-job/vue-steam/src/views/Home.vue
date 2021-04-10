@@ -39,11 +39,12 @@
       </div>
 
       <div class="swiper-container w-4/5 mx-auto my-8">
-        <swiper :slides-per-view="2" :space-between="10" autoplay loop>
+        <swiper :slides-per-view="2" :space-between="6" autoplay loop>
           <swiper-slide v-for="item in specSaleList" :key="item.id">
-            <div class="parallel">
+            <div class="parallel border-2 border-gray-200 border-opacity-60">
               <img :src="'http://localhost:3000/'+item.img" class=" w-full" alt="">
-              <div class="flex">
+              <h1 class="w-5/6 mx-auto title-font text-lg font-medium text-gray-100 my-2">{{item.game_name}}</h1>
+              <div class="flex my-5 w-5/6 mx-auto">
                 <span class="title-font font-medium text-2xl text-gray-100 line-through text-opacity-50 ">${{item.game_price}}</span>
                 <span class="title-font font-medium px-6 align-bottom text-xl text-red-500">${{item.game_sale_price}}</span>
                 <button
@@ -134,7 +135,7 @@ export default {
 }
 .parallel {
   width: 480px;
-  transform: skew(-20deg, 0deg);
+  transform: skew(-16deg, 0deg);
   margin: 50px;
 }
 </style>
