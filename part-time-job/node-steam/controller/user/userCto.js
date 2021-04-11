@@ -1,4 +1,4 @@
-const userModel = require('../../model/user/user');
+const userModel = require('../../model').User;
 const { Op } = require('sequelize');
 const { createToken, verifyToken } = require('../../utils/index')
 
@@ -62,6 +62,14 @@ class userCto {
 			return {code: 3, data: res}
 		}
 	}
+  async updateInfo(body) {
+    let { id, username, phone, email, description, avatar} = body
+    try {
+      let res = await this.instance.update({username: username, phone: phone, email: email, description: description, avatar: avatar}, {where: {id: id}})
+      return {code: 1, data: res}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+  }
+
 }
 
 module.exports = new userCto()

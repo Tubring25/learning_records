@@ -149,6 +149,12 @@ class gameCto {
       return { code: 0, msg: JSON.stringify(err) }
     }
   }
+  async getNewestGames() { 
+    try {
+      let res = await gameModule.findAll({order: [['created_at', 'DESC']], limit: 10})
+      return {code: 1, data: res}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+  }
 
   // 单张图片上传
   async uploadSingleImg(req){

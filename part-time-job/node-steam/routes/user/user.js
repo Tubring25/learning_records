@@ -25,6 +25,9 @@ router.post('/game/getList', async(req, res, next) => {
 router.post('/game/getGameById', async(req, res, next) => {
   res.json(await GameService.getGameById(req.body))
 })
+router.get('/game/newestGames', async(req,res,next) => {
+  res.json(await GameService.getNewestGames())
+})
 
 
 module.exports = router;

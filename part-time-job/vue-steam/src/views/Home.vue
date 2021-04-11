@@ -4,7 +4,7 @@
 
     <div class="content">
       <div class="w-4/5 mx-auto my-6 lg:mb-0">
-        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-100">推荐商品</h1>
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-100">精选和推荐</h1>
         <div class="h-1 w-20 bg-white rounded"></div>
       </div>
       <div class="banner-container w-4/5 mx-auto my-8">
@@ -38,6 +38,10 @@
         </el-carousel>
       </div>
 
+      <div class="w-4/5 mx-auto my-6 lg:mb-0">
+        <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-100">特别优惠</h1>
+        <div class="h-1 w-20 bg-white rounded"></div>
+      </div>
       <div class="swiper-container w-4/5 mx-auto my-8">
         <swiper :slides-per-view="2" :space-between="6" autoplay loop>
           <swiper-slide v-for="item in specSaleList" :key="item.id">
@@ -56,6 +60,10 @@
         </swiper>
       </div>
 
+      <el-tabs type="border-card" class="w-4/5 mx-auto my-6 lg:mb-0">
+        <el-tab-pane label="新品推荐">新品推荐</el-tab-pane>
+        <el-tab-pane label="热销商品"></el-tab-pane>
+      </el-tabs>
     </div>
   </div>
 </template>
@@ -137,5 +145,20 @@ export default {
   width: 480px;
   transform: skew(-16deg, 0deg);
   margin: 50px;
+}
+.el-tabs /deep/ .el-tabs__header,
+.el-tabs--border-card{
+  background: none;
+}
+.el-tabs--border-card {
+  border: none;
+}
+.el-tabs /deep/ .el-tabs__item {
+  border: 5px solid #fff !important;
+  height: 48px;
+
+}
+.el-tabs /deep/ .is-active {
+  background: #fff !important;
 }
 </style>
