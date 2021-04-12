@@ -17,8 +17,8 @@
                 <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">TITLE</h2>
                 <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{item.game_name}}</h1>
                 <div class="flex items-center flex-wrap ">
-                  <button
-                    class="inline-flex text-white bg-indigo-900 border-0 py-1 px-4 focus:outline-none hover:bg-indigo-600 rounded">Show
+                  <button @click.prevent="showMore(item.id)"
+                  class="inline-flex text-white bg-indigo-900 border-0 py-1 px-4 focus:outline-none hover:bg-indigo-600 rounded">Show
                     More</button>
                   <span
                     class="text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200">
@@ -122,6 +122,9 @@ export default {
         }
       });
     },
+    showMore(id) {
+      this.$router.push({path: '/detail', query: {id: id}})
+    }
   },
 };
 </script>

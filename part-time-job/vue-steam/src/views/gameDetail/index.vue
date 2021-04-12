@@ -1,13 +1,114 @@
 <template>
   <div class="container bg-gray-900">
     <nav-bar></nav-bar>
-    商品详情
+    <div class="w-4/5 py-24 mx-auto flex flex-row justify-between">
+      <div class=" w-3/5">
+        <el-carousel>
+          <el-carousel-item v-for="item in game.GameImgs" :key="item">
+            <img class=" w-full h-full" :src="'http://localhost:3000/' + item.path" alt="">
+          </el-carousel-item>
+        </el-carousel>
+        <div class=" w-full flex flex-row justify-between">
+          <div class="h-full p-6 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden">
+            <h2 class="text-sm tracking-widest title-font mb-1 font-medium">START</h2>
+            <h1 class="text-5xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">Free</h1>
+            <p class="flex items-center text-gray-600 mb-2">
+              <span
+                class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Vexillologist pitchfork
+            </p>
+            <p class="flex items-center text-gray-600 mb-2">
+              <span
+                class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Tumeric plaid portland
+            </p>
+            <p class="flex items-center text-gray-600 mb-6">
+              <span
+                class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                  class="w-3 h-3" viewBox="0 0 24 24">
+                  <path d="M20 6L9 17l-5-5"></path>
+                </svg>
+              </span>Mixtape chillwave tumeric
+            </p>
+            <button
+              class="flex items-center mt-auto text-white bg-gray-400 border-0 py-2 px-4 w-full focus:outline-none hover:bg-gray-500 rounded">Button
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
+                <path d="M5 12h14M12 5l7 7-7 7"></path>
+              </svg>
+            </button>
+            <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="w-1/3 flex flex-col items-start">
+        <span
+          class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">{{game.game_type}}</span>
+        <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-50 mt-4 mb-4">{{game.name}}</h2>
+        <p class="leading-relaxed mb-8 h-32 break-all w-full text-gray-300">{{game.desc}}</p>
+        <div class="flex items-center flex-wrap pb-4 mb-4 border-b-2 border-gray-100 mt-14 w-full">
+          <span class="title-font font-medium text-2xl text-gray-100  text-opacity-50"
+            :class="game.is_sale ? 'line-through' : ''">${{game.price}}</span>
+          <span v-if="game.is_sale"
+            class="title-font font-medium px-6 align-bottom text-xl text-red-500">${{game.sale_price}}</span>
+          <button @click.prevent="buy(game.id)"
+            class="inline-flex text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-300 rounded">
+            Buy Now
+          </button>
+        </div>
+      </div>
+
+    </div>
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/NavBar.vue";
+import { getGameById } from "@/api/goods";
+import { onMounted, reactive, toRefs } from "vue";
+import { useRouter } from "vue-router";
+
 export default {
-  components: {NavBar}
-}
+  components: { NavBar },
+  setup() {
+    const router = useRouter();
+    let state = reactive({
+      game: {},
+    });
+    state.game.id = router.currentRoute.value.query.id;
+    onMounted(() => {
+      getGameById_(state.game.id);
+    });
+
+    const getGameById_ = (id) => {
+      getGameById({ id: id }).then((res) => {
+        if (res.code) {
+          state.game = res.data;
+        }
+      });
+    };
+
+    return {
+      ...toRefs(state),
+    };
+  },
+};
 </script>
+<style lang="scss" scoped>
+.el-carousel {
+  height: 420px;
+}
+.el-carousel /deep/ .el-carousel__container {
+  height: 400px;
+}
+</style>
