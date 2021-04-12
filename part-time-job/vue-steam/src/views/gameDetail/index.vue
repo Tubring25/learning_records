@@ -8,49 +8,7 @@
             <img class=" w-full h-full" :src="'http://localhost:3000/' + item.path" alt="">
           </el-carousel-item>
         </el-carousel>
-        <div class=" w-full flex flex-row justify-between">
-          <div class="h-full p-6 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden">
-            <h2 class="text-sm tracking-widest title-font mb-1 font-medium">START</h2>
-            <h1 class="text-5xl text-gray-900 pb-4 mb-4 border-b border-gray-200 leading-none">Free</h1>
-            <p class="flex items-center text-gray-600 mb-2">
-              <span
-                class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                  class="w-3 h-3" viewBox="0 0 24 24">
-                  <path d="M20 6L9 17l-5-5"></path>
-                </svg>
-              </span>Vexillologist pitchfork
-            </p>
-            <p class="flex items-center text-gray-600 mb-2">
-              <span
-                class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                  class="w-3 h-3" viewBox="0 0 24 24">
-                  <path d="M20 6L9 17l-5-5"></path>
-                </svg>
-              </span>Tumeric plaid portland
-            </p>
-            <p class="flex items-center text-gray-600 mb-6">
-              <span
-                class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
-                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
-                  class="w-3 h-3" viewBox="0 0 24 24">
-                  <path d="M20 6L9 17l-5-5"></path>
-                </svg>
-              </span>Mixtape chillwave tumeric
-            </p>
-            <button
-              class="flex items-center mt-auto text-white bg-gray-400 border-0 py-2 px-4 w-full focus:outline-none hover:bg-gray-500 rounded">Button
-              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                class="w-4 h-4 ml-auto" viewBox="0 0 24 24">
-                <path d="M5 12h14M12 5l7 7-7 7"></path>
-              </svg>
-            </button>
-            <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
-          </div>
-        </div>
       </div>
-
       <div class="w-1/3 flex flex-col items-start">
         <span
           class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">{{game.game_type}}</span>
@@ -67,7 +25,110 @@
           </button>
         </div>
       </div>
-
+    </div>
+    <div class="w-4/5 pb-20 mx-auto flex flex-row justify-between">
+      <div class=" w-full flex flex-row justify-between">
+        <div class="h-full p-6 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden" style="width: 47%">
+          <h2 class="tracking-widest title-font mb-1 font-medium text-gray-100 text-lg">最低配置</h2>
+          <el-divider></el-divider>
+          <p class="flex items-center text-gray-500 mb-2">
+            <span
+              class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>操作系统：{{lowest.handle_system}}
+          </p>
+          <p class="flex items-center text-gray-500 mb-2">
+            <span
+              class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>处理器：{{lowest.cpu}}
+          </p>
+          <p class="flex items-center text-gray-500 mb-6">
+            <span
+              class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>内存：{{lowest.ram}} {{lowest.ram_unit}}
+          </p>
+          <p class="flex items-center text-gray-500 mb-6">
+            <span
+              class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>显卡：{{lowest.gpu}}
+          </p>
+          <p class="flex items-center text-gray-500 mb-6">
+            <span
+              class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>存储空间：{{lowest.storage_space}} {{lowest.storage_space_unit}}
+          </p>
+          <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+        </div>
+        <div class="h-full p-6 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden" style="width: 47%">
+          <h2 class="tracking-widest title-font mb-1 font-medium text-gray-100 text-lg">推荐配置</h2>
+          <el-divider></el-divider>
+          <p class="flex items-center text-gray-500 mb-2">
+            <span
+              class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>操作系统：{{suggest.handle_system}}
+          </p>
+          <p class="flex items-center text-gray-500 mb-2">
+            <span
+              class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>处理器：{{suggest.cpu}}
+          </p>
+          <p class="flex items-center text-gray-500 mb-6">
+            <span
+              class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>内存：{{suggest.ram}} {{suggest.ram_unit}}
+          </p>
+          <p class="flex items-center text-gray-500 mb-6">
+            <span
+              class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>显卡：{{suggest.gpu}}
+          </p>
+          <p class="flex items-center text-gray-500 mb-6">
+            <span
+              class="w-4 h-4 mr-2 inline-flex items-center justify-center bg-gray-400 text-white rounded-full flex-shrink-0">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"
+                class="w-3 h-3" viewBox="0 0 24 24">
+                <path d="M20 6L9 17l-5-5"></path>
+              </svg>
+            </span>存储空间：{{suggest.storage_space}} {{suggest.storage_space_unit}}
+          </p>
+          <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -84,6 +145,8 @@ export default {
     const router = useRouter();
     let state = reactive({
       game: {},
+      lowest: {},
+      suggest: {}
     });
     state.game.id = router.currentRoute.value.query.id;
     onMounted(() => {
@@ -94,6 +157,8 @@ export default {
       getGameById({ id: id }).then((res) => {
         if (res.code) {
           state.game = res.data;
+          state.lowest = res.data.SystemRequirements[0]
+          state.suggest = res.data.SystemRequirements[1]
         }
       });
     };
@@ -110,5 +175,9 @@ export default {
 }
 .el-carousel /deep/ .el-carousel__container {
   height: 400px;
+}
+.sy-lable {
+  display: inline-block;
+  width: 200px;
 }
 </style>
