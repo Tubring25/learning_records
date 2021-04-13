@@ -1,7 +1,7 @@
 <template>
   <div class="container bg-gray-900">
     <nav-bar></nav-bar>
-    订单页面
+    <div class=" w-3/5 mx-auto border-2 border-gray-300 flex flex-col "></div>
   </div>
 </template>
 

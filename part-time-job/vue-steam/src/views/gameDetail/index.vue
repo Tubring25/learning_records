@@ -76,7 +76,7 @@
               </svg>
             </span>存储空间：{{lowest.storage_space}} {{lowest.storage_space_unit}}
           </p>
-          <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+          <p class="text-xs text-gray-500 mt-3">Systerm_requirement</p>
         </div>
         <div class="h-full p-6 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden" style="width: 47%">
           <h2 class="tracking-widest title-font mb-1 font-medium text-gray-100 text-lg">推荐配置</h2>
@@ -126,7 +126,7 @@
               </svg>
             </span>存储空间：{{suggest.storage_space}} {{suggest.storage_space_unit}}
           </p>
-          <p class="text-xs text-gray-500 mt-3">Literally you probably haven't heard of them jean shorts.</p>
+          <p class="text-xs text-gray-500 mt-3">Systerm_requirement</p>
         </div>
       </div>
     </div>
@@ -136,6 +136,7 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import { getGameById } from "@/api/goods";
+import { getTypes } from "@/api/home"
 import { onMounted, reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
 
@@ -146,10 +147,12 @@ export default {
     let state = reactive({
       game: {},
       lowest: {},
-      suggest: {}
+      suggest: {},
+      typeList: [],
     });
     state.game.id = router.currentRoute.value.query.id;
     onMounted(() => {
+      getTypeList_()
       getGameById_(state.game.id);
     });
 
@@ -157,11 +160,25 @@ export default {
       getGameById({ id: id }).then((res) => {
         if (res.code) {
           state.game = res.data;
+          let type = state.game.game_type
+          state.typeList.filter(a=>{
+            if(a.id == type) {
+              console.log(a.name)
+              state.game.game_type = a.name
+            }
+          })
           state.lowest = res.data.SystemRequirements[0]
           state.suggest = res.data.SystemRequirements[1]
         }
       });
     };
+    const getTypeList_ = () => {
+      getTypes().then(res=>{
+        if(res.code) {
+          state.typeList = res.data
+        }
+      })
+    }
 
     return {
       ...toRefs(state),
