@@ -9,12 +9,15 @@ var SystemRequirement = sequelize.import('./admin/systemRequirement/systemRequir
 var GameImg = sequelize.import('./admin/game/imgList.js')
 var SpecialSale = sequelize.import('./admin/recommend/specialSale.js')
 var Recommend = sequelize.import('./admin/recommend/recommend.js')
-
+var Order = sequelize.import('./user/order/order.js')
+var ShopCart = sequelize.import('./user/shopcart/shopcat.js')
 // 建立模型之间的关系
 Game.hasMany(SystemRequirement)
 SystemRequirement.belongsTo(Game)
 Game.hasMany(GameImg)
 GameImg.belongsTo(Game)
+ShopCart.hasOne(Game)
+Order.hasOne(Game)
 
 // 同步模型到数据库中
 sequelize.sync();
@@ -27,3 +30,5 @@ exports.SystemRequirement = SystemRequirement;
 exports.GameImg = GameImg
 exports.SpecialSale = SpecialSale
 exports.Recommend = Recommend
+exports.ShopCart = ShopCart
+exports.Order = Order
