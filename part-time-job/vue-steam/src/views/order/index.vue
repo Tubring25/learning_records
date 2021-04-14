@@ -63,3 +63,8 @@ export default {
   }
 }
 </script>
+<style lang="scss" scoped>
+.container {
+  height: calc(100vh);
+}
+</style>
