@@ -16,8 +16,6 @@ Game.hasMany(SystemRequirement)
 SystemRequirement.belongsTo(Game)
 Game.hasMany(GameImg)
 GameImg.belongsTo(Game)
-ShopCart.hasOne(Game)
-Order.hasOne(Game)
 
 // 同步模型到数据库中
 sequelize.sync();

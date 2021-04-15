@@ -5,6 +5,8 @@ const GameTypeService = require('../../controller/admin/gameTypeCto');
 const GameService = require('../../controller/admin/gameCto');
 const systemRequirement = require('../../controller/admin/systemRequireCto')
 const RecommendService = require('../../controller/admin/recommendCto');
+const OrderService = require('../../controller/admin/order')
+
 
 router.get('/getType', async (req, res, next) => {
   res.json(await GameTypeService.getGameTypeList())
@@ -63,6 +65,18 @@ router.post('/recommend/get', async(req,res,next) => {
 })
 router.post('/specsale/get', async(req, res,next) => {
   res.json(await RecommendService.getSpecSaleList(req.body))
+})
+router.post('/order/get', async(req, res,next) => {
+  res.json(await OrderService.getOrderList(req.body))
+})
+router.post('/order/getbyId', async(req, res,next) => {
+  res.json(await OrderService.getOrderById(req.body))
+})
+router.post('/order/del', async(req, res,next) => {
+  res.json(await OrderService.delOrder(req.body))
+})
+router.post('/order/update', async(req, res, next) => {
+  res.json(await OrderService.updateOrder(req.body))
 })
 
 module.exports = router;

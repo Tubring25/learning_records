@@ -4,7 +4,7 @@ var router = express.Router();
 const GameTypeService = require('../../controller/admin/gameTypeCto');
 const GameService = require('../../controller/admin/gameCto');
 const RecommendService = require('../../controller/admin/recommendCto');
-
+const OrderService = require('../../controller/admin/order')
 
 // 首页展示
 router.post('/recommend/get', async(req,res,next) => {
@@ -27,6 +27,18 @@ router.post('/game/getGameById', async(req, res, next) => {
 })
 router.get('/game/newestGames', async(req,res,next) => {
   res.json(await GameService.getNewestGames())
+})
+router.post('/order/add', async(req, res, next) => {
+  res.json(await OrderService.addOrder(req.body))
+})
+router.post('/order/get', async(req, res, next) => {
+  res.json(await OrderService.getOrderList(req.body))
+})
+router.post('/order/update', async(req, res, next) => {
+  res.json(await OrderService.updateOrder(req.body))
+})
+router.post('/order/getbyId', async(req, res,next) => {
+  res.json(await OrderService.getOrderById(req.body))
 })
 
 
