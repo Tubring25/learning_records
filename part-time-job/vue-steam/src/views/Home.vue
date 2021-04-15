@@ -17,7 +17,7 @@
                 <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">TITLE</h2>
                 <h1 class="title-font text-lg font-medium text-gray-900 mb-3">{{item.game_name}}</h1>
                 <div class="flex items-center flex-wrap ">
-                  <button @click.prevent="showMore(item.id)"
+                  <button @click.prevent="showMore(item.game_id)"
                   class="inline-flex text-white bg-indigo-900 border-0 py-1 px-4 focus:outline-none hover:bg-indigo-600 rounded">Show
                     More</button>
                   <span
