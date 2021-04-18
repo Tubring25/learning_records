@@ -6,8 +6,7 @@ module.exports = function (sequelize, DataTypes) {
       autoIncrement: true
     },
     user_id: DataTypes.INTEGER,
-    game_id: DataTypes.INTEGER,
-    num: DataTypes.INTEGER
+    game_ids: DataTypes.STRING,
 	},
 	{
 		freezeTableName: true,

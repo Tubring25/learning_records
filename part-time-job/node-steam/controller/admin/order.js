@@ -12,15 +12,21 @@ class orderService {
       let timestamp = new Date().getTime()
       let ranNum = Math.floor(Math.random() * 1000)
       let ord_no = `${timestamp}${ranNum}`;
-      await this.instance.create({user_id: user_id, ord_no: ord_no, game_id: game_id, num: num, money: money})
-      return {code: 1, data: 'success'}
+      let res
+      if(body.is_fin == false) {
+        res = await this.instance.create({user_id: user_id, order_no: ord_no, game_id: game_id, num: num, money: money, is_finished: false})
+      } else {
+        res = await this.instance.create({user_id: user_id, order_no: ord_no, game_id: game_id, num: num, money: money, is_finished: true})
+      }
+      
+      return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
   async updateOrder(body) {
-    const { ord_no } = body
+    const { id } = body
     try {
-      await this.instance.update({is_finished: 1}, {where: {ord_no: ord_no}})
-      return {code: 1, data: 'success'}
+      let res = await this.instance.update({is_finished: 1}, {where: {id: id}})
+      return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
   async delOrder (body) {

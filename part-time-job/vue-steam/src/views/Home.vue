@@ -51,7 +51,7 @@
               <div class="flex my-5 w-5/6 mx-auto">
                 <span class="title-font font-medium text-2xl text-gray-100 line-through text-opacity-50 ">${{item.game_price}}</span>
                 <span class="title-font font-medium px-6 align-bottom text-xl text-red-500">${{item.game_sale_price}}</span>
-                <button
+                <button @click="buy(item.game_id)"
                   class="flex ml-auto text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded" >Buy Now</button>
               </div>
             </div>
@@ -121,6 +121,9 @@ export default {
           });
         }
       });
+    },
+    buy(id) {
+      this.$router.push({path: '/order', query: {ids: id}})
     },
     showMore(id) {
       this.$router.push({path: '/detail', query: {id: id}})

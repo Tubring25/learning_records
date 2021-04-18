@@ -5,6 +5,7 @@ const GameTypeService = require('../../controller/admin/gameTypeCto');
 const GameService = require('../../controller/admin/gameCto');
 const RecommendService = require('../../controller/admin/recommendCto');
 const OrderService = require('../../controller/admin/order')
+const ShoppingCartService = require('../../controller/user/shoppingCart')
 
 // 首页展示
 router.post('/recommend/get', async(req,res,next) => {
@@ -39,6 +40,18 @@ router.post('/order/update', async(req, res, next) => {
 })
 router.post('/order/getbyId', async(req, res,next) => {
   res.json(await OrderService.getOrderById(req.body))
+})
+router.post('/cart/add', async(req, res,next) => {
+  res.json(await ShoppingCartService.addShoppingCart(req.body))
+})
+router.post('/cart/update', async(req, res,next) => {
+  res.json(await ShoppingCartService.updateShoppingCart(req.body))
+})
+router.post('/cart/get', async(req, res,next) => {
+  res.json(await ShoppingCartService.getShoppingCartByUserId(req.body))
+})
+router.post('/cart/clear', async(req, res,next) => {
+  res.json(await ShoppingCartService.delShoppingCart(req.body))
 })
 
 

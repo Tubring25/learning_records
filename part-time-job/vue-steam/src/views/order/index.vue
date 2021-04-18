@@ -18,13 +18,23 @@
         </div>
         <div class="flex flex-row justify-between py-5 pl-5">
           <p class=" text-gray-200 text-xl">总计：<span class=" text-red-500 text-3xl font-bold">{{totalPrice}}</span></p>
-          <button
+          <button @click="dialogVisible=true"
             class="inline-flex mr-5 text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-300 rounded">
             结  算
           </button>
         </div>
       </div>
     </div>
+
+    <el-dialog title="支付" v-model="dialogVisible" width="30%">
+      <span>支付：{{totalPrice}}元</span>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="pay(0)">取 消</el-button>
+          <el-button type="primary" @click="pay(1)">确 定</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
@@ -33,6 +43,9 @@ import NavBar from "@/components/NavBar.vue";
 import { useRouter  } from "vue-router";
 import { ref } from 'vue'
 import { getGameById } from '@/api/goods'
+import { addOrder } from '@/api/order'
+import { getInfo } from '@/utils/auth'
+
 export default {
   components: {NavBar},
   setup() {
@@ -40,6 +53,7 @@ export default {
     if(!router.currentRoute.value.query.ids) {
       router.replace('/')
     }
+
     const ids = ref([])
     ids.value = router.currentRoute.value.query.ids
     const goodsList = ref([])
@@ -56,9 +70,24 @@ export default {
         }
       })
     }
+
+    const dialogVisible = ref(false)
+    const user_id = JSON.parse(getInfo('vue_steam')).id
+    const num = ids.value.split(',').length
+    const pay = (type) => {
+      let postData = {user_id: user_id, num: num, game_id: ids.value, money: totalPrice.value, is_fin: 1}
+      if(type == 0) postData.is_fin = 0
+      addOrder(postData).then(res=>{
+        if(res.code) {
+          router.replace({path: '/order/fin', query: {fin: type, ord_id: res.data.id}})
+        }
+      })
+    }
     return {
       goodsList,
-      totalPrice
+      totalPrice,
+      dialogVisible,
+      pay
     }
   }
 }

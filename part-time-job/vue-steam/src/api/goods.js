@@ -7,3 +7,11 @@ export function getGameById(data) {
     data: data
   })
 }
+
+export function getGameList(data) {
+  return request({
+    url: '/user/game/getList',
+    method: 'post',
+    data: data
+  })
+}

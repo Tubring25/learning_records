@@ -14,14 +14,20 @@
           class="inline-block py-1 px-2 rounded bg-indigo-50 text-indigo-500 text-xs font-medium tracking-widest">{{game.game_type}}</span>
         <h2 class="sm:text-3xl text-2xl title-font font-medium text-gray-50 mt-4 mb-4">{{game.name}}</h2>
         <p class="leading-relaxed mb-8 h-32 break-all w-full text-gray-300">{{game.desc}}</p>
-        <div class="flex items-center flex-wrap pb-4 mb-4 border-b-2 border-gray-100 mt-14 w-full">
-          <span class="title-font font-medium text-2xl text-gray-100  text-opacity-50"
+        <div class="flex items-center flex-wrap pb-4 mb-4 border-b-2 border-gray-100 mt-14 w-full justify-between">
+          <div>
+            <span class="title-font font-medium text-m text-gray-100  text-opacity-50"
             :class="game.is_sale ? 'line-through' : ''">${{game.price}}</span>
-          <span v-if="game.is_sale"
-            class="title-font font-medium px-6 align-bottom text-xl text-red-500">${{game.sale_price}}</span>
+            <span v-if="game.is_sale"
+              class="title-font font-medium px-6 align-bottom text-l text-red-500">${{game.sale_price}}</span>
+          </div>
+          <button @click.prevent="addShoppingCart_(game.id)"
+            class="inline-flex text-white bg-yellow-500 border-0 py-1 px-4 focus:outline-none hover:bg-yellow-300 rounded">
+            加入购物车
+          </button>
           <button @click.prevent="buy(game.id)"
             class="inline-flex text-white bg-red-500 border-0 py-1 px-4 focus:outline-none hover:bg-red-300 rounded">
-            Buy Now
+            立即购买
           </button>
         </div>
       </div>
@@ -130,15 +136,20 @@
         </div>
       </div>
     </div>
+
+    
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/NavBar.vue";
 import { getGameById } from "@/api/goods";
+import { addShoppingCart } from '@/api/shoppingcart'
 import { getTypes } from "@/api/home"
 import { onMounted, reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
+import { getInfo } from '@/utils/auth'
+import { ElNotification } from 'element-plus';
 
 export default {
   components: { NavBar },
@@ -179,9 +190,23 @@ export default {
         }
       })
     }
+    
+    const buy = (id) => {
+      router.push({path: '/order', query: {ids: id}})
+    }
+    const addShoppingCart_ = (id) => {
+      const user_id = JSON.parse(getInfo('vue_steam')).id
+      addShoppingCart({user_id: user_id, game_id: state.game.id}).then(res=>{
+        if(res.code) {
+          ElNotification.success('添加成功')
+        }
+      })
+    }
 
     return {
       ...toRefs(state),
+      buy,
+      addShoppingCart_
     };
   },
 };

@@ -12,6 +12,11 @@ const routes = [
     component: () => import('../views/Home.vue')
   },
   {
+    path: '/list',
+    name: 'List',
+    component: () => import('../views/game/list.vue')
+  },
+  {
     path: '/profile',
     name: 'Profile',
     component: () => import('../views/profile/index.vue')
@@ -30,11 +35,15 @@ const routes = [
     path: '/order/fin',
     component: ()=>import('../views/order/orderFinished.vue')
   },
+  {
+    path: '/order/detail',
+    component: ()=>import('../views/order/orderDetail.vue')
+  },
   
   {
     path: '/detail',
     name: 'Detail',
-    component: () => import('../views/gameDetail/index.vue')
+    component: () => import('../views/game/detail.vue')
   }
 ]
 
