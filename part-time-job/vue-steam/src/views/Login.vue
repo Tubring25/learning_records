@@ -44,11 +44,12 @@ export default {
     const route = useRoute()
 
     const state = reactive({
-      formType: null, // 0注册  1登录
+      formType: "1", // 0注册  1登录
       loginForm: { username: '', password: '',},
       registForm: {username: '', password: '', email: ''}
     });
-    if(route.query) state.formType = route.query.type
+    // console.log(route.query)
+    if(route.query.type) state.formType = route.query.type
     
     const confirmBtn = () => {
       let keys = []

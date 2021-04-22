@@ -41,8 +41,9 @@
 <script>
 import NavBar from "@/components/NavBar.vue";
 import { useRouter  } from "vue-router";
-import { ref } from 'vue'
-import { getShoppingCart, clearShoppingCart } from '@/api/shoppingCart'
+import { onMounted, ref } from 'vue'
+import { getGameById } from '@/api/goods'
+import { getShoppingCart, clearShoppingCart } from '@/api/shoppingcart'
 import { getInfo } from '@/utils/auth'
 
 export default {
@@ -50,41 +51,52 @@ export default {
   setup() {
     const router = useRouter();
     const user_id = JSON.parse(getInfo('vue_steam')).id
-
-    const ids = ref([])
-    ids.value = router.currentRoute.value.query.ids
+    let ids = []
     const goodsList = ref([])
     const totalPrice = ref(0)
-    for(let i of ids.value.split(',')) {
-      getGameById({id: i}).then(res=>{
+    const getShoppingCart_ = () =>{
+      getShoppingCart({id: user_id}).then(res=>{
         if(res.code) {
-          goodsList.value.push(res.data)
-          if(res.data.is_sale) {
-            totalPrice.value += Number(res.data.sale_price)
-          } else {
-            totalPrice.value += Number(res.data.price)
-          }          
+          ids = res.data.game_ids.split(',')
+          for(let i of ids) {
+            getGameById({id: i}).then(res=>{
+              if(res.code) {
+                goodsList.value.push(res.data)
+                if(res.data.is_sale) {
+                  totalPrice.value += Number(res.data.sale_price)
+                } else {
+                  totalPrice.value += Number(res.data.price)
+                }          
+              }
+            })
+          }
         }
       })
     }
-
-    const dialogVisible = ref(false)
     
-    const num = ids.value.split(',').length
-    const pay = (type) => {
-      let postData = {user_id: user_id, num: num, game_id: ids.value, money: totalPrice.value, is_fin: 1}
-      if(type == 0) postData.is_fin = 0
-      addOrder(postData).then(res=>{
-        if(res.code) {
-          router.replace({path: '/order/fin', query: {fin: type, ord_id: res.data.id}})
-        }
-      })
-    }
+    
+
+    // const dialogVisible = ref(false)
+    
+    // const num = ids.value.split(',').length
+    // const pay = (type) => {
+    //   let postData = {user_id: user_id, num: num, game_id: ids.value, money: totalPrice.value, is_fin: 1}
+    //   if(type == 0) postData.is_fin = 0
+    //   addOrder(postData).then(res=>{
+    //     if(res.code) {
+    //       router.replace({path: '/order/fin', query: {fin: type, ord_id: res.data.id}})
+    //     }
+    //   })
+    // }
+
+    onMounted(()=>{
+      getShoppingCart_()
+    })
     return {
       goodsList,
       totalPrice,
-      dialogVisible,
-      pay
+      // dialogVisible,
+      // pay
     }
   }
 }

@@ -3,7 +3,17 @@
     <img class="h-12 absolute inset-y-2 left-32" src="../assets/logo_steam.svg" alt="">
     <div class="login-box w-40 h-16 leading-none absolute right-32">
       <p v-if="hasLogin" class="text-center h-full text-gray-50">
-        <span v-if="hasLogin">{{username}}</span>
+        <el-dropdown v-if="hasLogin">
+          <span class="el-dropdown-link text-gray-50">
+            {{username}}<i class="el-icon-arrow-down el-icon--right"></i>
+          </span>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item><router-link to="/profile">个人资料</router-link></el-dropdown-item>
+              <el-dropdown-item><router-link to="/shoppingCart">购物车</router-link></el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
         <span @click="signOut">退出</span>
       </p>
       <p v-else class="text-center h-full text-gray-50">
