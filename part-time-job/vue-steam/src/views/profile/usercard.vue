@@ -39,18 +39,15 @@
 </template>
 
 <script>
+import { getInfo } from '@/utils/auth'
+
 export default {
-  props: {
-    user: {
-      type: Object,
-      default: () => {
-        return {
-          name: '',
-          email: '',
-          avatar: '',
-          role: ''
-        }
-      }
+  setup(props) {
+    const userInfo = JSON.parse(getInfo('vue_steam')).id
+
+
+    return {
+      userInfo
     }
   }
 }

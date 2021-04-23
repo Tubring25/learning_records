@@ -31,7 +31,6 @@
     </div>
   </div>
 </template>
-
 <script>
 import NavBar from "@/components/NavBar.vue";
 import { useRouter  } from "vue-router";
