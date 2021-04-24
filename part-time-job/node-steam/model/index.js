@@ -18,6 +18,8 @@ Game.hasMany(SystemRequirement)
 SystemRequirement.belongsTo(Game)
 Game.hasMany(GameImg)
 GameImg.belongsTo(Game)
+Comment.belongsTo(User)
+Comment.belongsTo(Game)
 
 // 同步模型到数据库中
 sequelize.sync();

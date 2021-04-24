@@ -17,7 +17,7 @@
         <div class="flex items-center flex-wrap pb-4 mb-4 border-b-2 border-gray-100 mt-14 w-full justify-between">
           <div>
             <span class="title-font font-medium text-m text-gray-100  text-opacity-50"
-            :class="game.is_sale ? 'line-through' : ''">${{game.price}}</span>
+              :class="game.is_sale ? 'line-through' : ''">${{game.price}}</span>
             <span v-if="game.is_sale"
               class="title-font font-medium px-6 align-bottom text-l text-red-500">${{game.sale_price}}</span>
           </div>
@@ -36,7 +36,8 @@
     <!-- 配置 -->
     <div class="w-4/5 pb-10 mx-auto flex flex-row justify-between">
       <div class=" w-full flex flex-row justify-between">
-        <div class="h-full p-6 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden" style="width: 47%">
+        <div class="h-full p-6 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden"
+          style="width: 47%">
           <h2 class="tracking-widest title-font mb-1 font-medium text-gray-100 text-lg">最低配置</h2>
           <el-divider></el-divider>
           <p class="flex items-center text-gray-500 mb-2">
@@ -86,7 +87,8 @@
           </p>
           <p class="text-xs text-gray-500 mt-3">Systerm_requirement</p>
         </div>
-        <div class="h-full p-6 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden" style="width: 47%">
+        <div class="h-full p-6 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden"
+          style="width: 47%">
           <h2 class="tracking-widest title-font mb-1 font-medium text-gray-100 text-lg">推荐配置</h2>
           <el-divider></el-divider>
           <p class="flex items-center text-gray-500 mb-2">
@@ -150,22 +152,33 @@
         <button @click="submitComment"
           class="text-white bg-indigo-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded text-base">Submit</button>
       </div>
+
+      <section class="text-gray-600 body-font">
+        <div class="p-2 w-full">
+          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+            <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
+              src="https://dummyimage.com/80x80">
+            <div class="flex-grow">
+              <h2 class="text-gray-900 title-font font-medium">Holden Caulfield</h2>
+              <p class="text-gray-500">UI Designer</p>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
-
-    
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/NavBar.vue";
-import { getGameById, getComment, addComment,delComment } from "@/api/goods";
-import { addShoppingCart } from '@/api/shoppingcart'
-import { getTypes } from "@/api/home"
+import { getGameById, getComment, addComment, delComment } from "@/api/goods";
+import { addShoppingCart } from "@/api/shoppingcart";
+import { getTypes } from "@/api/home";
 import { onMounted, reactive, toRefs } from "vue";
 import { useRouter } from "vue-router";
-import { getInfo } from '@/utils/auth'
-import { ElNotification } from 'element-plus';
+import { getInfo } from "@/utils/auth";
+import { ElNotification } from "element-plus";
 
 export default {
   components: { NavBar },
@@ -176,64 +189,80 @@ export default {
       lowest: {},
       suggest: {},
       typeList: [],
-      commentContent: '',
-      showCommentIpt: false
+      commentList: [],
+      commentContent: "",
+      showCommentIpt: false,
+      pageNum: 1,
     });
     state.game.id = router.currentRoute.value.query.id;
     onMounted(() => {
-      getTypeList_()
+      getTypeList_();
       getGameById_(state.game.id);
+      getComment_();
     });
 
     const getGameById_ = (id) => {
       getGameById({ id: id }).then((res) => {
         if (res.code) {
           state.game = res.data;
-          let type = state.game.game_type
-          state.typeList.filter(a=>{
-            if(a.id == type) {
-              console.log(a.name)
-              state.game.game_type = a.name
+          let type = state.game.game_type;
+          state.typeList.filter((a) => {
+            if (a.id == type) {
+              console.log(a.name);
+              state.game.game_type = a.name;
             }
-          })
-          state.lowest = res.data.SystemRequirements[0]
-          state.suggest = res.data.SystemRequirements[1]
+          });
+          state.lowest = res.data.SystemRequirements[0];
+          state.suggest = res.data.SystemRequirements[1];
         }
       });
     };
     const getTypeList_ = () => {
-      getTypes().then(res=>{
-        if(res.code) {
-          state.typeList = res.data
+      getTypes().then((res) => {
+        if (res.code) {
+          state.typeList = res.data;
         }
-      })
-    }
-    
+      });
+    };
+
     const buy = (id) => {
-      router.push({path: '/order', query: {ids: id}})
-    }
+      router.push({ path: "/order", query: { ids: id } });
+    };
     const addShoppingCart_ = (id) => {
-      const user_id = JSON.parse(getInfo('vue_steam')).id
-      addShoppingCart({user_id: user_id, game_id: state.game.id}).then(res=>{
-        if(res.code) {
-          ElNotification.success('添加成功')
+      const user_id = JSON.parse(getInfo("vue_steam")).id;
+      addShoppingCart({ user_id: user_id, game_id: state.game.id }).then(
+        (res) => {
+          if (res.code) {
+            ElNotification.success("添加成功");
+          }
         }
-      })
-    }
+      );
+    };
 
     const getComment_ = () => {
-      getComment({})
-    }
+      getComment({
+        game_id: state.game.id,
+        pageSize: 10,
+        pageNum: state.pageNum,
+      }).then((res) => {
+        if (res.code == 1) {
+          state.commentList.push(res.data);
+        }
+      });
+    };
 
     const submitComment = () => {
-
-    }
+      if (state.commentContent == "") {
+        ElNotification.warning("请输入评论内容");
+        return;
+      }
+    };
 
     return {
       ...toRefs(state),
       buy,
       addShoppingCart_,
-      submitComment
+      submitComment,
     };
   },
 };

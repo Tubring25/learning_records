@@ -1,5 +1,5 @@
 const CommentModule = require('../../model').Comment;
-const Game = require('../../model').Game
+const UserModule = require('../../model').User
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -27,7 +27,8 @@ class orderService {
         limit: Number(pageSize),
         offset: Number(pageNum - 1) * Number(pageSize),
         where: {game_id:game_id}})
-      return { code: 1, data: res }
+      // for(let i in count)
+      return { code: 1, data: userArr }
     } catch (err) { 
       console.log(err)
       return { code: 0, msg: JSON.stringify(err) }
