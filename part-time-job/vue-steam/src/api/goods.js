@@ -15,3 +15,27 @@ export function getGameList(data) {
     data: data
   })
 }
+
+export function getComment(data) {
+  return request({
+    url: '/user/game/getComment',
+    method: 'post',
+    data:data
+  })
+}
+
+export function addComment(data) {
+  return request({
+    url: '/user/game/addComment',
+    method:'post',
+    data: data
+  })
+}
+
+export function delComment(data) {
+  return request({
+    url: '/user/game/delCommit',
+    method: 'post',
+    data: data
+  })
+}

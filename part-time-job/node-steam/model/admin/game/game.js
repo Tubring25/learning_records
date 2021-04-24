@@ -16,6 +16,7 @@ module.exports = function (sequelize, DataTypes) {
     sale_price: { type: DataTypes.DECIMAL(10,2), defaultValue: '0.00' }, // 打折价
     is_onshelf: { type: DataTypes.BOOLEAN, defaultValue: false }, // 是否上架
     is_delete: { type: DataTypes.BOOLEAN, defaultValue: false}, // 删除
+    sale_num: {type: DataTypes.INTEGER, defaultValue: 0}, // 销售情况
 	},
 	{
 		freezeTableName: true,

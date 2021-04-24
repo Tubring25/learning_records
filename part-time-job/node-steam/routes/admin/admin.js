@@ -36,6 +36,9 @@ router.post('/game/deleteGameById', async(req,res,next) => {
 router.post('/game/editGame', async(req,res, next) => {
   res.json(await GameService.edit(req.body))
 })
+router.get('/game/bestSaleGame', async(req,res,next) => {
+  res.json(await GameService.getBestSaleGames())
+})
 router.post('/game/getSystemR', async(req, res, next) => {
   res.json(await systemRequirement.getSystemR(req.body))
 })

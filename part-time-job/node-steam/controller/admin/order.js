@@ -1,4 +1,5 @@
 const Order = require('../../model').Order;
+const Game = require('../../model').Game
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -17,8 +18,13 @@ class orderService {
         res = await this.instance.create({user_id: user_id, order_no: ord_no, game_id: game_id, num: num, money: money, is_finished: false})
       } else {
         res = await this.instance.create({user_id: user_id, order_no: ord_no, game_id: game_id, num: num, money: money, is_finished: true})
+        let ids = game_id.split(',')
+        let gameArr = await Game.findAll({where: {id: ids}})
+        for(let i in gameArr) {
+          gameArr[i].sale_num = Number(gameArr[i].sale_num) + 1
+          await Game.update({sale_num: gameArr[i].sale_num}, {where: {id: gameArr[i].id}})
+        }
       }
-      
       return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
@@ -26,6 +32,13 @@ class orderService {
     const { id } = body
     try {
       let res = await this.instance.update({is_finished: 1}, {where: {id: id}})
+      let Order = await this.instance.findAll({where: {id: id}})
+      let ids = Order[0].game_id.split(',')
+      let gameArr = await Game.findAll({where: {id: ids}})
+      for(let i in gameArr) {
+        gameArr[i].sale_num = Number(gameArr[i].sale_num) + 1
+        await Game.update({sale_num: gameArr[i].sale_num}, {where: {id: gameArr[i].id}})
+      }
       return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }

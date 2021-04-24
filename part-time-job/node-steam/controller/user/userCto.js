@@ -81,13 +81,13 @@ class userCto {
         let itemArr = a.game_id.split(',')
         idsArr = [...idsArr, ...itemArr]
       })
-      let gameArr = gameModule.findAndCount({
+      let gameArr = await gameModule.findAndCount({
         where: {id: [Array.from(new Set(idsArr))]},
         include: [
           {model: gameImgModule, where: {game_id: [Array.from(new Set(idsArr))]}, limit: 1}
         ],
       })
-      return gameArr
+      return {code: 1, data: gameArr}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
 

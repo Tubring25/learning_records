@@ -18,3 +18,17 @@ export function getSpecSale() {
     method: 'post',
   })
 }
+
+export function getNewestGames() {
+  return request({
+    url: '/user/game/newestGames',
+    method: 'get'
+  })
+}
+
+export function getBestSaleGame() {
+  return request({
+    url: '/user/game/bestSaleGame',
+    method: 'get'
+  })
+}

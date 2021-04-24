@@ -7,6 +7,7 @@ const RecommendService = require('../../controller/admin/recommendCto');
 const OrderService = require('../../controller/admin/order')
 const ShoppingCartService = require('../../controller/user/shoppingCart')
 const UserService = require('../../controller/user/userCto')
+const CommentService = require('../../controller/user/comments')
 
 // 首页展示
 router.post('/recommend/get', async(req,res,next) => {
@@ -29,6 +30,9 @@ router.post('/game/getGameById', async(req, res, next) => {
 })
 router.get('/game/newestGames', async(req,res,next) => {
   res.json(await GameService.getNewestGames())
+})
+router.get('/game/bestSaleGame', async(req,res,next) => {
+  res.json(await GameService.getBestSaleGames())
 })
 router.post('/order/add', async(req, res, next) => {
   res.json(await OrderService.addOrder(req.body))
@@ -62,6 +66,21 @@ router.post('/user/update', async(req, res, next) => {
 // 获取已购商品
 router.post('/user/goods', async(req, res, next) => {
   res.json(await UserService.hadGodos(req.body))
+})
+// 获取已评论商品
+router.post('/user/comment', async(req, res,next) => {
+  res.json(await CommentService.getCommentByUserId(req.body))
+})
+
+// 评论
+router.post('/game/getComment', async(req, res, next) => {
+  res.json(await CommentService.getCommentList(req.body))
+})
+router.post('/game/addComment', async(req, res, next) => {
+  res.json(await CommentService.addComment(req.body))
+})
+router.post('/game/delCommit', async(req, res, next) => {
+  res.json(await CommentService.delComment(req.body))
 })
 
 

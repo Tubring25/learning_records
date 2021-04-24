@@ -5,7 +5,7 @@
       <el-button type="info" size="mini" @click="goEdit">Edit</el-button>
     </div>
 
-    <div class="user-profile">
+    <div class="user-profile p-6">
       <div class="box-center">
         <img v-if="userInfo.avatar" :src="'http://localhost:3000/' + userInfo.avatar" alt="">
         <img v-else src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu3LGEs4AnOeHUs08Q310kkFXQ63puAVPZyg&usqp=CAU" alt="">
@@ -17,7 +17,7 @@
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><span>Description</span></div>
+        <div class="user-bio-section-header"><span class=" text-gray-100">Description</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
             {{userInfo.description}}
@@ -26,7 +26,7 @@
       </div>
 
       <div class="user-skills user-bio-section">
-        <div class="user-bio-section-header"><span>Contact</span></div>
+        <div class="user-bio-section-header"><span class=" text-gray-100">Contact</span></div>
         <div class="user-bio-section-body">
           <div class="progress-item">
             <span>Phone:{{userInfo.phone}}</span>

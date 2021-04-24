@@ -151,7 +151,25 @@ class gameCto {
   }
   async getNewestGames() { 
     try {
-      let res = await gameModule.findAll({order: [['created_at', 'DESC']], limit: 10})
+      let res = await gameModule.findAll({
+        order: [['created_at', 'DESC']], 
+        limit: 10,
+        include: [
+          {model: GameImg, limit: 1}
+        ]
+      })
+      return {code: 1, data: res}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+  }
+  async getBestSaleGames() {
+    try {
+      let res = await gameModule.findAll({
+        order: [['sale_num', 'DESC']], 
+        limit: 10,
+        include: [
+          {model: GameImg, limit: 1}
+        ]
+      })
       return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }

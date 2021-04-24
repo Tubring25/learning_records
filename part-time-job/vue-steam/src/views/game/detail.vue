@@ -32,7 +32,9 @@
         </div>
       </div>
     </div>
-    <div class="w-4/5 pb-20 mx-auto flex flex-row justify-between">
+
+    <!-- 配置 -->
+    <div class="w-4/5 pb-10 mx-auto flex flex-row justify-between">
       <div class=" w-full flex flex-row justify-between">
         <div class="h-full p-6 rounded-lg border-2 border-gray-300 flex flex-col relative overflow-hidden" style="width: 47%">
           <h2 class="tracking-widest title-font mb-1 font-medium text-gray-100 text-lg">最低配置</h2>
@@ -137,13 +139,27 @@
       </div>
     </div>
 
+    <!-- 评论 -->
+    <div class="w-4/5 mx-auto my-6 pb-10 lg:mb-0">
+      <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-100">精选评论</h1>
+      <div class="h-1 w-20 bg-white rounded mb-5"></div>
+
+      <div class="input-box w-full" v-if="showCommentIpt">
+        <textarea id="message" name="message" v-model="commentContent"
+          class="w-full bg-gray-50 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
+        <button @click="submitComment"
+          class="text-white bg-indigo-500 border-0 py-2 px-4 focus:outline-none hover:bg-indigo-600 rounded text-base">Submit</button>
+      </div>
+    </div>
+
+
     
   </div>
 </template>
 
 <script>
 import NavBar from "@/components/NavBar.vue";
-import { getGameById } from "@/api/goods";
+import { getGameById, getComment, addComment,delComment } from "@/api/goods";
 import { addShoppingCart } from '@/api/shoppingcart'
 import { getTypes } from "@/api/home"
 import { onMounted, reactive, toRefs } from "vue";
@@ -160,6 +176,8 @@ export default {
       lowest: {},
       suggest: {},
       typeList: [],
+      commentContent: '',
+      showCommentIpt: false
     });
     state.game.id = router.currentRoute.value.query.id;
     onMounted(() => {
@@ -203,10 +221,19 @@ export default {
       })
     }
 
+    const getComment_ = () => {
+      getComment({})
+    }
+
+    const submitComment = () => {
+
+    }
+
     return {
       ...toRefs(state),
       buy,
-      addShoppingCart_
+      addShoppingCart_,
+      submitComment
     };
   },
 };

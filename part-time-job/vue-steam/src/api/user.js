@@ -32,4 +32,10 @@ export function updateUserInfo(data) {
   })
 }
 
-// export function
+export function getHadGame(data) {
+  return request({
+    url: '/user/user/goods',
+    method: 'post',
+    data: data
+  })
+}

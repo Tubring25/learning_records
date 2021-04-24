@@ -11,6 +11,8 @@ var SpecialSale = sequelize.import('./admin/recommend/specialSale.js')
 var Recommend = sequelize.import('./admin/recommend/recommend.js')
 var Order = sequelize.import('./user/order/order.js')
 var ShopCart = sequelize.import('./user/shopcart/shopcat.js')
+var Comment = sequelize.import('./user/comment/comment.js')
+
 // 建立模型之间的关系
 Game.hasMany(SystemRequirement)
 SystemRequirement.belongsTo(Game)
@@ -30,3 +32,4 @@ exports.SpecialSale = SpecialSale
 exports.Recommend = Recommend
 exports.ShopCart = ShopCart
 exports.Order = Order
+exports.Comment = Comment
