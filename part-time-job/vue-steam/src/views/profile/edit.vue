@@ -9,22 +9,22 @@
           <div class="flex flex-wrap -m-2">
             <div class="p-2 w-1/3">
               <div class="relative">
-                <label for="name" class="leading-7 text-sm text-gray-600">姓名</label>
-                <input type="text" id="name" name="name"
+                <label for="name" class="leading-7 text-sm text-gray-600">用户名</label>
+                <input type="text" id="name" name="name" v-model="userInfo.username"
                   class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
               </div>
             </div>
             <div class="p-2 w-1/3">
               <div class="relative">
                 <label for="email" class="leading-7 text-sm text-gray-600">电话</label>
-                <input type="email" id="email" name="email"
+                <input type="number" id="email" name="email" v-model="userInfo.phone"
                   class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
               </div>
             </div>
             <div class="p-2 w-1/3">
               <div class="relative">
                 <label for="email" class="leading-7 text-sm text-gray-600">邮箱</label>
-                <input type="email" id="email" name="email"
+                <input type="email" id="email" name="email" v-model="userInfo.email"
                   class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
               </div>
             </div>
@@ -33,21 +33,24 @@
                 <label for="message" class="leading-7 text-sm text-gray-600">头像</label>
                 <el-upload class="avatar-uploader" action="http://localhost:3000/admin/game/upload"
                   :show-file-list="false" :on-success="handleAvatarSuccess" :before-upload="beforeAvatarUpload">
-                  <img v-if="imageUrl" :src="imageUrl" class="avatar">
+                  <img v-if="userInfo.avatar" :src="'http://localhost:3000/' + userInfo.avatar" class="avatar">
                   <i v-else class="el-icon-plus avatar-uploader-icon rounded border border-gray-300"></i>
                 </el-upload>
               </div>
             </div>
             <div class="p-2 w-4/5">
               <div class="relative">
-                <label for="message" class="leading-7 text-sm text-gray-600">Message</label>
-                <textarea id="message" name="message"
+                <label for="message" class="leading-7 text-sm text-gray-600">个人简介</label>
+                <textarea id="message" name="message" v-model="userInfo.description"
                   class="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
               </div>
             </div>
-            <div class="p-2 w-full">
-              <button
-                class="flex mx-auto text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Button</button>
+            <div class="p-2 w-1/2 mx-auto flex-row justify-around">
+              <button @click="cancleBtn"
+                class="text-gray-900 bg-gray-200 border-0 py-2 px-8 mr-2 focus:outline-none hover:bg-gray-50 rounded text-lg">Cancle</button>
+              <button @click="updataInfo"
+                class="text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Submit</button>
+              
             </div>
           </div>
         </div>
@@ -57,15 +60,24 @@
 </template>
 
 <script>
+import { getInfo, setInfo } from '@/utils/auth'
 import { ref } from "vue";
 import { ElNotification } from "element-plus";
+import { updateUserInfo } from '@/api/user'
+import { isEmail, validatePhoneNumber } from '@/utils/filter'
+import { useRouter } from 'vue-router'
+
 export default {
   name: "edit",
   setup(props) {
-    const imgUrl = ref("");
+    const router = useRouter()
+    const userInfo = ref(JSON.parse(getInfo('vue_steam')))
+
     const handleAvatarSuccess = (res, file) => {
       console.log(res);
-      imgUrl.value = URL.createObjectURL(file.raw);
+      if(res.code) {
+        userInfo.value.avatar = res.path
+      }
     };
     const beforeAvatarUpload = (file) => {
       const isJPG = file.type === "image/jpeg";
@@ -80,15 +92,41 @@ export default {
       return isJPG && isLt2M;
     };
 
+    const updataInfo = () => {
+      if(!userInfo.value.username) {
+        ElNotification.warning('请输入用户名')
+        return
+      }
+      if(!userInfo.value.email) {
+        ElNotification.warning('请输入邮箱')
+        return
+      }
+      updateUserInfo(userInfo.value).then(res=>{
+        if(res.code) {
+          setInfo('vue_steam', JSON.stringify(userInfo.value))
+          router.replace('/profile')
+        }
+      })
+    }
+    const cancleBtn = () => {
+      router.replace('/profile')
+    }
+
     return {
-      imgUrl,
       handleAvatarSuccess,
       beforeAvatarUpload,
+      userInfo,
+      updataInfo,
+      cancleBtn
     };
   },
 };
 </script>
 <style lang="scss" scoped>
+.avatar{
+  width: 130px !important;
+  height: 130px !important;
+}
 .avatar-uploader .el-upload {
   border: 1px dashed #d9d9d9;
   border-radius: 6px;

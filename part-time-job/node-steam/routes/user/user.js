@@ -6,6 +6,7 @@ const GameService = require('../../controller/admin/gameCto');
 const RecommendService = require('../../controller/admin/recommendCto');
 const OrderService = require('../../controller/admin/order')
 const ShoppingCartService = require('../../controller/user/shoppingCart')
+const UserService = require('../../controller/user/userCto')
 
 // 首页展示
 router.post('/recommend/get', async(req,res,next) => {
@@ -52,6 +53,15 @@ router.post('/cart/get', async(req, res,next) => {
 })
 router.post('/cart/clear', async(req, res,next) => {
   res.json(await ShoppingCartService.delShoppingCart(req.body))
+})
+
+// 修改用户信息
+router.post('/user/update', async(req, res, next) => {
+  res.json(await UserService.updateInfo(req.body))
+})
+// 获取已购商品
+router.post('/user/goods', async(req, res, next) => {
+  res.json(await UserService.hadGodos(req.body))
 })
 
 

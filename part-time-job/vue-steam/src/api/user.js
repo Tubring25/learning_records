@@ -23,3 +23,13 @@ export function getUserInfo (data) {
     data: data
   })
 }
+
+export function updateUserInfo(data) {
+  return request({
+    url: '/user/user/update',
+    method: 'post',
+    data: data
+  })
+}
+
+// export function

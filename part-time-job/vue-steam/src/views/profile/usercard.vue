@@ -1,15 +1,17 @@
 <template>
   <el-card style="margin-bottom:20px;">
-    <div slot="header" class="clearfix">
+    <div slot="header" class="clearfix flex flex-row justify-between">
       <span>About me</span>
+      <el-button type="info" size="mini" @click="goEdit">Edit</el-button>
     </div>
 
     <div class="user-profile">
       <div class="box-center">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu3LGEs4AnOeHUs08Q310kkFXQ63puAVPZyg&usqp=CAU" alt="">
+        <img v-if="userInfo.avatar" :src="'http://localhost:3000/' + userInfo.avatar" alt="">
+        <img v-else src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQu3LGEs4AnOeHUs08Q310kkFXQ63puAVPZyg&usqp=CAU" alt="">
       </div>
       <div class="box-center">
-        <div class="user-name text-center">{{ user.name }}</div>
+        <div class="user-name text-center">{{userInfo.username}}</div>
       </div>
     </div>
 
@@ -18,7 +20,7 @@
         <div class="user-bio-section-header"><span>Description</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            JS in Computer Science from the University of Technology
+            {{userInfo.description}}
           </div>
         </div>
       </div>
@@ -27,10 +29,10 @@
         <div class="user-bio-section-header"><span>Contact</span></div>
         <div class="user-bio-section-body">
           <div class="progress-item">
-            <span>Phone:</span>
+            <span>Phone:{{userInfo.phone}}</span>
           </div>
           <div class="progress-item">
-            <span>Email: </span>
+            <span>Email:{{userInfo.email}} </span>
           </div>
         </div>
       </div>
@@ -40,14 +42,20 @@
 
 <script>
 import { getInfo } from '@/utils/auth'
+import { useRouter } from 'vue-router'
 
 export default {
   setup(props) {
-    const userInfo = JSON.parse(getInfo('vue_steam')).id
+    const userInfo = JSON.parse(getInfo('vue_steam'))
+    const router = useRouter()
 
+    const goEdit = () => {
+      router.push('/profile/edit')
+    }
 
     return {
-      userInfo
+      userInfo,
+      goEdit
     }
   }
 }

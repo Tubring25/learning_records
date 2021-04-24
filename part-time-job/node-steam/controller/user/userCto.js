@@ -1,4 +1,7 @@
 const userModel = require('../../model').User;
+const orderModule = require('../../model').Order
+const gameModule = require('../../model').Game
+const gameImgModule = require('../../model').GameImg
 const { Op } = require('sequelize');
 const { createToken, verifyToken } = require('../../utils/index')
 
@@ -67,6 +70,24 @@ class userCto {
     try {
       let res = await this.instance.update({username: username, phone: phone, email: email, description: description, avatar: avatar}, {where: {id: id}})
       return {code: 1, data: res}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+  }
+  async hadGodos(body) {
+    let { user_id } = body
+    try {
+      let resArr = await orderModule.findAll({where: {user_id: user_id}})
+      let idsArr = []
+      resArr.map(a=>{
+        let itemArr = a.game_id.split(',')
+        idsArr = [...idsArr, ...itemArr]
+      })
+      let gameArr = gameModule.findAndCount({
+        where: {id: [Array.from(new Set(idsArr))]},
+        include: [
+          {model: gameImgModule, where: {game_id: [Array.from(new Set(idsArr))]}, limit: 1}
+        ],
+      })
+      return gameArr
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
 
