@@ -68,7 +68,7 @@ export default {
       })
     },
     handle(id) {
-      this.$router.push({path:'/order/detail', query: {id: id}})
+      this.$router.push({path:'/user/detail', query: {id: id}})
     },
     handleCurrentChange(val) {
       this.pageNum = val

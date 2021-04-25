@@ -90,9 +90,16 @@ class userCto {
       return {code: 1, data: gameArr}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
-  async getUserList() {
+  async getUserList(body) {
     try {
-      let user = await userModel.findAndCountAll({attributes: ['id', 'username', 'phone', 'email', 'description', 'avatar', 'created_at']})
+      let user
+      if(body.id) {
+        let {id} = body
+        user = await userModel.findAndCountAll({attributes: ['id', 'username', 'phone', 'email', 'description', 'avatar', 'created_at'], where: {id: id}})
+      } else {
+        user = await userModel.findAndCountAll({attributes: ['id', 'username', 'phone', 'email', 'description', 'avatar', 'created_at']})
+      }
+      
       let res = []
       for (let i =0; i<user.count; i++) {
         let order = await orderModule.findAndCountAll({where: {user_id: user.rows[i].id}})
@@ -107,7 +114,9 @@ class userCto {
         res.push({baseInfo: user.rows[i], orderInfo: {num: buyNum, money: buyMoney}})
       }
       return {code: 1, data: res}
-    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+    }catch(err) { 
+      console.log(err)
+      return {code: 0, msg: JSON.stringify(err)} }
   }
 
 }

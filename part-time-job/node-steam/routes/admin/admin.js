@@ -87,6 +87,9 @@ router.post('/order/update', async(req, res, next) => {
 router.post('/user/get', async(req, res, next) => {
   res.json(await UserService.getUserList(req.body))
 })
+router.post('/user/hadGame', async(req, res, next) => {
+  res.json(await UserService.hadGodos(req.body))
+})
 
 // 获取管理管理员列表
 router.post('/admin/list', async(req,res, next) => {

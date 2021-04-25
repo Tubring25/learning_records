@@ -23,3 +23,12 @@ export function getUserList(data) {
     data: data
   })
 }
+
+
+export function getUserHadGame(data) {
+  return request({
+    url: '/admin/user/hadGame',
+    method: 'post',
+    data: data
+  })
+}
