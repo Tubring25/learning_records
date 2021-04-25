@@ -45,11 +45,38 @@ class adminCto {
       return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
-  async addAdmin() {
-
+  async addAdmin(body) {
+    const { username, password, phone, email, avatar, permission } = body
+    try {
+      let hasOne = await this.instance.findAll({where:{username: username}})
+      if(hasOne) {
+        return {code: 0, msg: '用户名已存在'}
+      }
+      let res = await this.instance.create({username: username, password: password, phone: phone, email: email, avatar: avatar, permission: permission})
+      return {code: 1, data: res}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
   async updateAdmin() {
-    
+    const { id, username, password, phone, email, avatar, permission } = body
+    try {
+      let hasOne = await this.instance.findAll({where:{id: id}})
+      if(hasOne) {
+        return {code: 0, msg: '用户不存在'}
+      }
+      let res = await this.instance.update({username: username, password: password, phone: phone, email: email, avatar: avatar, permission: permission}, {where: {id: id}})
+      return {code: 1, data: res}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+  }
+  async delAdmin(body) {
+    const {id} = body
+    try {
+      let hasOne = await this.instance.findAll({where:{id: id}})
+      if(hasOne) {
+        return {code: 0, msg: '用户不存在'}
+      }
+      let res = await this.instance.destroy({where: {id: id}})
+      return {code: 1, data: res}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
 }
 

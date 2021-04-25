@@ -15,3 +15,19 @@ export function updateAdmin(data) {
     data: data
   })
 }
+
+export function getAdminList(data) {
+  return request({
+    url: '/admin/admin/list',
+    method: 'post',
+    data: data
+  })
+}
+
+export function delAdmin(data) {
+  return request({
+    url: '/admin/admin/del',
+    method: 'post',
+    data: data
+  })
+}

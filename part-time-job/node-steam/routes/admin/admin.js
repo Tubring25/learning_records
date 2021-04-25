@@ -101,6 +101,9 @@ router.post('/admin/add', async(req, res, next) =>{
 router.post('/admin/update', async(req, res, next) => {
   res.json(await adminService.updateAdmin(req.body))
 })
+router.post('/admin/del', async(req, res, next) => {
+  res.json(await adminService.delAdmin(req.body))
+})
 
 
 module.exports = router;

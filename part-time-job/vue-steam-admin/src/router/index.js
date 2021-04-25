@@ -107,6 +107,18 @@ export const constantRoutes = [
       hidden: true
     }
   ]},
+  {
+    path: '/permission',
+    component: Layout,
+    redirect: '/permission/index',
+    meta: { title: '权限管理'},
+    children: [{
+      path: 'index',
+      name: 'permission',
+      component: () => import('@/views/permission/index'),
+      meta: { title: '权限管理'}
+    },
+  ]},
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
