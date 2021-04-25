@@ -69,6 +69,44 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/order',
+    component: Layout,
+    redirect: '/order/index',
+    meta: { title: '订单管理'},
+    children: [{
+      path: 'index',
+      name: 'Order',
+      component: () => import('@/views/order/index'),
+      meta: { title: '订单列表'}
+    },
+    {
+      path: 'detail',
+      name: 'Detail',
+      component: () => import('@/views/order/orderDetail'),
+      meta: { title: '订单详情'},
+      hidden: true
+    }
+  ]},
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/index',
+    meta: { title: '订单管理'},
+    children: [{
+      path: 'index',
+      name: 'user',
+      component: () => import('@/views/user/index'),
+      meta: { title: '用户列表'}
+    },
+    {
+      path: 'detail',
+      name: 'Detail',
+      component: () => import('@/views/user/userDetail'),
+      meta: { title: '用户详情'},
+      hidden: true
+    }
+  ]},
 
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }

@@ -15,7 +15,7 @@
                 <had-game></had-game>
               </el-tab-pane>
               <el-tab-pane label="发表评论" name="comments">
-                发表评论
+                <comment></comment>
               </el-tab-pane>
             </el-tabs>
           </el-card>
@@ -31,9 +31,10 @@ import NavBar from "@/components/NavBar.vue";
 import { reactive,ref } from 'vue'
 import Usercard from './usercard.vue';
 import HadGame from './hadGame'
+import Comment from './comment'
 export default {
   name: 'Profile',
-  components: {NavBar, Usercard, HadGame},
+  components: {NavBar, Usercard, HadGame, Comment, Comment},
   setup() {
     const activeTab = ref('goods')
 

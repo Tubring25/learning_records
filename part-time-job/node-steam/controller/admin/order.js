@@ -1,5 +1,6 @@
 const Order = require('../../model').Order;
 const Game = require('../../model').Game
+const GameImg = require('../../model').GameImg
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -55,7 +56,7 @@ class orderService {
       let res = await this.instance.findAndCountAll({
         limit: Number(pageSize),
         offset: Number(pageNum - 1) * Number(pageSize),
-        where: {ord_no: ord_no,user_id:user_id}})
+        where: {order_no: {[Op.like]: `%${ord_no}%`},user_id:{[Op.like]: `%${user_id}%`}}})
       return { code: 1, data: res }
     } catch (err) { 
       console.log(err)
@@ -71,8 +72,15 @@ class orderService {
       let res = await this.instance.findAll({
         where: { id: id }, 
       })
+      
       if (res.length > 0) {
-        return { code: 1, data: res[0] }
+        let ids = res[0].game_id.split(',')
+        let gameArr = await Game.findAll({where: {id: ids},include: [
+          {model: GameImg, where: {game_id: ids}}
+        ]})
+        let postObj = {id: res[0].id,ord_no: res[0].order_no, money: res[0].money, is_finished: res[0].is_finished, created_at: res[0].created_at, updated_at: res[0].updated_at, user_id: res[0].user_id, game: gameArr}
+        postObj.test = 111
+        return { code: 1, data: postObj }
       } else {
         return { code: 0, msg: '无此订单' }
       }

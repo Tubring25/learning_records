@@ -6,7 +6,8 @@ const GameService = require('../../controller/admin/gameCto');
 const systemRequirement = require('../../controller/admin/systemRequireCto')
 const RecommendService = require('../../controller/admin/recommendCto');
 const OrderService = require('../../controller/admin/order')
-
+const UserService = require('../../controller/user/userCto')
+const adminService = require('../../controller/admin/adminCto');
 
 router.get('/getType', async (req, res, next) => {
   res.json(await GameTypeService.getGameTypeList())
@@ -81,5 +82,11 @@ router.post('/order/del', async(req, res,next) => {
 router.post('/order/update', async(req, res, next) => {
   res.json(await OrderService.updateOrder(req.body))
 })
+
+// 获取用户列表
+router.post('/user/get', async(req, res, next) => {
+  res.json(await UserService.getUserList(req.body))
+})
+
 
 module.exports = router;

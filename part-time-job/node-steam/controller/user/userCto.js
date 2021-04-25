@@ -82,12 +82,31 @@ class userCto {
         idsArr = [...idsArr, ...itemArr]
       })
       let gameArr = await gameModule.findAndCount({
-        where: {id: [Array.from(new Set(idsArr))]},
+        where: {id: idsArr},
         include: [
-          {model: gameImgModule, where: {game_id: [Array.from(new Set(idsArr))]}, limit: 1}
+          {model: gameImgModule, where: {game_id: idsArr}, limit:1}
         ],
       })
       return {code: 1, data: gameArr}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+  }
+  async getUserList() {
+    try {
+      let user = await userModel.findAndCountAll({attributes: ['id', 'username', 'phone', 'email', 'description', 'avatar', 'created_at']})
+      let res = []
+      for (let i =0; i<user.count; i++) {
+        let order = await orderModule.findAndCountAll({where: {user_id: user.rows[i].id}})
+        let buyNum = order.count
+        let buyMoney = 0
+        if(order.count>0) {
+          order.rows.map(a=>{
+            buyMoney+=Number(a.money)
+          })
+        }
+        delete user.rows[i].password
+        res.push({baseInfo: user.rows[i], orderInfo: {num: buyNum, money: buyMoney}})
+      }
+      return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
 

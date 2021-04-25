@@ -2,7 +2,7 @@
   <div class="container bg-gray-900">
     <nav-bar></nav-bar>
 
-    <div class="content">
+    <div class="content" style="position:relative">
       <div class="w-4/5 mx-auto my-6 lg:mb-0">
         <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-100">精选和推荐</h1>
         <div class="h-1 w-20 bg-white rounded"></div>
@@ -90,6 +90,8 @@
           </div>
         </div>
       </div>
+
+      <router-link to="/list" class="right-6 top-20 fixed"><el-button type="danger">查看更多</el-button></router-link>
     </div>
   </div>
 </template>

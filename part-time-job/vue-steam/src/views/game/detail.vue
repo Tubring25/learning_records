@@ -146,7 +146,7 @@
       <h1 class="sm:text-3xl text-2xl font-medium title-font mb-2 text-gray-100">精选评论</h1>
       <div class="h-1 w-20 bg-white rounded mb-5"></div>
 
-      <div class="input-box w-full" v-if="showCommentIpt">
+      <div class="input-box w-full">
         <textarea id="message" name="message" v-model="commentContent"
           class="w-full bg-gray-50 bg-opacity-50 rounded border border-gray-300 focus:border-indigo-500 focus:bg-white focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
         <button @click="submitComment"
@@ -155,12 +155,12 @@
 
       <section class="text-gray-600 body-font">
         <div class="p-2 w-full">
-          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg">
+          <div class="h-full flex items-center border-gray-200 border p-4 rounded-lg" v-for="(item, index) in commentList" :key="index">
             <img alt="team" class="w-16 h-16 bg-gray-100 object-cover object-center flex-shrink-0 rounded-full mr-4"
-              src="https://dummyimage.com/80x80">
+              :src="'http://localhost:3000/'+item.avatar">
             <div class="flex-grow">
-              <h2 class="text-gray-900 title-font font-medium">Holden Caulfield</h2>
-              <p class="text-gray-500">UI Designer</p>
+              <h2 class="text-gray-200 title-font font-medium">{{item.username}}</h2>
+              <p class="text-gray-500 truncate w-full">{{item.content}}</p>
             </div>
           </div>
         </div>
@@ -184,6 +184,7 @@ export default {
   components: { NavBar },
   setup() {
     const router = useRouter();
+    const userinfo = JSON.parse(getInfo("vue_steam"))
     let state = reactive({
       game: {},
       lowest: {},
@@ -229,8 +230,11 @@ export default {
       router.push({ path: "/order", query: { ids: id } });
     };
     const addShoppingCart_ = (id) => {
-      const user_id = JSON.parse(getInfo("vue_steam")).id;
-      addShoppingCart({ user_id: user_id, game_id: state.game.id }).then(
+      if(!userinfo) {
+        ElNotification.error('请先登录')
+        router.replace('/login')
+      }
+      addShoppingCart({ user_id: userinfo.id, game_id: state.game.id }).then(
         (res) => {
           if (res.code) {
             ElNotification.success("添加成功");
@@ -242,20 +246,30 @@ export default {
     const getComment_ = () => {
       getComment({
         game_id: state.game.id,
-        pageSize: 10,
+        pageSize: 50,
         pageNum: state.pageNum,
       }).then((res) => {
         if (res.code == 1) {
-          state.commentList.push(res.data);
+          state.commentList = res.data.rows;
         }
       });
     };
 
     const submitComment = () => {
+      if(!userinfo) {
+        ElNotification.error('请先登录')
+        router.replace('/login')
+      }
       if (state.commentContent == "") {
         ElNotification.warning("请输入评论内容");
         return;
       }
+      addComment({user_id: userinfo.id, game_id: state.game.id, content: state.commentContent, buy_from: 1}).then(res=>{
+        if(res.code) {
+          state.commentContent = ''
+          getComment_()
+        }
+      })
     };
 
     return {

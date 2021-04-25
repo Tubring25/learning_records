@@ -1,5 +1,7 @@
 const CommentModule = require('../../model').Comment;
 const UserModule = require('../../model').User
+const GameModule = require('../../model').Game
+const GameImg = require('../../model').GameImg
 const Sequelize = require('sequelize')
 const Op = Sequelize.Op
 
@@ -27,8 +29,17 @@ class orderService {
         limit: Number(pageSize),
         offset: Number(pageNum - 1) * Number(pageSize),
         where: {game_id:game_id}})
-      // for(let i in count)
-      return { code: 1, data: userArr }
+      let returnRes = []
+      let userIds = res.rows.map(a=>a.user_id)
+      let userArr = await UserModule.findAll({where: {id: userIds}})
+      for(let i in res.rows) {
+        for(let j in userArr) {
+          if(res.rows[i].user_id == userArr[j].id) {
+            returnRes.push({username: userArr[j].username, avatar: userArr[j].avatar, content: res.rows[i].content})
+          }
+        }
+      }
+      return { code: 1, data: {count: res.count, rows: returnRes} }
     } catch (err) { 
       console.log(err)
       return { code: 0, msg: JSON.stringify(err) }
@@ -40,7 +51,23 @@ class orderService {
       let res = await this.instance.findAll({
         where: { user_id: user_id }, 
       })
-      return { code: 1, data: res}
+      let gameIds = res.map(a=>a.game_id)
+      let gameArr = await GameModule.findAll(
+        {where: {id: gameIds},
+        include: [
+          {model: GameImg, where: {game_id: gameIds}}
+        ]})
+      
+      let returnRes = []
+      for(let i in res) {
+        for(let j in gameArr) {
+          if(res[i].game_id == gameArr[j].id) {
+            returnRes.push({game_name: gameArr[j].name, img: gameArr[j].GameImgs[0].path, content: res[i].content})
+          }
+        }
+      }
+
+      return { code: 1, data: returnRes}
     } catch (err) {
       console.log('error',err)
       return { code: 0, msg: JSON.stringify(err) }

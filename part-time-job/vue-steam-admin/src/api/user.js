@@ -15,3 +15,11 @@ export function getInfo(token) {
     data: {token: token}
   })
 }
+
+export function getUserList(data) {
+  return request({
+    url: '/admin/user/get',
+    method: 'post',
+    data: data
+  })
+}

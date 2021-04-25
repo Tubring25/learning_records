@@ -88,7 +88,8 @@ export default {
         })
       } else {
         let newIds = ids.filter(item=>chooseIds.indexOf(item)==-1)
-        updateShoppingCart({user_id: user_id, game_ids: newIds.toString()}).then(res=>{
+        let postids = newIds == undefined? '' : newIds.toString()
+        updateShoppingCart({user_id: user_id, game_ids: postids}).then(res=>{
           if(res.code) {
             router.push({path: '/order', query: {ids: chooseIds}})
           }

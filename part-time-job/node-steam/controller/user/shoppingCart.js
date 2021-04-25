@@ -38,7 +38,8 @@ class shoppingCartService {
   async delShoppingCart (body) {
     const { id } = body
     try {
-      await this.instance.destroy({where: { id: id }})
+      await this.instance.destroy({where: { user_id: id }})
+      return {code:1, data: 'success'}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
   async getShoppingCartByUserId(data) {

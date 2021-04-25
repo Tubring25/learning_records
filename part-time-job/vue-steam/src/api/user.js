@@ -39,3 +39,11 @@ export function getHadGame(data) {
     data: data
   })
 }
+
+export function getCommentByUserId(data) {
+  return request({
+    url: '/user/user/comment',
+    method: 'post',
+    data: data
+  })
+}
