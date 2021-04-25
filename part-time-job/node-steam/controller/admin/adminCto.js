@@ -39,6 +39,18 @@ class adminCto {
 			return {code: 3, data: res}
 		}
 	}
+  async getAdminList () {
+    try {
+      let res = this.instance.findAll()
+      return {code: 1, data: res}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+  }
+  async addAdmin() {
+
+  }
+  async updateAdmin() {
+    
+  }
 }
 
 module.exports = new adminCto()

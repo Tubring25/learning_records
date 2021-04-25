@@ -88,5 +88,16 @@ router.post('/user/get', async(req, res, next) => {
   res.json(await UserService.getUserList(req.body))
 })
 
+// 获取管理管理员列表
+router.post('/admin/list', async(req,res, next) => {
+  res.json(await adminService.getAdminList(req.body))
+})
+router.post('/admin/add', async(req, res, next) =>{
+  res.json(await adminService.addAdmin(req.body))
+})
+router.post('/admin/update', async(req, res, next) => {
+  res.json(await adminService.updateAdmin(req.body))
+})
+
 
 module.exports = router;
