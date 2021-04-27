@@ -52,7 +52,7 @@ class gameTypeService {
     let {id} = data
     if(!id) {return {code: 0, msg: '缺少id'}}
     try {
-      this.instance.deleteItem({where:{id:id}})
+      this.instance.destroy({where:{id:id}})
       return {code: 1, data: '删除成功'}
     } catch(err) { return {code: 0, msg: err.toString()}}
   }

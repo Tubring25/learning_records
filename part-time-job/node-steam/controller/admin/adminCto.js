@@ -41,7 +41,7 @@ class adminCto {
 	}
   async getAdminList () {
     try {
-      let res = this.instance.findAll()
+      let res = await this.instance.findAll()
       return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
@@ -49,18 +49,18 @@ class adminCto {
     const { username, password, phone, email, avatar, permission } = body
     try {
       let hasOne = await this.instance.findAll({where:{username: username}})
-      if(hasOne) {
+      if(hasOne.length>0) {
         return {code: 0, msg: '用户名已存在'}
       }
       let res = await this.instance.create({username: username, password: password, phone: phone, email: email, avatar: avatar, permission: permission})
       return {code: 1, data: res}
     }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
   }
-  async updateAdmin() {
+  async updateAdmin(body) {
     const { id, username, password, phone, email, avatar, permission } = body
     try {
       let hasOne = await this.instance.findAll({where:{id: id}})
-      if(hasOne) {
+      if(!hasOne) {
         return {code: 0, msg: '用户不存在'}
       }
       let res = await this.instance.update({username: username, password: password, phone: phone, email: email, avatar: avatar, permission: permission}, {where: {id: id}})

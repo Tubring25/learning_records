@@ -14,7 +14,6 @@ module.exports = function (sequelize, DataTypes) {
 		phone: DataTypes.STRING(20),
 		email: DataTypes.STRING(30),
 		permission: DataTypes.INTEGER,
-		create_time: DataTypes.DATE,
 		avatar: DataTypes.STRING
 	},
 	{

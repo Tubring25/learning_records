@@ -19,7 +19,7 @@
         <template slot-scope="{row}">
           <el-button type="info" @click="handle(2,row.id)" size="mini">查看详情</el-button>
           <el-button type="primary" @click="handle(0,row.id)" size="mini">编辑</el-button>
-          <el-button type="danger" @click="handle(1,row.id)" size="mini">删除</el-button>
+          <el-button v-if="role==1" type="danger" @click="handle(1,row.id)" size="mini">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -33,6 +33,7 @@
 <script>
 import { getGoodsType } from '@/api/goodsType'
 import { getGames, deleteItem } from '@/api/goods'
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -47,6 +48,9 @@ export default {
     this.getGoodsType_()
     this.getGameList_()
   },
+  computed: {
+    ...mapGetters(["role"]),
+  },
   methods: {
     getGoodsType_() {
       getGoodsType().then(res=> {
@@ -56,7 +60,7 @@ export default {
       })
     },
     getGameList_() {
-      getGames({title: this.searchText, pageNum: this.pageNum, pageSize: 10}).then(res=>{
+      getGames({title: this.searchText,type: '', pageNum: this.pageNum, pageSize: 10}).then(res=>{
         if(res.code) {
           setTimeout(() => {
             for (let i in res.data.rows) {

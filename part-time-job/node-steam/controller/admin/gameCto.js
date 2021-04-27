@@ -46,7 +46,7 @@ class gameCto {
         let res = await this.instance.findAndCountAll({
           limit: Number(pageSize),
           offset: Number(pageNum - 1) * Number(pageSize),
-          where: {name: {[Op.like]: `%${title}%`}, is_sale: 1, is_onshelf: 1, game_type: {[Op.like]: `%${type}%`}},
+          where: {name: {[Op.like]: `%${title}%`}, is_sale: 1, is_onshelf: 1},
           distinct: true,
           include: [{
             model: GameImg
@@ -56,7 +56,7 @@ class gameCto {
         let res = await this.instance.findAndCountAll({
           limit: Number(pageSize),
           offset: Number(pageNum - 1) * Number(pageSize),
-          where: {name: {[Op.like]: `%${title}%`}, is_onshelf: 1, game_type: {[Op.like]: `%${type}%`}},
+          where: {name: {[Op.like]: `%${title}%`}, is_onshelf: 1},
           distinct: true,
           include: [{
             model: GameImg
@@ -66,7 +66,7 @@ class gameCto {
         let res = await this.instance.findAndCountAll({
           limit: Number(pageSize),
           offset: Number(pageNum - 1) * Number(pageSize),
-          where: {name: {[Op.like]: `%${title}%`, game_type: {[Op.like]: `%${type}%`}}},
+          where: {name: {[Op.like]: `%${title}%`, }},
           distinct: true,
           include: [{
             model: GameImg

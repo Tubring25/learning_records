@@ -8,6 +8,7 @@ const RecommendService = require('../../controller/admin/recommendCto');
 const OrderService = require('../../controller/admin/order')
 const UserService = require('../../controller/user/userCto')
 const adminService = require('../../controller/admin/adminCto');
+const HomeService = require('../../controller/admin/home')
 
 router.get('/getType', async (req, res, next) => {
   res.json(await GameTypeService.getGameTypeList())
@@ -103,6 +104,13 @@ router.post('/admin/update', async(req, res, next) => {
 })
 router.post('/admin/del', async(req, res, next) => {
   res.json(await adminService.delAdmin(req.body))
+})
+
+router.post('/home/getPane', async(req, res, next) => {
+  res.json(await HomeService.getPaneData())
+})
+router.post('/home/line', async(req,res,next) => {
+  res.json(await HomeService.getOrderLine())
 })
 
 
