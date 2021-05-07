@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-gray-900">
+  <div class="bg-gray-900 w-full">
     <nav-bar></nav-bar>
 
     <div class="content" style="position:relative">

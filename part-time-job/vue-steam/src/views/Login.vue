@@ -6,15 +6,11 @@
         <h2 class="text-gray-900 text-2xl font-bold mb-1 title-font">{{formType==1 ? '登录':'注册'}}</h2>
         <div class="relative mb-4">
           <label for="email" class="leading-7 text-sm text-gray-600">用户名：</label>
-          <input type="email" id="email" name="email"
-            class="">
-          <el-input v-if="formType" v-model="loginForm.username" maxlength="20" class="w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></el-input>
-          <el-input v-else v-model="registForm.username" maxlength="20" class="w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></el-input>
+          <el-input v-model="loginForm.username" maxlength="20" class="w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></el-input>
         </div>
         <div class="relative mb-4">
           <label for="message" class="leading-7 text-sm text-gray-600">密码：</label>
-          <el-input v-if="formType" v-model="loginForm.password" maxlength="20" type="password" class="w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></el-input>
-          <el-input v-else v-model="registForm.password" maxlength="20" type="password" class="w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></el-input>
+          <el-input v-model="loginForm.password" maxlength="20" type="password" class="w-full bg-white rounded focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"></el-input>
         </div>
         <div class="relative mb-4" v-if="formType==0" >
           <label for="message" class="leading-7 text-sm text-gray-600">邮箱：</label>
@@ -63,8 +59,11 @@ export default {
         }
         login_()
       } else {
+        state.registForm.username = state.loginForm.username
+        state.registForm.password = state.loginForm.password
         for(let key of keys) {
           if(!state.registForm[key]) {
+            console.log(state.registForm,state.loginForm, key)
             ElMessage.warning('请填写完整')
             return
           }

@@ -11,7 +11,7 @@
  Target Server Version : 80020
  File Encoding         : 65001
 
- Date: 08/04/2021 17:29:34
+ Date: 28/04/2021 12:23:30
 */
 
 SET NAMES utf8mb4;
@@ -33,12 +33,43 @@ CREATE TABLE `st_admin`  (
   `created_at` datetime(0) NOT NULL,
   `updated_at` datetime(0) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '管理员信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of st_admin
 -- ----------------------------
-INSERT INTO `st_admin` VALUES (1, 'admin', '123123', NULL, NULL, NULL, NULL, NULL, '2021-04-06 15:49:40', '2021-04-06 15:49:43');
+INSERT INTO `st_admin` VALUES (1, 'admin', '123123', '4009696577', '851194017@qq.com', 1, NULL, 'upload/1619408202810_598.jpg', '2021-04-06 15:49:40', '2021-04-26 03:38:51');
+INSERT INTO `st_admin` VALUES (2, 'admin2', '111111', '18052091165', '724666079@qq.com', 0, NULL, 'upload/1619408378536_456.jpg', '2021-04-26 03:40:25', '2021-04-26 08:18:38');
+
+-- ----------------------------
+-- Table structure for st_comments
+-- ----------------------------
+DROP TABLE IF EXISTS `st_comments`;
+CREATE TABLE `st_comments`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NULL DEFAULT NULL,
+  `game_id` int NULL DEFAULT NULL,
+  `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `buy_from` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `created_at` datetime(0) NOT NULL,
+  `updated_at` datetime(0) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `user_id`(`user_id`) USING BTREE,
+  INDEX `game_id`(`game_id`) USING BTREE,
+  CONSTRAINT `st_comments_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `st_user` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT `st_comments_ibfk_2` FOREIGN KEY (`game_id`) REFERENCES `st_game` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '评价' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of st_comments
+-- ----------------------------
+INSERT INTO `st_comments` VALUES (1, 1, 1, '1111111111111111', '1', '2021-04-25 08:45:29', '2021-04-25 08:45:34');
+INSERT INTO `st_comments` VALUES (2, 1, 1, '1111111111111111', '1', '2021-04-25 08:45:29', '2021-04-25 08:45:34');
+INSERT INTO `st_comments` VALUES (3, 2, 1, '1111111111111111', '1', '2021-04-25 08:45:29', '2021-04-25 08:45:34');
+INSERT INTO `st_comments` VALUES (4, 1, 2, '4', '4', '2021-04-25 08:46:17', '2021-04-25 08:46:21');
+INSERT INTO `st_comments` VALUES (5, 1, NULL, '11111111111111111111111', '1', '2021-04-25 02:21:15', '2021-04-25 02:21:15');
+INSERT INTO `st_comments` VALUES (6, 1, 9, '123123123', '1', '2021-04-25 02:30:58', '2021-04-25 02:30:58');
+INSERT INTO `st_comments` VALUES (7, 1, 9, '111111111', '1', '2021-04-25 02:31:11', '2021-04-25 02:31:11');
 
 -- ----------------------------
 -- Table structure for st_game
@@ -59,21 +90,22 @@ CREATE TABLE `st_game`  (
   `is_delete` tinyint(1) NULL DEFAULT 0,
   `created_at` datetime(0) NOT NULL,
   `updated_at` datetime(0) NOT NULL,
+  `sale_num` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '游戏信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of st_game
 -- ----------------------------
-INSERT INTO `st_game` VALUES (1, 'Grand Theft Auto V', 'PC 版Grand Theft Auto V 能够以超越 4K 的最高分辨率和 60 帧每秒的帧率，为您呈现屡获殊荣、令人痴迷的游戏世界——洛桑托斯市和布雷恩郡。', '2016-03-08 16:00:00', ' Rockstar North', ' Rockstar Games', '4', 119.00, 0, 0.00, 1, 0, '2021-04-06 08:10:37', '2021-04-08 03:32:54');
-INSERT INTO `st_game` VALUES (2, '巫师 3：狂猎', '随着北方领域战乱四起，您接下了此生最为重大的一笔委托：找到预言之子，一件足以改变世界面貌的活生生的武器。', '2015-04-14 16:00:00', 'CD PROJEKT RED', 'CD PROJEKT RED', '7', 119.00, 1, 79.00, 1, 0, '2021-04-06 08:21:32', '2021-04-08 03:33:02');
-INSERT INTO `st_game` VALUES (3, 'Tom Clancy\'s Rainbow Six® Siege', '《彩虹六号：围攻》是育碧蒙特利尔工作室旗下即将推出的知名第一人称射击模拟系列游戏的最新作品，专为新一代游戏机和主机开发，属于《彩虹六号》系列。该作灵感来源于现实世界中的反恐行动，《彩虹六号：围攻》诚邀玩家掌控破坏的艺术，游戏核心是对激烈的近距离对抗，高杀伤力，战术，团队合作', '2019-05-26 16:00:00', ' Ubisoft Montreal', ' Ubisoft', '4', 88.00, 1, 35.00, 1, 0, '2021-04-06 08:31:54', '2021-04-08 03:33:09');
-INSERT INTO `st_game` VALUES (4, 'Detroit: Become Human', '在《底特律：化身为人》中，人类和机器人的命运都将掌握在您的手中，您将走进一个不远的未来，一个机器人具有比人类更高智慧的时代。您将体验到史上最为复杂的分支故事——您所作出的每个选择都将影响游戏的结局。', '2020-06-07 16:00:00', 'Quantic Dream', 'Quantic Dream', '7', 129.00, 1, 89.00, 1, 0, '2021-04-07 07:22:38', '2021-04-08 03:33:22');
-INSERT INTO `st_game` VALUES (5, 'Spiritfarer®', '《Spiritfarer®》是一款关于死亡的休闲管理游戏。作为逝者的船主，建造一艘船去探索世界，关爱你的幽灵朋友，引导他们穿越神秘的海洋，最终将他们送到来世', '2020-08-09 16:00:00', ' Thunder Lotus Games', ' Thunder Lotus Games', '3', 99.00, 1, 59.00, 1, 0, '2021-04-07 07:25:36', '2021-04-08 03:33:30');
-INSERT INTO `st_game` VALUES (6, 'The Slormancer', '《Slormancer》是一款史诗级的2D-ARPG地牢探索游戏，玩家将作为流浪者，与Slormancer和他手下成群的敌人作战！你可以扮演“威风凛凛”的骑士、勇悍绝伦”的猎手或“古灵精怪”的法师，掌握数百种技能和先祖之力，为你的族群而战，为你的王国而战！', '2021-04-06 16:00:00', ' Slormite Studios', ' Slormite Studios', '1', 50.00, 1, 42.00, 1, 0, '2021-04-07 07:30:26', '2021-04-08 03:33:52');
-INSERT INTO `st_game` VALUES (7, '双人成行', '游玩《双人成行》，踏上生命中最疯狂的旅程，这是一款别开生面的平台冒险游戏，完全为合作模式而设计。利用好友通行证*邀请一位好友免费游玩，共同体验多种多样的乐趣，享受颠覆性的玩法挑战。扮演相互看不顺眼的科迪和小梅夫妇，这两个人被魔咒变成了玩偶。他们一起被困在一个奇幻世界里，每个角落都隐藏着意想不到的东西，他们不得不一起克服挑战，同时挽救他们破裂的关系。', '2021-03-25 16:00:00', ' Hazelight', ' Electronic Arts', '10', 198.00, 0, 0.00, 1, 0, '2021-04-07 07:47:13', '2021-04-08 03:34:03');
-INSERT INTO `st_game` VALUES (8, 'Katana ZERO', '《武士 零（Katana ZERO）》是一款新黑色电影风格的华丽平台动作游戏，以极速动作展开瞬间决定生死的战斗，劈砍、冲刺、操纵时间，在华丽、无情、行云流水般的战斗中发现你的过去。', '2019-04-17 16:00:00', ' Askiisoft', ' Devolver Digital', '1', 50.00, 1, 30.00, 1, 0, '2021-04-07 07:50:11', '2021-04-08 03:34:23');
-INSERT INTO `st_game` VALUES (9, 'Sid Meier’s Civilization® VI', '《文明VI》提供了多种新方式让您与世界互动、在地图上扩张城市、发展文明，以及对抗历史上的伟大领袖，以建立起经得起时间考验的强盛文明。共有20位史上著名的领袖任君挑选，包括秦始皇。', '2016-10-20 16:00:00', ' Firaxis Games, Aspyr (Mac), Aspyr (Linux)', ' 2K, Aspyr (Mac), Aspyr (Linux)', '9', 199.00, 1, 49.00, 1, 0, '2021-04-07 08:12:02', '2021-04-08 03:34:33');
+INSERT INTO `st_game` VALUES (1, 'Grand Theft Auto V', 'PC 版Grand Theft Auto V 能够以超越 4K 的最高分辨率和 60 帧每秒的帧率，为您呈现屡获殊荣、令人痴迷的游戏世界——洛桑托斯市和布雷恩郡。', '2016-03-08 16:00:00', ' Rockstar North', ' Rockstar Games', '4', 119.00, 0, 0.00, 1, 0, '2021-04-06 08:10:37', '2021-04-25 05:49:08', 1);
+INSERT INTO `st_game` VALUES (2, '巫师 3：狂猎', '随着北方领域战乱四起，您接下了此生最为重大的一笔委托：找到预言之子，一件足以改变世界面貌的活生生的武器。', '2015-04-14 16:00:00', 'CD PROJEKT RED', 'CD PROJEKT RED', '7', 119.00, 1, 79.00, 1, 0, '2021-04-06 08:21:32', '2021-04-25 05:49:08', 1);
+INSERT INTO `st_game` VALUES (3, 'Tom Clancy\'s Rainbow Six® Siege', '《彩虹六号：围攻》是育碧蒙特利尔工作室旗下即将推出的知名第一人称射击模拟系列游戏的最新作品，专为新一代游戏机和主机开发，属于《彩虹六号》系列。该作灵感来源于现实世界中的反恐行动，《彩虹六号：围攻》诚邀玩家掌控破坏的艺术，游戏核心是对激烈的近距离对抗，高杀伤力，战术，团队合作', '2019-05-26 16:00:00', ' Ubisoft Montreal', ' Ubisoft', '4', 88.00, 1, 35.00, 1, 0, '2021-04-06 08:31:54', '2021-04-25 05:49:02', 1);
+INSERT INTO `st_game` VALUES (4, 'Detroit: Become Human', '在《底特律：化身为人》中，人类和机器人的命运都将掌握在您的手中，您将走进一个不远的未来，一个机器人具有比人类更高智慧的时代。您将体验到史上最为复杂的分支故事——您所作出的每个选择都将影响游戏的结局。', '2020-06-07 16:00:00', 'Quantic Dream', 'Quantic Dream', '7', 129.00, 1, 89.00, 1, 0, '2021-04-07 07:22:38', '2021-04-25 03:19:51', 1);
+INSERT INTO `st_game` VALUES (5, 'Spiritfarer®', '《Spiritfarer®》是一款关于死亡的休闲管理游戏。作为逝者的船主，建造一艘船去探索世界，关爱你的幽灵朋友，引导他们穿越神秘的海洋，最终将他们送到来世', '2020-08-09 16:00:00', ' Thunder Lotus Games', ' Thunder Lotus Games', '3', 99.00, 1, 59.00, 1, 0, '2021-04-07 07:25:36', '2021-04-25 05:49:02', 1);
+INSERT INTO `st_game` VALUES (6, 'The Slormancer', '《Slormancer》是一款史诗级的2D-ARPG地牢探索游戏，玩家将作为流浪者，与Slormancer和他手下成群的敌人作战！你可以扮演“威风凛凛”的骑士、勇悍绝伦”的猎手或“古灵精怪”的法师，掌握数百种技能和先祖之力，为你的族群而战，为你的王国而战！', '2021-04-06 16:00:00', ' Slormite Studios', ' Slormite Studios', '1', 50.00, 1, 42.00, 1, 0, '2021-04-07 07:30:26', '2021-04-25 05:49:08', 3);
+INSERT INTO `st_game` VALUES (7, '双人成行', '游玩《双人成行》，踏上生命中最疯狂的旅程，这是一款别开生面的平台冒险游戏，完全为合作模式而设计。利用好友通行证*邀请一位好友免费游玩，共同体验多种多样的乐趣，享受颠覆性的玩法挑战。扮演相互看不顺眼的科迪和小梅夫妇，这两个人被魔咒变成了玩偶。他们一起被困在一个奇幻世界里，每个角落都隐藏着意想不到的东西，他们不得不一起克服挑战，同时挽救他们破裂的关系。', '2021-03-25 16:00:00', ' Hazelight', ' Electronic Arts', '10', 198.00, 0, 0.00, 1, 0, '2021-04-07 07:47:13', '2021-04-08 03:34:03', NULL);
+INSERT INTO `st_game` VALUES (8, 'Katana ZERO', '《武士 零（Katana ZERO）》是一款新黑色电影风格的华丽平台动作游戏，以极速动作展开瞬间决定生死的战斗，劈砍、冲刺、操纵时间，在华丽、无情、行云流水般的战斗中发现你的过去。', '2019-04-17 16:00:00', ' Askiisoft', ' Devolver Digital', '1', 50.00, 1, 30.00, 1, 0, '2021-04-07 07:50:11', '2021-04-08 03:34:23', NULL);
+INSERT INTO `st_game` VALUES (9, 'Sid Meier’s Civilization® VI', '《文明VI》提供了多种新方式让您与世界互动、在地图上扩张城市、发展文明，以及对抗历史上的伟大领袖，以建立起经得起时间考验的强盛文明。共有20位史上著名的领袖任君挑选，包括秦始皇。', '2016-10-20 16:00:00', ' Firaxis Games, Aspyr (Mac), Aspyr (Linux)', ' 2K, Aspyr (Mac), Aspyr (Linux)', '9', 199.00, 1, 49.00, 1, 0, '2021-04-07 08:12:02', '2021-04-25 05:49:02', 2);
 
 -- ----------------------------
 -- Table structure for st_game_img
@@ -131,7 +163,7 @@ CREATE TABLE `st_game_type`  (
   `created_at` datetime(0) NOT NULL,
   `updated_at` datetime(0) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '游戏分类信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '游戏分类信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of st_game_type
@@ -146,6 +178,34 @@ INSERT INTO `st_game_type` VALUES (7, '独立', '2021-04-08 03:31:54', '2021-04-
 INSERT INTO `st_game_type` VALUES (8, '竞速', '2021-04-08 03:32:03', '2021-04-08 03:32:03');
 INSERT INTO `st_game_type` VALUES (9, '策略', '2021-04-08 03:32:10', '2021-04-08 03:32:10');
 INSERT INTO `st_game_type` VALUES (10, '角色扮演', '2021-04-08 03:32:28', '2021-04-08 03:32:28');
+
+-- ----------------------------
+-- Table structure for st_order
+-- ----------------------------
+DROP TABLE IF EXISTS `st_order`;
+CREATE TABLE `st_order`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `order_no` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL,
+  `user_id` int NULL DEFAULT NULL,
+  `game_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `num` int NULL DEFAULT NULL,
+  `money` decimal(10, 2) NULL DEFAULT NULL,
+  `is_finished` tinyint(1) NULL DEFAULT NULL,
+  `created_at` datetime(0) NOT NULL,
+  `updated_at` datetime(0) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '购物车' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of st_order
+-- ----------------------------
+INSERT INTO `st_order` VALUES (1, '1618628118375982', 2, '6,1,2', 3, 240.00, 1, '2021-04-17 02:55:18', '2021-04-25 05:49:08');
+INSERT INTO `st_order` VALUES (5, '1618630880016802', 2, '4,1,2', 3, 287.00, 1, '2021-04-17 03:41:20', '2021-04-17 03:41:33');
+INSERT INTO `st_order` VALUES (7, '1618630972324120', 2, '1', 1, 119.00, 1, '2021-04-17 03:42:52', '2021-04-17 03:42:55');
+INSERT INTO `st_order` VALUES (8, '1619080535254330', 1, '9,3,5', 3, 143.00, 1, '2021-04-22 08:35:35', '2021-04-25 05:49:02');
+INSERT INTO `st_order` VALUES (9, '1619319040180602', 1, '6', 1, 42.00, 1, '2021-04-24 02:50:40', '2021-04-25 05:49:08');
+INSERT INTO `st_order` VALUES (10, '1619320791485841', 1, '4', 1, 89.00, 1, '2021-04-25 03:19:51', '2021-04-25 03:19:51');
+INSERT INTO `st_order` VALUES (11, '1619320814795784', 1, '9', 1, 49.00, 1, '2021-04-25 03:20:14', '2021-04-25 03:20:14');
 
 -- ----------------------------
 -- Table structure for st_recommend
@@ -175,6 +235,23 @@ INSERT INTO `st_recommend` VALUES (12, 'The Slormancer', 6, 'upload/161778053839
 INSERT INTO `st_recommend` VALUES (13, 'Spiritfarer®', 5, 'upload/1617780261453_340.jpg,upload/1617780263160_694.jpg,upload/1617780264923_226.jpg', 99.00, '2021-04-08 03:26:57', '2021-04-08 03:26:57');
 
 -- ----------------------------
+-- Table structure for st_shopcart
+-- ----------------------------
+DROP TABLE IF EXISTS `st_shopcart`;
+CREATE TABLE `st_shopcart`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int NULL DEFAULT NULL,
+  `game_ids` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `created_at` datetime(0) NOT NULL,
+  `updated_at` datetime(0) NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '购物车' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of st_shopcart
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for st_spec_sale
 -- ----------------------------
 DROP TABLE IF EXISTS `st_spec_sale`;
@@ -188,7 +265,7 @@ CREATE TABLE `st_spec_sale`  (
   `created_at` datetime(0) NOT NULL,
   `updated_at` datetime(0) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '特别优惠商品' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '特别优惠商品' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of st_spec_sale
@@ -261,10 +338,12 @@ CREATE TABLE `st_user`  (
   `created_at` datetime(0) NOT NULL,
   `updated_at` datetime(0) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户登录信息' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户登录信息' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of st_user
 -- ----------------------------
+INSERT INTO `st_user` VALUES (1, 'user', '123123', '4009696577', '724666079@qq.com', '123123123', NULL, 'upload/1619312426622_774.jpg', '2021-04-11 08:45:43', '2021-04-25 02:38:03');
+INSERT INTO `st_user` VALUES (2, 'user1', '111111', NULL, '1211212@ee.com', NULL, NULL, 'upload/1619312426622_774.jpg', '2021-04-23 17:03:27', '2021-04-16 07:03:27');
 
 SET FOREIGN_KEY_CHECKS = 1;

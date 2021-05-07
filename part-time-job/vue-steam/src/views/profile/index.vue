@@ -1,5 +1,5 @@
 <template>
-  <div class="container bg-gray-900">
+  <div class="w-full bg-gray-900">
     <nav-bar></nav-bar>
     <div class="w-4/5 mx-auto my-6 lg:mb-0">
       <el-row :gutter="20" >

@@ -71,7 +71,6 @@ export default {
             this.$message.success('添加成功')
             this.getGoodsType_()
             this.dialogVisible= false
-
           }
         })
       }

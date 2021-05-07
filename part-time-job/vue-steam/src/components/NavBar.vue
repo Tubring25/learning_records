@@ -3,6 +3,7 @@
     <router-link to="/">
       <img class="h-12 absolute inset-y-2 left-32" src="../assets/logo_steam.svg" alt="">
     </router-link>
+    <h1 class="absolute left-80 text-2xl font-bold mt-4 text-gray-50">游戏物品交易平台</h1>
     <div class="login-box w-40 h-16 leading-none absolute right-32">
       <p v-if="hasLogin" class="text-center h-full text-gray-50">
         <el-dropdown v-if="hasLogin">

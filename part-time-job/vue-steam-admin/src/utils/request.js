@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ElMessage } from 'element-ui'
+import { Message } from 'element-ui';
 import { getToken } from "@/utils/auth";
 import qs from 'qs'
 
@@ -29,7 +29,7 @@ axios.interceptors.response.use(
       return
     }
     if (res.code != 1) {
-      ElMessage.error(res.msg)
+      Message.error(res.msg)
       return res;
     } else {
       return res;
