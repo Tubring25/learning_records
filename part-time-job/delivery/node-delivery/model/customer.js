@@ -10,8 +10,12 @@ module.exports = function (sequelize, DataTypes) {
     Customer_Code: { type: DataTypes.STRING },
     Customer_Phone: { type: DataTypes.INTEGER },
     Customer_District: { type: DataTypes.STRING },
-    Customer_Gender: { type: DataTypes.BOOLEAN },
-    Customer_Avatar: { type: DataTypes.TEXT}
+    Customer_Gender: { type: DataTypes.STRING },
+    Customer_Avatar: { type: DataTypes.TEXT},
+		roles: {
+			type: DataTypes.STRING,
+			defaultValue: 'customer'
+		}
 	},
 	{
 		freezeTableName: true,

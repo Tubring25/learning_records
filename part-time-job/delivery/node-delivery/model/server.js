@@ -11,7 +11,10 @@ module.exports = function (sequelize, DataTypes) {
     Server_Avatar: { type: DataTypes.TEXT},
     Area: { type: DataTypes.STRING },
     Level: { type: DataTypes.STRING },
-    
+		roles: {
+			type: DataTypes.STRING,
+			defaultValue: 'server'
+		}
 	},
 	{
 		freezeTableName: true,

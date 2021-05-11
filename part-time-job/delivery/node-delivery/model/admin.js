@@ -7,7 +7,11 @@ module.exports = function (sequelize, DataTypes) {
     },
     Manager_Name: { type: DataTypes.STRING },
     Manager_Code: { type: DataTypes.STRING },
-    Manager_Avatar: { type: DataTypes.TEXT}
+    Manager_Avatar: { type: DataTypes.TEXT},
+		roles: {
+			type: DataTypes.STRING,
+			defaultValue: 'admin'
+		}
 	},
 	{
 		freezeTableName: true,
