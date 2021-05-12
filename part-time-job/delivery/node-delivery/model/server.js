@@ -7,7 +7,7 @@ module.exports = function (sequelize, DataTypes) {
     },
     Server_Name: { type: DataTypes.STRING },
     Server_Code: { type: DataTypes.STRING },
-    Server_Phone: { type: DataTypes.INTEGER },
+    Server_Phone: { type: DataTypes.STRING },
     Server_Avatar: { type: DataTypes.TEXT},
     Area: { type: DataTypes.STRING },
     Level: { type: DataTypes.STRING },

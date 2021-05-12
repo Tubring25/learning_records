@@ -2,6 +2,9 @@ const adminModule = require('../model').Admin;
 const CustomerModule = require('../model').Customer
 const ServerModule = require('../model').Server
 const { createToken, verifyToken } = require('../utils/index')
+const formiable = require('formidable');
+const fs = require('fs');
+const path = require('path');
 
 class adminCto {
   constructor() {
@@ -75,7 +78,7 @@ class adminCto {
     let form = new formiable.IncomingForm();
     form.encoding = 'utf-8';
     
-    form.uploadDir = path.join(__dirname, '../../public/upload'); 
+    form.uploadDir = path.join(__dirname, '../public/upload'); 
     form.keepExtensions = true; // 是否包括 扩展名
     form.maxFieldsSize = 4 * 1024 * 1024; // 最大字节数
     // new Promise((resolve, rejects) => {

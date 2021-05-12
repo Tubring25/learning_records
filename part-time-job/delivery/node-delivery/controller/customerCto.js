@@ -1,4 +1,7 @@
 const userModel = require('../model').Customer;
+const feedbackModule = require('../model').Feedback
+const expressageModule = require('../model').expressage
+const takeoutModule = require('../model').takeout
 const { Op } = require('sequelize');
 const { createToken, verifyToken } = require('../utils/index')
 
@@ -96,7 +99,50 @@ class userCto {
       console.log(err)
       return {code: 0, msg: JSON.stringify(err)} }
   }
-
+  // 发起快递代取
+  async addExpress(body) {
+    const { Order_No, Customer_Phone, Customer_ID,Expressage_Location, Customer_District  } = body
+    try {
+      let timestamp = new Date().getTime()
+      let ranNum = Math.floor(Math.random() * 1000)
+      let Order_ID = `${timestamp}${ranNum}`;
+      let res = await expressageModule.create({
+        Order_No: Order_No,Order_ID:Order_ID, Customer_Phone: Customer_Phone, Customer_ID: Customer_ID,
+        Expressage_Location: Expressage_Location, Customer_District:Customer_District
+      })
+      return {code: 1, data: "创建成功"}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+  }
+  // 发起外卖代取
+  async addTakeOut(body) {
+    const { Order_No, Customer_Phone, Customer_ID,Order_Money, Customer_District  } = body
+    try {
+      let timestamp = new Date().getTime()
+      let ranNum = Math.floor(Math.random() * 1000)
+      let Order_ID = `${timestamp}${ranNum}`;
+      let res = await takeoutModule.create({
+        Order_No: Order_No,Order_ID:Order_ID, Customer_Phone: Customer_Phone, Customer_ID: Customer_ID,
+        Order_Money: Order_Money, Customer_District:Customer_District
+      })
+      return {code: 1, data: "创建成功"}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} }
+  }
+  // 获取快递订单
+  async getExpressList(body) {
+    let {Customer_ID, Server_ID } = body
+    try {
+      let res = await expressageModule.findAll({where: {Customer_ID: Customer_ID,Server_ID: Server_ID }})
+      return {code: 1, data: res}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} } 
+  }
+  // 获取外卖订单
+  async getTakeOutList(body) {
+    let {Customer_ID, Server_ID } = body
+    try {
+      let res = await takeoutModule.findAll({where: {Customer_ID: Customer_ID,Server_ID: Server_ID }})
+      return {code: 1, data: res}
+    }catch(err) { return {code: 0, msg: JSON.stringify(err)} } 
+  }
 }
 
 module.exports = new userCto()

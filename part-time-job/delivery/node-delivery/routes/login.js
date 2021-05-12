@@ -10,5 +10,7 @@ router.post('/login', async(req,res, next) => {
 router.post('/getUserInfo', async(req,res, next) => {
   res.json(await loginService.getUserInfo(req.body.token))
 })
-
+router.post('/upload', async(req,res, next) => {
+  res.json(await loginService.uploadSingleImg(req))
+})
 module.exports = router;
