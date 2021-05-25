@@ -16,8 +16,12 @@ const Home = () => {
     setBlogs(newBlogs)
   }
 
-  useEffect(() => {
-    console.log('use effet ran')
+  useEffect((url) => {
+    const abortCont = new AbortController();
+    fetch(url, {signal: abortCont.signal})
+
+
+    return () => abortCont.abort()
   })
 
   return (
