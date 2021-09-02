@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="title">Samen</div>
+    </div>
+    <div class="card">
+      <div class="title">Shaw</div>
+    </div>
+    <div class="card">
+      <div class="title">Samee Shaw</div>
+    </div>
+  </div>
+</body>
+<style>
+  .container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .card {
+    width: 350px;
+    height: 250px;
+    background-size: cover;
+    border-radius: 10px;
+    position: relative;
+  }
+  .title {
+    color: #fff;
+    font-size: 20px;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .card::before{
+    z-index: -1;
+    content: '';
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-image: url('../../img/shaw.jpeg');
+    background-size: cover;
+    border-radius: 20px;
+    filter: blur(0px) opacity(1);
+    transition: filter 200ms linear, transform 200ms linear;
+  }
+  .card:not(:hover)::before {
+    filter: blur(5px) opacity(0.8) brightness(0.8);
+  }
+  .card:hover::before {
+    filter: saturate(1.2);
+    transform: scale(1.05);
+  }
+</style>
+</html>

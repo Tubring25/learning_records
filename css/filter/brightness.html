@@ -1,0 +1,74 @@
+<!--
+ * @Description: 
+ * @Date: 2021-09-02 10:29:12
+ * @LastEditTime: 2021-09-02 16:05:39
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="movie-type-container">
+    <div class="pic"></div>
+    <div class="msg">
+      <p>if you were a shape</p>
+      <p>you were a straight line</p>
+      <p>an arrow</p>
+    </div>
+  </div>
+  <div class="blur-type-container">
+    
+  </div>
+</body>
+<style>
+  .movie-type-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+  .pic{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: url('../img/shaw.jpeg') no-repeat;
+    background-size: cover;
+    animation: fade-away 3s linear forwards;
+  }
+  @keyframes fade-away {
+    20%{
+      filter: brightness(1);
+    }
+    100% {
+      filter: brightness(0.3);
+    }
+  }
+  .msg{
+    position: absolute;
+    line-height: 55px;
+    color: #fff;
+    font-size: 36px;
+    text-align: center;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    opacity: 0;
+    animation: show 2s cubic-bezier(.74,-0.1,.86,.83) forwards;
+  }
+  @keyframes show {
+    20% {
+      opacity: 0;
+      filter: brightness(0);
+    }
+    100% {
+      filter: brightness(1);
+      opacity: 1;
+    }
+  }
+</style>
+</html>
