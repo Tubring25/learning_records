@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="photos-container">
+    <div class="card"><img src="../../img/shaw.jpeg" alt=""></div>
+    <div class="card"><img src="../../img/shaw.jpeg" alt=""></div>
+    <div class="card"><img src="../../img/shaw.jpeg" alt=""></div>
+  </div>
+</body>
+<style>
+  .photos-container {
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+  }
+  .card {
+    border: 3px solid #fff;
+    box-shadow: 0 10px 50px #5f2f1182;
+    filter: sepia(30%) saturate(40%) hue-rotate(5deg);
+    transition: transform 1s;
+  }
+  img {
+    width: 350px;
+    height: 200px;
+    display: inline-block;
+  }
+  .card:hover {
+    filter: none;
+    transform: scale(1.2) translateX(10px);
+  }
+</style>
+</html>

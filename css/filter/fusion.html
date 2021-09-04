@@ -1,0 +1,92 @@
+<!--
+ * @Description: 
+ * @Date: 2021-09-03 17:22:39
+ * @LastEditTime: 2021-09-04 15:41:55
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+  </div>
+  <div class="word-fusion">
+    <span class="text">Sameen Shaw</span>
+  </div>
+</body>
+<style>
+.container {
+  margin: 50px auto;
+  height: 140px;
+  width: 400px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: contrast(30);
+}  
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(5px);
+}
+.circle-1 {
+  width: 90px;
+  height: 90px;
+  background: red;
+  transform: translate(-50px);
+  animation: 2s moving linear infinite alternate-reverse;
+}
+.circle-2 {
+  width: 60px;
+  height: 60px;
+  background: blue;
+  transform: translate(50px);
+  animation: 2s moving linear infinite alternate;
+}
+@keyframes moving {
+  0% {
+    transform: translate(50px);
+  }
+  100% {
+    transform: translate(-50px);
+  }
+}
+
+.word-fusion {
+  margin-top: 50px;
+  text-align: center;
+  background-color: #000;
+  filter: contrast(30);
+}
+.text {
+  font-size: 100px;
+  letter-spacing: -40px;
+  color: #fff;
+  animation: move-letter 4s linear forwards;
+}
+@keyframes move-letter {
+  0% {
+    opacity: 0;
+    letter-spacing: -40px;
+    filter: blur(10px);
+  }
+  5% {
+    opacity: 1;
+  }
+  50% {
+    filter: blur(5px);
+  }
+  100% {
+    letter-spacing: 20px;
+    filter: blur(2px);
+  }
+}
+</style>
+</html>
