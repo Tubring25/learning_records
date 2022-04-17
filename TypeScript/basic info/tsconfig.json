@@ -1,8 +1,0 @@
-{ 
-  "complierOptions": {
-    "module": "es5",
-    "target": "es5",
-    "strict": true,
-    "noEmitOnError": true
-  } 
-}
