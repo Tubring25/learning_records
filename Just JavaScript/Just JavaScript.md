@@ -118,3 +118,13 @@ However, `0` is a _different value_ from `-0`:
 ```js
 console.log(Object.is(width, height)); // false
 ```
+
+# Properties
+
+**JavaScript uses a set of rules that looks something like this:**
+1. Figure out the value of the part before the dot (`.`).
+2. If that value is `null` or `undefined`, throw an error immediately.
+3. Check whether a property with that name exists on our object:  
+    a. If **it exists**, answer with the value this property points to.  
+    b. If **it doesn’t exist**, answer with the `undefined` value.
+**a property always _points to a value!_ It can’t point to another property or a variable. In general, all wires in our universe _point to values_.**
