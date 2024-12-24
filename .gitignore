@@ -7,4 +7,6 @@ package-lock.json
 
 .vscode
 
+.env
+.obsidian
 part-time-job/node-steam/node_modules
