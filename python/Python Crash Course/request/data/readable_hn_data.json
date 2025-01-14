@@ -1,0 +1,28 @@
+{
+  "status": "ok",
+  "source": "hacker-news",
+  "sortBy": "top",
+  "articles": [
+    {
+      "author": "John Doe",
+      "title": "How to Learn Python",
+      "description": "A comprehensive guide to learning Python programming.",
+      "url": "https://example.com/how-to-learn-python",
+      "publishedAt": "2023-10-01T12:00:00Z"
+    },
+    {
+      "author": "Jane Smith",
+      "title": "Top 10 Python Libraries",
+      "description": "An overview of the top 10 Python libraries for data science.",
+      "url": "https://example.com/top-10-python-libraries",
+      "publishedAt": "2023-10-02T14:30:00Z"
+    },
+    {
+      "author": "Alice Johnson",
+      "title": "Python vs JavaScript",
+      "description": "A comparison between Python and JavaScript for web development.",
+      "url": "https://example.com/python-vs-javascript",
+      "publishedAt": "2023-10-03T16:45:00Z"
+    }
+  ]
+}
