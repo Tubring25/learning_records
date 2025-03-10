@@ -6,163 +6,168 @@
 
 # ok 请告诉我如何在Windows上通过Docker来构建
 
-以下是分步指南，帮助您在Windows系统上通过Docker构建适用于AWS Lambda的Python层：
+以下是在Windows系统上使用Docker构建适用于AWS Lambda的Spire.XLS Python依赖包的详细步骤：
 
-## 步骤1：准备环境
+## 前置条件
 
-1. **启用Windows虚拟化**
-    - BIOS中开启Intel VT-x/AMD-V虚拟化支持
-    - 控制面板 > 程序 > 启用Windows的Hyper-V功能
-    - 安装最新版[Docker Desktop](https://www.docker.com/products/docker-desktop/)
-2. **创建项目目录**
+- 安装Docker Desktop for Windows
+- 确认Docker已启动并正常运行
+
+---
+
+## 步骤1：准备Dockerfile
+
+在本地创建一个文件夹（例如：`lambda-layer-build`），并在其中创建一个名为`Dockerfile`的文件，内容如下：
+
+```dockerfile
+FROM public.ecr.aws/lambda/python:3.9
+
+# 安装必要的工具和字体
+RUN yum install -y unzip fontconfig && \
+    yum clean all
+
+# 安装常用字体，以避免字体缺失问题
+RUN yum install -y dejavu-sans-fonts dejavu-serif-fonts && \
+    yum clean all
+
+# 设置工作目录
+WORKDIR /layer
+
+# 安装Spire.XLS依赖
+RUN pip install Spire.Xls -t python/lib/python3.9/site-packages
+
+# 打包成zip文件
+RUN zip -r /tmp/spirexls-layer.zip python
+
+# 默认命令（容器启动后不做任何操作）
+CMD ["bash"]
+```
+
+---
+
+## 构建步骤
+
+### 1. 创建项目目录结构
+
+在本地Windows系统任意位置新建一个文件夹，例如`C:\spirexls-layer`，并进入该目录。
+
+目录结构：
+
+```
+C:\spirexls-layer\
+    └─ Dockerfile
+```
+
+将上述Dockerfile内容保存为名为`Dockerfile`的文件（注意不要带任何扩展名）。
+
+### 2. 构建Docker镜像
+
+打开Windows命令提示符或PowerShell，进入刚才创建的目录，执行命令：
 
 ```bash
-mkdir lambda-layer
-cd lambda-layer
+docker build -t spirexls-layer .
 ```
 
 
-## 步骤2：编写Dockerfile
+### 2. 启动容器并安装Spire.XLS依赖
 
-创建包含以下内容的`Dockerfile`：
+构建完成后，启动容器：
 
-```dockerfile
-# syntax=docker/dockerfile:1
-FROM public.ecr.aws/lambda/python:3.10
+```bash
+docker run -it --name spirexls-container spirexls-layer bash
+```
 
-# 安装系统依赖
-RUN yum update -y && \
-    yum install -y \
-    libgdiplus \
-    zip \
-    fontconfig \
-    dejavu-sans-fonts \
-    && yum clean all
+现在你已经进入了容器内部环境，接下来执行：
 
-# 安装Python依赖
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt -t /asset/python/lib/python3.10/site-packages/
+```bash
+mkdir -p python/lib/python3.9/site-packages
+pip install Spire.Xls boto3 -t python/lib/python3.9/site-packages
+```
 
-# 清理缓存文件
-RUN find /asset -name "*.pyc" -delete && \
-    find /asset -type d -name "__pycache__" -exec rm -r {} +
+> 注意：
+> 请确认Lambda使用的Python版本（如Python 3.9），并相应修改路径中的python版本号。
 
-# 打包层内容
-RUN cd /asset && zip -9qr /layer.zip .
+### 3. 打包依赖到zip文件（在容器内执行）
+
+```bash
+zip -r /tmp/spirexls_layer.zip python/
 ```
 
 
-## 步骤3：创建requirements.txt
+### 4. 从容器中复制zip文件到宿主机（在宿主机上执行）
 
-```txt
-Spire.Xls==14.12.0
-boto3==1.34.10
+打开另一个Windows终端窗口，执行：
+
+```bash
+docker cp spirexls-container:/tmp/spirexls_layer.zip C:\spirexls-layer\
 ```
 
+现在，你会在本地目录`C:\spirexls-layer\`中看到生成的`spirexls_layer.zip`文件。
 
-## 步骤4：构建Lambda层
+---
 
-在PowerShell中执行以下命令：
+## 上传到AWS Lambda Layer
 
-```powershell
-# 构建Docker镜像
-docker build -t lambda-layer-builder .
+1. 登录AWS控制台，进入Lambda服务。
+2. 点击左侧菜单中的“Layers”。
+3. 点击“Create layer”，上传刚刚生成的zip文件。
+4. 选择兼容运行时（如Python 3.9），保存Layer。
 
-# 启动容器并获取层文件
-docker run --rm -v ${PWD}:/output lambda-layer-builder sh -c "cp /layer.zip /output/"
-```
+---
 
+## 在Lambda函数中使用该Layer
 
-## 步骤5：验证层结构
+- 在Lambda函数配置中添加刚才创建的Layer。
+- 在Lambda函数代码中直接导入Spire.XLS库即可正常使用。
 
-解压生成的`layer.zip`检查结构应为：
+---
 
-```
-python/
-└── lib/
-    └── python3.10/
-        └── site-packages/
-            ├── spire/
-            ├── boto3/
-            └── ...其他依赖项
-```
-
-
-## 注意事项
-
-1. **字体配置**
-    - 在Lambda函数初始化时添加字体配置代码：
+## 示例Lambda函数代码片段：
 
 ```python
-import matplotlib.font_manager
-matplotlib.font_manager._rebuild()
+import boto3
+import os
+import io
+from spire.xls import Workbook, FileFormat
+
+def lambda_handler(event, context):
+    s3 = boto3.client('s3')
+    
+    source_bucket = event['source_bucket']
+    source_key = event['source_key']
+    target_bucket = event['target_bucket']
+    target_key = event['target_key']
+
+    # 下载Excel文件到内存中
+    excel_file_obj = s3.get_object(Bucket=source_bucket, Key=source_key)
+    excel_bytes = io.BytesIO(excel_content := excel_file['Body'].read())
+
+    workbook = Workbook()
+    workbook.LoadFromStream(io.BytesIO(excel_content))
+    
+    # 转换为PDF并保存到内存流中
+    pdf_stream = io.BytesIO()
+    workbook.SaveToStream(pdf_stream, FileFormat.PDF)
+    workbook.Dispose()
+    
+    pdf_stream.seek(0)
+    
+    # 上传PDF到S3目标位置
+    s3.put_object(Bucket=target_bucket, Key=target_key, Body=pdf_stream.getvalue())
+    
+    return {
+        'statusCode': 200,
+        'body': f'File converted and uploaded to {target_bucket}/{target_key}'
+    }
 ```
 
-2. **层大小限制**
-    - 解压后总大小不超过250MB
-    - 如果超过建议分割为多个层
-3. **运行时兼容性**
-    - Python版本需与Lambda运行时匹配
-    - 建议使用Amazon Linux 2023镜像构建
+---
 
-## 高级优化技巧
+## 注意事项与提示：
 
-1. **多阶段构建**
+- Lambda环境默认缺少字体，建议安装常用字体（如DejaVu系列）以避免转换时出现字体缺失问题。
+- 确保Lambda函数内存至少设置为512MB以上，以避免内存不足导致转换失败。
+- Lambda超时时间建议设置足够长（例如30秒或更长），以处理大文件转换。
 
-```dockerfile
-FROM public.ecr.aws/lambda/python:3.10 as builder
-# 安装构建依赖...
-
-FROM public.ecr.aws/lambda/python:3.10
-COPY --from=builder /opt/python /opt/python
-```
-
-2. **自定义字体支持**
-
-```dockerfile
-RUN mkdir -p /usr/share/fonts/custom && \
-    curl -L -o /usr/share/fonts/custom/arial.ttf https://example.com/fonts/arial.ttf && \
-    fc-cache -f -v
-```
-
-3. **依赖项精简**
-
-```dockerfile
-RUN find /asset -name "test*" -delete && \
-    rm -rf /asset/python/lib/python3.10/site-packages/spire/tests
-```
-
-
-## 部署流程
-
-```mermaid
-graph TD
-    A[创建Dockerfile] --> B[安装系统依赖]
-    B --> C[安装Python包]
-    C --> D[清理构建缓存]
-    D --> E[生成layer.zip]
-    E --> F[上传到Lambda控制台]
-```
-
-通过以上步骤，您可以在Windows系统上构建出与Lambda环境完全兼容的Python层。构建完成后，登录AWS控制台将生成的`layer.zip`上传为Lambda层即可使用。
-
-<div style="text-align: center">⁂</div>
-
-[^1]: https://awstip.com/build-lambda-layers-using-docker-and-aws-linux-image-f205b4b937d6
-
-[^2]: https://recipe.kc-cloud.jp/archives/18777/
-
-[^3]: https://qiita.com/SatoshiGachiFujimoto/items/437b0ccaba817903fb72
-
-[^4]: https://repost.aws/ja/questions/QUHITrviTHTsW3VpxkH9--NQ/how-can-i-build-a-lambda-layer-for-a-function-that-includes-the-cryptography-python-package-using-a-windows-machine?sc_ichannel=ha\&sc_ilang=en\&sc_isite=repost\&sc_iplace=hp\&sc_icontent=QUHITrviTHTsW3VpxkH9--NQ\&sc_ipos=9
-
-[^5]: https://qiita.com/progterry/items/6083bbf9173f5bb85e58
-
-[^6]: https://docs.aws.amazon.com/lambda/latest/dg/packaging-layers.html
-
-[^7]: https://repost.aws/knowledge-center/lambda-layer-simulated-docker
-
-[^8]: https://docs.aws.amazon.com/ja_jp/serverless-application-model/latest/developerguide/install-docker.html
-
-[^9]: https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-limits.html
+通过以上步骤，你可以在Windows上使用Docker轻松构建出适用于AWS Lambda Python环境的Spire.XLS依赖层，从而顺利实现Excel高精度转换为PDF或HTML。
 
